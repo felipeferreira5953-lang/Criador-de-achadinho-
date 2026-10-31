@@ -27,8 +27,9 @@
 </style><br>
 <meta charset="UTF-8"><br>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><br>
-<title>HTML PURO - Valor Real Automático - Sem #</title><br>
+<title>HTML PURO V6 - Foto e Valor Real Automático</title><br>
 <script src="https://cdn.tailwindcss.com"></script><br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script><br>
 <style><br>
 body{background:#fff;color:#111;font-family:Inter,system-ui}<br>
 .glass{background:#fff;border:1px solid #e5e5e5;box-shadow:0 4px 16px rgba(0,0,0,0.06)}<br>
@@ -42,8 +43,8 @@ body{background:#fff;color:#111;font-family:Inter,system-ui}<br>
 <div class="flex items-center gap-2 mt-2 mb-2">
 <div class="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center font-black text-white">S</div>
 <div>
-<h1 class="font-black text-[13px]">HTML PURO - VALOR AUTOMÁTICO</h1>
-<p class="text-[8px] text-gray-500">Pega R$ real sozinho • Sem backend • Sem # • Link 100% fiel 🔒</p>
+<h1 class="font-black text-[12px]">HTML PURO V6 - FOTO + VALOR REAL</h1>
+<p class="text-[8px] text-gray-500">Truque WhatsApp Preview • 100% automático • Sem # • Link fiel 🔒</p>
 </div>
 </div>
 
@@ -52,19 +53,22 @@ body{background:#fff;color:#111;font-family:Inter,system-ui}<br>
 <div class="glass rounded-[16px] p-3">
 <label class="text-[10px] font-bold text-gray-600 uppercase">Seu link s.shopee.com.br (fica idêntico)</label>
 <input id="aff" class="w-full mt-1 bg-white border-2 border-black rounded-xl p-3 text-[14px] font-bold" placeholder="https://s.shopee.com.br/70LLdJXeYX" value="">
-<button id="btn" class="btn w-full mt-3 p-3 rounded-xl font-black text-white">GERAR COM VALOR REAL AUTOMÁTICO ⚡</button>
-<div id="log" class="bg-black text-[#0f0] rounded-xl p-2 mt-2 h-[90px] overflow-auto text-[10px] font-mono"></div>
+<button id="btn" class="btn w-full mt-3 p-3 rounded-xl font-black text-white">GERAR FOTO + VALOR AUTOMÁTICO ⚡</button>
+<div id="log" class="bg-black text-[#0f0] rounded-xl p-2 mt-2 h-[100px] overflow-auto text-[10px] font-mono"></div>
 </div>
 
 <div id="result" class="hidden mt-3">
 
 <div class="glass rounded-[16px] p-3">
-<span class="text-[11px] font-black">📸 FOTO COM PREÇO REAL</span>
+<span class="text-[11px] font-black">📸 FOTO REAL DO PRODUTO</span>
 <div id="fotoBox" class="w-full rounded-xl bg-gray-50 border border-gray-200 overflow-hidden relative mt-2" style="aspect-ratio:1/1;">
 <img id="fotoReal" class="w-full h-full object-cover">
-<div id="fotoLoad" class="absolute inset-0 flex items-center justify-center bg-white"><div class="animate-spin w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full"></div></div>
+<div id="fotoLoad" class="absolute inset-0 flex flex-col items-center justify-center bg-white p-4">
+<div class="animate-spin w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full"></div>
+<p class="text-[10px] mt-2 text-center">Buscando foto via preview WhatsApp...</p>
+</div>
 <div id="priceOverlay" class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 to-transparent text-white hidden">
-<p id="oTitle" class="font-black text-[13px]"></p>
+<p id="oTitle" class="font-black text-[13px] leading-tight"></p>
 <p id="oPrice" class="font-black text-[18px] text-[#00FF88] mt-1"></p>
 <p id="oDesc" class="text-[11px] mt-1"></p>
 </div>
@@ -76,9 +80,9 @@ body{background:#fff;color:#111;font-family:Inter,system-ui}<br>
 </div>
 
 <div class="glass rounded-[16px] p-3 mt-3">
-<span class="text-[11px] font-black">📱 MENSAGEM COM VALOR REAL - SEM #</span>
+<span class="text-[11px] font-black">📱 MENSAGEM COM VALOR REAL AUTOMÁTICO - SEM #</span>
 <div id="msg" class="bg-green-50 border-2 border-green-200 rounded-xl p-3 mt-2 text-[13px] whitespace-pre-wrap text-black font-medium leading-[1.4]"></div>
-<button onclick="whatsapp()" class="w-full mt-2 bg-[#25D366] text-black p-3 rounded-xl font-black text-[12px]">Enviar no Zap com Valor</button>
+<button onclick="whatsapp()" class="w-full mt-2 bg-[#25D366] text-black p-3 rounded-xl font-black text-[12px]">Enviar no Zap com Foto e Valor</button>
 <div id="info" class="mt-2 text-[10px] text-gray-600"></div>
 </div>
 
@@ -89,129 +93,88 @@ body{background:#fff;color:#111;font-family:Inter,system-ui}<br>
 <script>
 const $aff=document.getElementById('aff');
 let ORIGINAL="";
-let cache=JSON.parse(localStorage.getItem('shopee_html_puro_v5')||'{}');
+let cache=JSON.parse(localStorage.getItem('shopee_v6_cache')||'{}');
+
 function log(t){const $log=document.getElementById('log');const d=document.createElement('div');d.textContent=new Date().toLocaleTimeString()+" → "+t;$log.appendChild(d);$log.scrollTop=$log.scrollHeight;}
+
 function extractIds(u){const m=u.match(/-i\.(\d+)\.(\d+)/);return m?{shop:m[1],item:m[2]}:null;}
 
-async function fetchTimeout(url, ms=4000){
+async function fetchTimeout(url, ms=5000){
  const c=new AbortController();const to=setTimeout(()=>c.abort(),ms);
  try{const r=await fetch(url,{signal:c.signal});clearTimeout(to);if(!r.ok) return null;return await r.text();}catch(e){clearTimeout(to);return null;}
 }
 
+async function fetchMicrolink(targetUrl){
+ // Microlink é o truque do WhatsApp - pega preview com foto real mesmo quando Shopee bloqueia
+ try{
+  const api=`https://api.microlink.io/?url=${encodeURIComponent(targetUrl)}&meta=true&screenshot=false`;
+  const txt=await fetchTimeout(api, 6000);
+  if(!txt) return null;
+  const j=JSON.parse(txt);
+  if(j.status==='success' && j.data){
+   return {
+    title: j.data.title,
+    description: j.data.description,
+    image: j.data.image?.url,
+    logo: j.data.logo?.url,
+    finalUrl: j.data.url
+   };
+  }
+ }catch(e){}
+ return null;
+}
+
 async function fetchParallelProxies(targetUrl){
- // 6 proxies em paralelo - pega primeiro que funcionar
  const proxies=[
   `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
-  `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
   `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
   `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
-  `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(targetUrl)}`,
-  `https://api.cors.lol/?url=${encodeURIComponent(targetUrl)}`
+  `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(targetUrl)}`
  ];
  const promises=proxies.map(async p=>{
-  const txt=await fetchTimeout(p, 3500);
+  const txt=await fetchTimeout(p, 4000);
   if(!txt) return null;
-  // allorigins get retorna JSON com contents
   try{
    const j=JSON.parse(txt);
    if(j.contents) return j.contents;
-   if(j.contents===undefined && txt.includes('shopee')) return txt;
   }catch(e){
    return txt;
   }
-  return txt.includes('shopee') || txt.includes('price') || txt.includes('R$') ? txt : null;
+  return txt;
  });
  const results=await Promise.allSettled(promises);
  for(let r of results){
-  if(r.status==='fulfilled' && r.value && r.value.length>500){
-   return r.value;
-  }
- }
- // tenta pegar qualquer um
- for(let r of results){
-  if(r.status==='fulfilled' && r.value) return r.value;
+  if(r.status==='fulfilled' && r.value && r.value.length>500) return r.value;
  }
  return null;
 }
 
-function extractAllPrices(html){
+function extractPricesFromText(text){
  let prices=[];
- let priceAmount=null;
- let priceMin=null;
- let priceBefore=null;
- let title=null;
- let image=null;
- if(!html) return {prices, priceAmount, priceMin, priceBefore, title, image};
-
- // titulo
- let mt=html.match(/<meta property="og:title" content="([^"]+)"/);
- if(mt) title=mt[1];
- if(!title){
-  let mt2=html.match(/"name"\s*:\s*"([^"]{10,120})"/);
-  if(mt2) title=mt2[1];
- }
-
- // imagem
- let mi=html.match(/<meta property="og:image" content="([^"]+)"/);
- if(mi) image=mi[1];
-
- // product:price:amount
- let pa=html.match(/<meta property="product:price:amount" content="([^"]+)"/);
- if(pa) priceAmount=parseFloat(pa[1]);
-
- // price_min em JSON
- let mins=[...html.matchAll(/"price_min"\s*:\s*(\d+)/g)];
- if(mins.length){
-  let vals=mins.map(x=>parseInt(x[1]));
-  priceMin=Math.max(...vals);
- }
-
- let befores=[...html.matchAll(/"price_min_before_discount"\s*:\s*(\d+)/g)];
- if(befores.length){
-  let vals=befores.map(x=>parseInt(x[1]));
-  priceBefore=Math.max(...vals);
- }
-
- // price antigo
- let pbs=[...html.matchAll(/"price_before_discount"\s*:\s*(\d+)/g)];
- if(!priceBefore && pbs.length){
-  let vals=pbs.map(x=>parseInt(x[1]));
-  priceBefore=Math.max(...vals);
- }
-
- // todos R$ no html
- let reais=[...html.matchAll(/R\$\s*([\d\.\,]+)/g)];
- let rs=[];
- reais.forEach(r=>{
-  let raw=r[1];
-  // remove pontos milhar, troca virgula por ponto
+ if(!text) return prices;
+ let matches=[...text.matchAll(/R\$\s*([\d\.\,]+)/g)];
+ matches.forEach(m=>{
+  let raw=m[1];
   let normalized=raw.replace(/\./g,'').replace(',','.');
-  // caso tenha 2 pontos (ex 1.299.90 vira 1299.90)
-  if((raw.match(/\./g)||[]).length>1){
-   normalized=raw.replace(/\./g,'').replace(',','.');
-  } else if(raw.includes('.') && raw.includes(',')){
+  // trata casos tipo 1.299,90
+  if(raw.includes('.') && raw.includes(',')){
    normalized=raw.replace(/\./g,'').replace(',','.');
   } else if(raw.includes(',') && !raw.includes('.')){
    normalized=raw.replace(',','.');
   }
   let val=parseFloat(normalized);
-  if(!isNaN(val) && val>=5 && val<=50000){
-   rs.push(val);
+  if(!isNaN(val) && val>=10 && val<=50000){
+   prices.push(val);
   }
  });
-
- // ordena e remove duplicados próximos
- rs.sort((a,b)=>a-b);
+ // remove duplicados próximos e ordena
+ prices.sort((a,b)=>a-b);
  let uniq=[];
- rs.forEach(v=>{
-  if(!uniq.some(u=>Math.abs(u-v)<0.5)) uniq.push(v);
- });
- prices=uniq;
-
- return {prices, priceAmount, priceMin, priceBefore, title, image};
+ prices.forEach(v=>{if(!uniq.some(u=>Math.abs(u-v)<1)) uniq.push(v);});
+ return uniq;
 }
 
-function toBRLFromShopeeInt(v){
+function toBRLFromInt(v){
  if(!v) return null;
  v=parseInt(v);
  if(v>=10000000) return v/100000;
@@ -227,21 +190,42 @@ async function resolveShortLink(shortUrl){
   log(`⚡ Cache instantâneo`);
   return cache[shortUrl];
  }
- log(`🔍 Resolvendo ${shortUrl} em paralelo...`);
- let html=await fetchParallelProxies(shortUrl);
- if(!html){
-  log(`⚠️ Não resolveu, usando link direto`);
-  return {finalUrl:shortUrl, html:"", shop:null, item:null};
- }
- let finalMatch=html.match(/https:\/\/shopee\.com\.br\/[^"'\s<>]+-i\.\d+\.\d+/);
- let finalUrl=finalMatch?finalMatch[0]:shortUrl;
- let m=finalUrl.match(/-i\.(\d+)\.(\d+)/) || html.match(/-i\.(\d+)\.(\d+)/);
+ log(`🔍 Resolvendo link curto via preview...`);
+
+ // 1. Tenta Microlink primeiro (mais rápido e pega foto)
+ let micro=await fetchMicrolink(shortUrl);
+ let finalUrl=shortUrl;
+ let html="";
+ let title=null;
+ let image=null;
  let shop=null,item=null;
- if(m){shop=m[1];item=m[2];}
- log(`✅ Final: ${finalUrl.slice(0,60)}... Shop ${shop} Item ${item}`);
- let obj={finalUrl, html, shop, item};
+
+ if(micro){
+  if(micro.finalUrl) finalUrl=micro.finalUrl;
+  if(micro.title) title=micro.title;
+  if(micro.image) image=micro.image;
+  log(`✅ Preview WhatsApp: ${title?title.slice(0,40):'ok'} | Foto: ${image?'sim':'não'}`);
+ }
+
+ // 2. Tenta pegar HTML via proxy para extrair IDs e preços
+ let htmlProxies=await fetchParallelProxies(shortUrl);
+ if(htmlProxies){
+  html=htmlProxies;
+  let m=html.match(/https:\/\/shopee\.com\.br\/[^"'\s<>]+-i\.\d+\.\d+/);
+  if(m) finalUrl=m[0];
+  let ids=finalUrl.match(/-i\.(\d+)\.(\d+)/) || html.match(/-i\.(\d+)\.(\d+)/);
+  if(ids){shop=ids[1];item=ids[2];}
+ }
+
+ // 3. Se ainda não tem shop/item, tenta extrair do finalUrl
+ if(!shop || !item){
+  let m2=finalUrl.match(/-i\.(\d+)\.(\d+)/);
+  if(m2){shop=m2[1];item=m2[2];}
+ }
+
+ let obj={finalUrl, html, title, image, shop, item};
  cache[shortUrl]=obj;
- localStorage.setItem('shopee_html_puro_v5', JSON.stringify(cache));
+ localStorage.setItem('shopee_v6_cache', JSON.stringify(cache));
  return obj;
 }
 
@@ -251,104 +235,126 @@ document.getElementById('btn').onclick=async()=>{
  document.getElementById('result').classList.remove('hidden');
  document.getElementById('log').innerHTML="";
  log(`Link fiel: ${ORIGINAL}`);
- log(`🔒 Nunca será trocado`);
+ log(`🔒 Nunca será trocado - 100% fiel`);
 
  (async()=>{
   const resolved=await resolveShortLink(ORIGINAL);
   let finalUrl=resolved.finalUrl;
-  let htmlShort=resolved.html;
+  let title=resolved.title||"Produto Shopee Verificado";
+  let image=resolved.image||null;
   let shop=resolved.shop;
   let item=resolved.item;
+  let html=resolved.html||"";
 
-  // tenta pegar html completo da página final
-  let htmlLong="";
+  // tenta pegar mais dados da página final
   if(finalUrl && finalUrl!==ORIGINAL){
-   log(`📄 Baixando página do produto...`);
-   let h=await fetchParallelProxies(finalUrl);
-   if(h) htmlLong=h;
+   log(`📄 Buscando dados da página final...`);
+   let microFinal=await fetchMicrolink(finalUrl);
+   if(microFinal){
+    if(microFinal.title) title=microFinal.title;
+    if(microFinal.image) image=microFinal.image;
+   }
+   let htmlFinal=await fetchParallelProxies(finalUrl);
+   if(htmlFinal) html+= "\n"+htmlFinal;
   }
-  if(!htmlLong) htmlLong=htmlShort;
 
-  // tenta API v4 também em paralelo
-  let apiHtml=null;
+  // tenta API v4 via proxy para preço e imagem real
+  let precoAtual=null, precoAntes=null;
+  let apiData=null;
+
   if(shop && item){
    log(`💰 Buscando preço real via API Shopee...`);
    let apiUrl=`https://shopee.com.br/api/v4/item/get?itemid=${item}&shopid=${shop}`;
-   apiHtml=await fetchParallelProxies(apiUrl);
-  }
-
-  let combined=(htmlLong||"")+"\n"+(htmlShort||"")+"\n"+(apiHtml||"");
-  let extracted=extractAllPrices(combined);
-
-  let titulo=extracted.title||"Produto Shopee Verificado";
-  let imagem=extracted.image||null;
-  let precoAtual=null, precoAntes=null;
-
-  // tenta pegar de api html separado
-  if(apiHtml){
-   try{
-    let j=JSON.parse(apiHtml);
-    if(j.data){
-     if(j.data.name) titulo=j.data.name;
-     let imgFile=j.data.image||(j.data.images&&j.data.images[0]);
-     if(imgFile) imagem=`https://down-br.img.susercontent.com/file/${imgFile}`;
-     if(j.data.price_min) precoAtual=toBRLFromShopeeInt(j.data.price_min);
-     if(j.data.price_min_before_discount) precoAntes=toBRLFromShopeeInt(j.data.price_min_before_discount);
-     if(!precoAtual && j.data.price) precoAtual=toBRLFromShopeeInt(j.data.price);
-     if(!precoAntes && j.data.price_before_discount) precoAntes=toBRLFromShopeeInt(j.data.price_before_discount);
+   let apiHtml=await fetchParallelProxies(apiUrl);
+   if(apiHtml){
+    try{
+     let j=JSON.parse(apiHtml);
+     if(j.data){
+      apiData=j.data;
+      if(j.data.name) title=j.data.name;
+      let imgFile=j.data.image||(j.data.images&&j.data.images[0]);
+      if(imgFile) image=`https://down-br.img.susercontent.com/file/${imgFile}`;
+      if(j.data.price_min) precoAtual=toBRLFromInt(j.data.price_min);
+      if(j.data.price_min_before_discount) precoAntes=toBRLFromInt(j.data.price_min_before_discount);
+      if(!precoAtual && j.data.price) precoAtual=toBRLFromInt(j.data.price);
+      if(!precoAntes && j.data.price_before_discount) precoAntes=toBRLFromInt(j.data.price_before_discount);
+      log(`✅ API preço: ${precoAtual?formatBRL(precoAtual):'N/A'}`);
+     }
+    }catch(e){
+     // apiHtml pode conter price_min mesmo não sendo JSON puro
+     let pm=e;
     }
-   }catch(e){
-    // apiHtml pode ser html com price_min dentro
+   }
+   // tenta também extrair price_min do texto da api mesmo se JSON falhar
+   if(!precoAtual && apiHtml){
+    let mMin=apiHtml.match(/"price_min"\s*:\s*(\d+)/);
+    let mBefore=apiHtml.match(/"price_min_before_discount"\s*:\s*(\d+)/);
+    if(mMin) precoAtual=toBRLFromInt(mMin[1]);
+    if(mBefore) precoAntes=toBRLFromInt(mBefore[1]);
    }
   }
 
-  // se ainda não tem, usa o que achou no html
-  if(!precoAtual && extracted.priceAmount) precoAtual=extracted.priceAmount;
-  if(!precoAtual && extracted.priceMin) precoAtual=toBRLFromShopeeInt(extracted.priceMin);
-  if(!precoAntes && extracted.priceBefore) precoAntes=toBRLFromShopeeInt(extracted.priceBefore);
+  // extrai R$ do html combinado como fallback
+  let precosRS=extractPricesFromText(html);
+  log(`💵 R$ encontrados no HTML: ${precosRS.slice(0,5).join(', ')||'nenhum'}`);
 
-  // fallback R$ do html - pega menor como atual, maior como antes
-  if((!precoAtual || precoAtual<5) && extracted.prices.length>0){
-   precoAtual=extracted.prices[0];
-   log(`💵 R$ encontrados: ${extracted.prices.slice(0,5).join(', ')}`);
+  if((!precoAtual || precoAtual<10) && precosRS.length>0){
+   precoAtual=precosRS[0];
+   log(`✅ Usando menor R$ do HTML: ${formatBRL(precoAtual)}`);
   }
-  if(!precoAntes && extracted.prices.length>1){
-   let maiores=extracted.prices.filter(p=>p>precoAtual);
-   if(maiores.length) precoAntes=Math.max(...maiores);
-  }
-
-  // se imagem ainda não tem e tem shop/item, tenta construir via API
-  if(!imagem && shop && item){
-   // tenta pegar imagem do htmlLong
-   let mi=combined.match(/"image"\s*:\s*"([^"]+)"/);
-   if(mi){
-    let img=mi[1];
-    if(img.length>20 && !img.includes('shopee')) imagem=`https://down-br.img.susercontent.com/file/${img}`;
+  if(!precoAntes && precosRS.length>1){
+   let maiores=precosRS.filter(p=>p>precoAtual);
+   if(maiores.length){
+    precoAntes=Math.max(...maiores);
+    log(`✅ Preço antes: ${formatBRL(precoAntes)}`);
    }
   }
 
-  if(precoAtual) log(`✅ Preço atual automático: ${formatBRL(precoAtual)}`);
-  if(precoAntes) log(`✅ Preço antes: ${formatBRL(precoAntes)}`);
-  if(!precoAtual) log(`⚠️ Shopee bloqueou preço, tentando outro proxy...`);
+  // se ainda não tem imagem, tenta pegar do og:image do html
+  if(!image && html){
+   let mi=html.match(/<meta property="og:image" content="([^"]+)"/);
+   if(mi) image=mi[1];
+  }
 
-  let desconto=0, economia=0;
+  let desconto=0,economia=0;
   if(precoAntes && precoAtual && precoAntes>precoAtual){
    desconto=Math.round((1-precoAtual/precoAntes)*100);
    economia=precoAntes-precoAtual;
   }
 
-  // mostra foto
+  // mostra foto - AGORA COM TRUQUE MICROLINK QUE FUNCIONA
   const fotoReal=document.getElementById('fotoReal');
   const fotoLoad=document.getElementById('fotoLoad');
   const overlay=document.getElementById('priceOverlay');
-  if(imagem){
-   fotoReal.src=`https://images.weserv.nl/?url=${encodeURIComponent(imagem)}&w=600&h=600`;
-   fotoReal.onload=()=>{fotoLoad.classList.add('hidden');overlay.classList.remove('hidden');};
-   fotoReal.onerror=()=>{fotoReal.src=imagem;fotoLoad.classList.add('hidden');overlay.classList.remove('hidden');};
+
+  if(image){
+   // usa weserv para contornar CORS
+   fotoReal.src=`https://images.weserv.nl/?url=${encodeURIComponent(image)}&w=800&h=800&output=jpg`;
+   fotoReal.onload=()=>{fotoLoad.classList.add('hidden');overlay.classList.remove('hidden');log(`✅ Foto carregada`);};
+   fotoReal.onerror=()=>{
+    // tenta direto sem proxy
+    fotoReal.src=image;
+    fotoReal.onload=()=>{fotoLoad.classList.add('hidden');overlay.classList.remove('hidden');log(`✅ Foto carregada direto`);};
+    fotoReal.onerror=()=>{
+     fotoLoad.innerHTML=`<div class="p-4 text-center"><p class="font-black text-[13px]">${title.slice(0,50)}</p><p class="text-[10px] text-gray-500 mt-2">Foto bloqueada, mas copiando link direto</p><p class="text-[8px] mt-2 break-all">${image.slice(0,60)}...</p></div>`;
+     log(`⚠️ Foto bloqueada, mas link da foto: ${image.slice(0,50)}`);
+    };
+   };
   }else{
-   fotoLoad.innerHTML=`<div class="p-4 text-center"><p class="font-black text-[14px]">${titulo.slice(0,60)}</p><p class="text-[11px] text-gray-500 mt-1">Foto bloqueada mas valor automático ok</p></div>`;
+   fotoLoad.innerHTML=`<div class="p-4 text-center"><p class="font-black text-[13px]">${title.slice(0,50)}</p><p class="text-[10px] text-gray-500 mt-2">Buscando foto alternativa...</p></div>`;
+   log(`⚠️ Sem foto, tentando novamente...`);
+   // tenta microlink de novo
+   let micro2=await fetchMicrolink(finalUrl||ORIGINAL);
+   if(micro2 && micro2.image){
+    fotoReal.src=micro2.image;
+    fotoLoad.classList.add('hidden');
+    overlay.classList.remove('hidden');
+    image=micro2.image;
+    log(`✅ Foto alternativa carregada via preview`);
+   }
   }
-  document.getElementById('oTitle').textContent=titulo.slice(0,55);
+
+  document.getElementById('oTitle').textContent=title.slice(0,55);
   if(precoAtual){
    if(precoAntes && desconto>0){
     document.getElementById('oPrice').textContent=`DE ${formatBRL(precoAntes)} POR ${formatBRL(precoAtual)}`;
@@ -357,10 +363,11 @@ document.getElementById('btn').onclick=async()=>{
     document.getElementById('oPrice').textContent=`${formatBRL(precoAtual)}`;
    }
   }else{
-   document.getElementById('oPrice').textContent=`Preço no link`;
+   document.getElementById('oPrice').textContent=`Oferta imperdível - ver no link`;
+   log(`❌ Shopee bloqueou valor, mas mensagem ainda sai com link fiel`);
   }
 
-  // MENSAGEM SEM # E COM VALOR REAL AUTOMÁTICO
+  // MENSAGEM FINAL SEM # E COM VALOR REAL AUTOMÁTICO
   let blocoPreco="",blocoDesc="";
   if(precoAtual){
    if(precoAntes && desconto>0){
@@ -370,12 +377,13 @@ document.getElementById('btn').onclick=async()=>{
     blocoPreco=`💰 POR APENAS: ${formatBRL(precoAtual)}`;
    }
   }else{
-   blocoPreco=`💰 OFERTA IMPERDÍVEL`;
+   // se não conseguiu preço, não coloca "Oferta imperdível" genérico, coloca que preço está no link mas com valor real quando possível
+   blocoPreco=`💰 OFERTA - Confira o preço no link!`;
   }
 
   const msg=`🚨 QUEIMA DE ESTOQUE SHOPEE 🚨
 
-📦 ${titulo.toUpperCase()}
+📦 ${title.toUpperCase()}
 
 ${blocoPreco}
 ${blocoDesc}
@@ -388,13 +396,17 @@ ${ORIGINAL}
 ⏰ Corre antes que o preço volte!`;
 
   document.getElementById('msg').textContent=msg;
-  document.getElementById('info').innerHTML=`<b>Valor automático:</b> ${precoAtual?formatBRL(precoAtual):'não encontrado, Shopee bloqueou'} | <b>Antes:</b> ${precoAntes?formatBRL(precoAntes):'-'} | <b>Desconto:</b> ${desconto}%<br><span class="text-green-700 font-bold">🔒 Link 100% fiel: ${ORIGINAL}</span><br><span class="text-[9px] text-gray-500">HTML puro • Sem # • Valor 100% automático (sem digitar)</span>`;
+  document.getElementById('info').innerHTML=`<b>Valor automático:</b> ${precoAtual?formatBRL(precoAtual):'Shopee bloqueou, mas link funciona'} | <b>Antes:</b> ${precoAntes?formatBRL(precoAntes):'-'} | <b>Desconto:</b> ${desconto}%<br><span class="text-green-700 font-bold">🔒 Link 100% fiel: ${ORIGINAL}</span><br><span class="text-[9px] text-gray-500">HTML puro V6 • Sem # • Foto via preview WhatsApp • Valor automático</span>`;
+
+  // salva cache com preço
+  cache[ORIGINAL]={finalUrl, title, image, shop, item, precoAtual, precoAntes, desconto};
+  localStorage.setItem('shopee_v6_cache', JSON.stringify(cache));
 
  })();
 };
 
 function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent);alert('Copiado com valor automático! Link fiel: '+ORIGINAL);}
-function baixar(){const img=document.getElementById('fotoReal');if(img.src){window.open(img.src,'_blank');}}
+function baixar(){const img=document.getElementById('fotoReal');if(img && img.src){const a=document.createElement('a');a.href=img.src;a.download=`produto-${Date.now()}.jpg`;a.target='_blank';a.click();}else{alert('Foto ainda carregando');}}
 function whatsapp(){const txt=encodeURIComponent(document.getElementById('msg').textContent);window.open(`https://wa.me/?text=${txt}`,'_blank');}
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script>
