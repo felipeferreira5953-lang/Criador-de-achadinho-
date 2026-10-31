@@ -27,64 +27,68 @@
 </style><br>
 <meta charset="UTF-8"><br>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><br>
-<title>Agente Achadinhos - Mensagem Chamativa + Preço + Cupom</title><br>
+<title>Agente FINAL - Sem Hashtag</title><br>
 <script src="https://cdn.tailwindcss.com"></script><br>
 <style><br>
-body{background:#0a0a0a;color:#fff;font-family:Inter,system-ui}<br>
-.glass{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);backdrop-filter:blur(12px)}<br>
+body{background:#fff;color:#111;font-family:Inter,system-ui}<br>
+.glass{background:#fff;border:1px solid #e5e5e5;box-shadow:0 4px 16px rgba(0,0,0,0.06)}<br>
 .btn{background:linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)}<br>
-.mono{font-family:monospace}<br>
-.log{background:#111;border:1px solid #222}<br>
-.badge{background:linear-gradient(135deg,#ff0000 0%,#ff6a00 100%)}<br>
+.log{background:#111;color:#0f0}<br>
 </style><br>
 </head><br>
 <body class="min-h-screen p-3"><br>
 <div class="max-w-[440px] mx-auto"></p>
 
-<div class="flex items-center gap-3 mt-3 mb-3">
-<div class="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center font-black">S</div>
+<div class="flex items-center gap-2 mt-2 mb-2">
+<div class="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center font-black text-white">S</div>
 <div>
-<h1 class="font-black text-[15px]">AGENTE GRUPO - CHAMATIVO</h1>
-<p class="text-[10px] text-gray-400 -mt-1">Preço real + Desconto + Cupom • Link 100% fiel 🔒 • APP_ID 18325950432</p>
+<h1 class="font-black text-[14px]">AGENTE FINAL - SEM #</h1>
+<p class="text-[9px] text-gray-500">Valor real + Sem hashtags + Link 100% fiel 🔒</p>
 </div>
 </div>
 
-<script>
-const SHOPEE_APP_ID="18325950432";
-// NUNCA troca o link do usuário - regra de ouro
-</script>
+<script>const SHOPEE_APP_ID="18325950432";</script>
 
-<div class="glass rounded-[18px] p-4">
-<label class="text-[10px] tracking-widest text-gray-400 uppercase">Seu link s.shopee (será mantido 100% fiel, sem alteração)</label>
-<input id="aff" class="w-full mt-2 bg-black border border-white/10 rounded-xl p-4 text-[14px] text-white" placeholder="https://s.shopee.com.br/AUvDi62148">
-<div class="mt-2 text-[10px] text-green-400 bg-green-500/10 border border-green-500/20 rounded-lg p-2 hidden" id="lockBox">🔒 Link que VAI na mensagem (idêntico): <b id="lockTxt"></b></div>
-<button id="btn" class="btn w-full mt-3 p-3 rounded-xl font-black tracking-wide">GERAR ACHADINHO CHAMATIVO 🔥</button>
-<div id="log" class="log rounded-xl p-2 mt-3 h-[110px] overflow-auto text-[10px] mono"></div>
+<div class="glass rounded-[16px] p-3">
+<label class="text-[10px] font-bold text-gray-600 uppercase">Seu link s.shopee (idêntico)</label>
+<input id="aff" class="w-full mt-1 bg-white border-2 border-black rounded-xl p-3 text-[14px] font-bold" placeholder="https://s.shopee.com.br/8AXJ0eiFp3" value="https://s.shopee.com.br/8AXJ0eiFp3">
+<div class="grid grid-cols-2 gap-2 mt-2">
+<div>
+<label class="text-[9px] text-gray-500 uppercase">Preço atual (se não achar)</label>
+<input id="manualPreco" class="w-full mt-1 bg-yellow-50 border border-yellow-300 rounded-xl p-2 text-[12px]" placeholder="59,90">
 </div>
-
-<div id="result" class="hidden mt-4">
-
-<div class="glass rounded-[18px] p-3">
-<div class="flex justify-between items-center mb-2">
-<span class="text-[11px] font-bold">📸 FOTO PRO GRUPO (com preço)</span>
-<span class="text-[9px] bg-green-500/20 text-green-400 px-2 py-1 rounded-full">LINK FIEL</span>
+<div>
+<label class="text-[9px] text-gray-500 uppercase">Preço antes</label>
+<input id="manualAntes" class="w-full mt-1 bg-white border border-gray-300 rounded-xl p-2 text-[12px]" placeholder="99,90">
 </div>
-<canvas id="canvas" width="1080" height="1350" class="w-full rounded-xl bg-black"></canvas>
-<img id="imgCache" class="hidden">
-<div class="grid grid-cols-2 gap-2 mt-3">
-<button onclick="baixar()" class="bg-white text-black p-3 rounded-xl font-bold text-[12px]">Baixar Foto</button>
-<button onclick="copiar()" class="bg-white/10 p-3 rounded-xl text-[12px]">Copiar Mensagem</button>
 </div>
-<button onclick="whatsapp()" class="w-full mt-2 bg-[#25D366] text-black p-3 rounded-xl font-bold text-[13px]">Enviar pro Zap com Foto</button>
+<button id="btn" class="btn w-full mt-3 p-3 rounded-xl font-black text-white">GERAR SEM # ⚡</button>
+<div id="log" class="log rounded-xl p-2 mt-2 h-[80px] overflow-auto text-[10px]"></div>
 </div>
 
-<div class="glass rounded-[18px] p-3 mt-3">
-<div class="flex justify-between">
-<span class="text-[11px] font-bold">📱 MENSAGEM CHAMATIVA</span>
-<span id="cupomBadge" class="hidden text-[9px] bg-yellow-500 text-black px-2 py-1 rounded-full font-bold">CUPOM</span>
+<div id="result" class="hidden mt-3">
+
+<div class="glass rounded-[16px] p-3">
+<span class="text-[11px] font-black">📸 FOTO COM PREÇO</span>
+<div id="fotoBox" class="w-full rounded-xl bg-gray-50 border border-gray-200 overflow-hidden relative mt-2" style="aspect-ratio:1/1;">
+<img id="fotoReal" class="w-full h-full object-cover">
+<div id="fotoLoad" class="absolute inset-0 flex items-center justify-center bg-white"><div class="animate-spin w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full"></div></div>
+<div id="priceOverlay" class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 to-transparent text-white hidden">
+<p id="oTitle" class="font-black text-[13px]"></p>
+<p id="oPrice" class="font-black text-[18px] text-[#00FF88] mt-1"></p>
 </div>
-<div id="msg" class="bg-black border border-white/10 rounded-xl p-3 mt-2 text-[13px] whitespace-pre-wrap leading-[1.45]"></div>
-<div id="infoPreco" class="mt-2 text-[11px] text-gray-400"></div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-2">
+<button onclick="baixar()" class="bg-black text-white p-2 rounded-xl text-[11px] font-bold">Baixar Foto</button>
+<button onclick="copiar()" class="bg-white border border-black p-2 rounded-xl text-[11px] font-bold">Copiar Mensagem</button>
+</div>
+</div>
+
+<div class="glass rounded-[16px] p-3 mt-3">
+<span class="text-[11px] font-black">📱 MENSAGEM FINAL - SEM HASHTAG</span>
+<div id="msg" class="bg-green-50 border-2 border-green-200 rounded-xl p-3 mt-2 text-[13px] whitespace-pre-wrap text-black font-medium leading-[1.4]"></div>
+<button onclick="whatsapp()" class="w-full mt-2 bg-[#25D366] text-black p-3 rounded-xl font-black text-[12px]">Enviar no Zap</button>
+<div id="info" class="mt-2 text-[10px] text-gray-600"></div>
 </div>
 
 <p></div></p>
@@ -93,267 +97,110 @@ const SHOPEE_APP_ID="18325950432";
 
 <script>
 const $aff=document.getElementById('aff');
-const $log=document.getElementById('log');
-const $lockBox=document.getElementById('lockBox');
-const $lockTxt=document.getElementById('lockTxt');
-let ORIGINAL_LINK="";
-let DADOS={};
-
-function log(t){const d=document.createElement('div');d.textContent=new Date().toLocaleTimeString()+" → "+t;$log.appendChild(d);$log.scrollTop=$log.scrollHeight;}
-
-$aff.addEventListener('input',()=>{if($aff.value){$lockBox.classList.remove('hidden');$lockTxt.textContent=$aff.value;}});
-
+const $manualPreco=document.getElementById('manualPreco');
+const $manualAntes=document.getElementById('manualAntes');
+let ORIGINAL="";
+let cache=JSON.parse(localStorage.getItem('shopee_cache_v3')||'{}');
+function log(t){const $log=document.getElementById('log');const d=document.createElement('div');d.textContent=new Date().toLocaleTimeString()+" → "+t;$log.appendChild(d);$log.scrollTop=$log.scrollHeight;}
 function extractIds(u){const m=u.match(/-i\.(\d+)\.(\d+)/);return m?{shop:m[1],item:m[2]}:null;}
-async function viaProxies(url){
- const ps=[`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,`https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`,`https://corsproxy.io/?${encodeURIComponent(url)}`,`https://thingproxy.freeboard.io/fetch/${encodeURIComponent(url)}`];
- for(let p of ps){try{const r=await fetch(p);if(!r.ok) continue;const t=await r.text();if(t.length>300) return t;}catch(e){}}
- return null;
+async function fetchTimeout(url, ms=3500){const c=new AbortController();const id=setTimeout(()=>c.abort(),ms);try{const r=await fetch(url,{signal:c.signal});clearTimeout(id);if(!r.ok) return null;return await r.text();}catch(e){clearTimeout(id);return null;}}
+function extractPricesFromHTML(html){
+ const results={precos:[], priceAmount:null, priceMin:null, priceBefore:null};
+ if(!html) return results;
+ let m=html.match(/<meta property="product:price:amount" content="([^"]+)"/); if(m) results.priceAmount=parseFloat(m[1]);
+ let matches=[...html.matchAll(/"price_min"\s*:\s*(\d+)/g)]; if(matches.length) results.priceMin=Math.max(...matches.map(x=>parseInt(x[1])));
+ let matchesBefore=[...html.matchAll(/"price_min_before_discount"\s*:\s*(\d+)/g)]; if(matchesBefore.length) results.priceBefore=Math.max(...matchesBefore.map(x=>parseInt(x[1])));
+ let reais=[...html.matchAll(/R\$\s*([\d\.\,]+)/g)]; reais.forEach(r=>{let txt=r[1].replace(/\./g,'').replace(',','.'); let val=parseFloat(txt); if(val>=5 && val<=20000) results.precos.push(val);});
+ results.precos.sort((a,b)=>a-b);
+ return results;
 }
-
+function parseShopeeIntPrice(v){if(!v) return null; if(v>=10000000) return v/100000; if(v>=100000) return v/100000; if(v>=1000) return v/100; return v;}
+async function resolveTurbo(shortUrl){
+ if(cache[shortUrl]?.finalUrl) {log(`⚡ Cache`); return cache[shortUrl];}
+ const proxies=[`https://api.allorigins.win/get?url=${encodeURIComponent(shortUrl)}`,`https://corsproxy.io/?${encodeURIComponent(shortUrl)}`];
+ const promises=proxies.map(async p=>{const txt=await fetchTimeout(p,3000); if(!txt) return null; let finalM=txt.match(/https:\/\/shopee\.com\.br\/[^"'\s<>]+-i\.\d+\.\d+/); if(finalM) return {finalUrl:finalM[0], html:txt}; let m=txt.match(/-i\.(\d+)\.(\d+)/); if(m) return {finalUrl:`https://shopee.com.br/produto-i.${m[1]}.${m[2]}`, html:txt, shop:m[1], item:m[2]}; try{const j=JSON.parse(txt);if(j.contents){let fm=j.contents.match(/https:\/\/shopee\.com\.br\/[^"'\s<>]+-i\.\d+\.\d+/); if(fm) return {finalUrl:fm[0], html:j.contents}; let mm=j.contents.match(/-i\.(\d+)\.(\d+)/); if(mm) return {finalUrl:`https://shopee.com.br/produto-i.${mm[1]}.${mm[2]}`, html:j.contents, shop:mm[1], item:mm[2]};}}catch(e){} return null;});
+ const results=await Promise.allSettled(promises); for(let r of results){if(r.status==='fulfilled' && r.value?.finalUrl){cache[shortUrl]=r.value;localStorage.setItem('shopee_cache_v3',JSON.stringify(cache));return r.value;}} return {finalUrl:shortUrl, html:''};
+}
 function formatBRL(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
 
-function parseShopeePrice(apiData){
- // Shopee API: price_min / 100000 = BRL
- try{
-  const priceMin = apiData.price_min ? apiData.price_min/100000 : (apiData.price ? apiData.price/100000 : null);
-  const priceBefore = apiData.price_min_before_discount ? apiData.price_min_before_discount/100000 : (apiData.price_before_discount ? apiData.price_before_discount/100000 : null);
-  const priceMax = apiData.price_max ? apiData.price_max/100000 : null;
-  
-  let descontoPct=0;
-  let economia=0;
-  if(priceBefore && priceMin && priceBefore>priceMin){
-   descontoPct=Math.round((1-priceMin/priceBefore)*100);
-   economia=priceBefore-priceMin;
-  }
-  return {atual:priceMin, antes:priceBefore, max:priceMax, descontoPct, economia};
- }catch(e){return {atual:null,antes:null,descontoPct:0,economia:0};}
-}
-
-async function buscarCupons(shopId, itemId){
- // tenta buscar vouchers da loja/produto
- const urls=[
-  `https://shopee.com.br/api/v4/voucher/get_shop_vouchers?shopid=${shopId}`,
-  `https://shopee.com.br/api/v4/pdp/get_vouchers?item_id=${itemId}&shop_id=${shopId}`,
-  `https://shopee.com.br/api/v4/voucher/get_product_vouchers?item_id=${itemId}&shop_id=${shopId}`
- ];
- for(let url of urls){
-  const txt=await viaProxies(url);
-  if(!txt) continue;
-  try{
-   const j=JSON.parse(txt);
-   const vouchers=j.data?.shop_vouchers || j.data?.vouchers || j.data?.product_vouchers || j.data;
-   if(Array.isArray(vouchers) && vouchers.length>0){
-    // pega melhor cupom
-    const melhor=vouchers[0];
-    return {tem:true, qtd:vouchers.length, detalhe:melhor};
-   }
-   if(j.data && typeof j.data==='object' && Object.keys(j.data).length>0){
-    // algum cupom genérico
-    return {tem:true, qtd:1, detalhe:j.data};
-   }
-  }catch(e){}
- }
- return {tem:false};
-}
-
 document.getElementById('btn').onclick=async()=>{
- ORIGINAL_LINK=$aff.value.trim();
- if(!ORIGINAL_LINK){alert('Cole seu s.shopee.com.br');return;}
- $lockBox.classList.remove('hidden');
- $lockTxt.textContent=ORIGINAL_LINK;
- $log.innerHTML="";
- document.getElementById('result').classList.add('hidden');
- log(`Link ORIGINAL do usuário: ${ORIGINAL_LINK}`);
- log(`🔒 REGRA: Esse link será mantido 100% fiel, sem troca`);
- log(`APP_ID: ${SHOPEE_APP_ID}`);
+ ORIGINAL=$aff.value.trim(); if(!ORIGINAL){alert('Cole seu s.shopee');return;}
+ document.getElementById('result').classList.remove('hidden'); document.getElementById('log').innerHTML=""; log(`Link fiel: ${ORIGINAL}`);
+ document.getElementById('msg').textContent=`⏳ Buscando valor real...`;
+ (async()=>{
+  const resolved=await resolveTurbo(ORIGINAL);
+  let finalUrl=resolved.finalUrl; let htmlLong=resolved.html||''; let ids=extractIds(finalUrl) || (resolved.shop?{shop:resolved.shop,item:resolved.item}:null);
+  let titulo="Produto Shopee Verificado", imagem=null; let precoAtual=null, precoAntes=null, desconto=0;
 
- let finalUrl=ORIGINAL_LINK;
- let ids=null;
-
- // 1. Resolver s.shopee para longa
- log(`Resolvendo link curto...`);
- const html=await viaProxies(ORIGINAL_LINK);
- if(html){
-  const m=html.match(/https:\/\/shopee\.com\.br\/[^"'\s<>]+-i\.\d+\.\d+/);
-  if(m){finalUrl=m[0];log(`✅ URL longa: ${finalUrl.slice(0,65)}...`);}
-  const m2=finalUrl.match(/-i\.(\d+)\.(\d+)/) || html.match(/-i\.(\d+)\.(\d+)/);
-  if(m2){ids={shop:m2[1],item:m2[2]};log(`✅ Shop ${m2[1]} Item ${m2[2]}`);}
- }
-
- let titulo="Produto Shopee", imagem=null;
- let precoInfo={atual:null,antes:null,descontoPct:0,economia:0};
- let cupomInfo={tem:false};
-
- // 2. OG tags fallback
- if(finalUrl){
-  const h2=await viaProxies(finalUrl);
-  if(h2){
-   const mt=h2.match(/<meta property="og:title" content="([^"]+)"/);
-   const mi=h2.match(/<meta property="og:image" content="([^"]+)"/);
-   const mp=h2.match(/<meta property="product:price:amount" content="([^"]+)"/);
-   if(mt) titulo=mt[1];
-   if(mi) imagem=mi[1];
-   if(mp && !precoInfo.atual){precoInfo.atual=parseFloat(mp[1]);}
-  }
- }
-
- // 3. API pública v4 para preço real e cupom
- if(ids){
-  const apiUrl=`https://shopee.com.br/api/v4/item/get?itemid=${ids.item}&shopid=${ids.shop}`;
-  log(`Buscando preço real e descontos...`);
-  const apiTxt=await viaProxies(apiUrl);
-  if(apiTxt){
-   try{
-    const j=JSON.parse(apiTxt);
-    if(j.data){
-     titulo=j.data.name||titulo;
-     const imgFile=j.data.image||(j.data.images&&j.data.images[0]);
-     if(imgFile) imagem=`https://down-br.img.susercontent.com/file/${imgFile}`;
-     precoInfo=parseShopeePrice(j.data);
-     log(`✅ Preço atual: ${precoInfo.atual?formatBRL(precoInfo.atual):'N/A'}`);
-     if(precoInfo.antes) log(`✅ Preço antes: ${formatBRL(precoInfo.antes)} (${precoInfo.descontoPct}% OFF)`);
-     DADOS.apiRaw=j.data;
-    }
-   }catch(e){log(`API v4 bloqueada, usando OG`);}
+  if(finalUrl && finalUrl!==ORIGINAL){
+   const htmlProd=await fetchTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(finalUrl)}`,4000);
+   if(htmlProd){try{const j=JSON.parse(htmlProd);htmlLong=j.contents||htmlProd;}catch(e){htmlLong=htmlProd;}}
+  }else if(!htmlLong){
+   const htmlShort=await fetchTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(ORIGINAL)}`,4000);
+   if(htmlShort){try{const j=JSON.parse(htmlShort);htmlLong=j.contents||htmlShort;}catch(e){htmlLong=htmlShort;}}
   }
 
-  // 4. Cupons
-  log(`Verificando cupons disponíveis...`);
-  cupomInfo=await buscarCupons(ids.shop, ids.item);
-  if(cupomInfo.tem){
-   log(`🎟️ CUPOM ENCONTRADO: ${cupomInfo.qtd} cupom(s) disponível`);
-   document.getElementById('cupomBadge').classList.remove('hidden');
-   document.getElementById('cupomBadge').textContent=`🎟️ ${cupomInfo.qtd} CUPOM`;
+  if(htmlLong){
+   let mt=htmlLong.match(/<meta property="og:title" content="([^"]+)"/); let mi=htmlLong.match(/<meta property="og:image" content="([^"]+)"/);
+   if(mt) titulo=mt[1]; if(mi) imagem=mi[1];
+   let prices=extractPricesFromHTML(htmlLong);
+   if(prices.priceAmount) precoAtual=prices.priceAmount;
+   if(prices.priceMin) precoAtual=parseShopeeIntPrice(prices.priceMin);
+   if(prices.priceBefore) precoAntes=parseShopeeIntPrice(prices.priceBefore);
+   if(!precoAtual && prices.precos.length>0){precoAtual=prices.precos[0]; if(prices.precos.length>1) precoAntes=prices.precos[1]>precoAtual?prices.precos[1]:null;}
+  }
+
+  if(ids && (!precoAtual || precoAtual<5)){
+   const apiUrl=`https://shopee.com.br/api/v4/item/get?itemid=${ids.item}&shopid=${ids.shop}`;
+   const apiTxt=await fetchTimeout(`https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`,4000);
+   if(apiTxt){try{const j=JSON.parse(apiTxt); if(j.data){titulo=j.data.name||titulo; const imgFile=j.data.image||(j.data.images&&j.data.images[0]); if(imgFile) imagem=`https://down-br.img.susercontent.com/file/${imgFile}`; let pMin=j.data.price_min||j.data.price; let pBefore=j.data.price_min_before_discount||j.data.price_before_discount; if(pMin) precoAtual=parseShopeeIntPrice(pMin); if(pBefore) precoAntes=parseShopeeIntPrice(pBefore);}}catch(e){}}
+  }
+
+  if((!precoAtual || precoAtual<5) && $manualPreco.value){let v=$manualPreco.value.replace(',','.').replace('R$','').trim(); precoAtual=parseFloat(v);}
+  if(!precoAntes && $manualAntes.value){let v=$manualAntes.value.replace(',','.').replace('R$','').trim(); precoAntes=parseFloat(v);}
+  if(precoAntes && precoAtual && precoAntes>precoAtual) desconto=Math.round((1-precoAtual/precoAntes)*100);
+
+  const fotoReal=document.getElementById('fotoReal'); const fotoLoad=document.getElementById('fotoLoad'); const overlay=document.getElementById('priceOverlay');
+  if(imagem){fotoReal.src=`https://images.weserv.nl/?url=${encodeURIComponent(imagem)}&w=600&h=600`; fotoReal.onload=()=>{fotoLoad.classList.add('hidden');overlay.classList.remove('hidden');}; fotoReal.onerror=()=>{fotoReal.src=imagem;fotoLoad.classList.add('hidden');overlay.classList.remove('hidden');};} else {fotoLoad.innerHTML=`<div class="p-4 text-center"><p class="font-black">${titulo.slice(0,50)}</p></div>`;}
+  document.getElementById('oTitle').textContent=titulo.slice(0,55);
+  if(precoAtual){if(precoAntes && desconto>0){document.getElementById('oPrice').textContent=`DE ${formatBRL(precoAntes)} POR ${formatBRL(precoAtual)}`;}else{document.getElementById('oPrice').textContent=`${formatBRL(precoAtual)}`;}}
+
+  // MENSAGEM FINAL SEM NENHUMA HASHTAG - como pediu
+  let blocoPreco="",blocoDesc="";
+  if(precoAtual){
+   if(precoAntes && desconto>0){
+    blocoPreco=`💰 DE: ~${formatBRL(precoAntes)}~ POR: ${formatBRL(precoAtual)}`;
+    blocoDesc=`🔥 ${desconto}% OFF - Economize ${formatBRL(precoAntes-precoAtual)}!`;
+   }else{
+    blocoPreco=`💰 POR APENAS: ${formatBRL(precoAtual)}`;
+   }
   }else{
-   log(`Sem cupom público no momento`);
+   blocoPreco=`💰 OFERTA IMPERDÍVEL`;
   }
- }
 
- // 5. Monta mensagem CHAMATIVA sem alterar link
- let blocoPreco="";
- let blocoDesconto="";
- let blocoCupom="";
+  const msg=`🚨 QUEIMA DE ESTOQUE SHOPEE 🚨
 
- if(precoInfo.atual){
-  if(precoInfo.antes && precoInfo.descontoPct>0){
-   blocoPreco=`💰 *DE:* ~${formatBRL(precoInfo.antes)}~ *POR:* ${formatBRL(precoInfo.atual)}`;
-   blocoDesconto=`🔥 *${precoInfo.descontoPct}% OFF* - Você economiza ${formatBRL(precoInfo.economia)}!`;
-  }else{
-   blocoPreco=`💰 *POR APENAS:* ${formatBRL(precoInfo.atual)}`;
-  }
- }else{
-  blocoPreco=`💰 *Preço imperdível na Shopee*`;
- }
-
- if(cupomInfo.tem){
-  blocoCupom=`🎟️ *CUPOM DISPONÍVEL NA LOJA!* Aplique na hora da compra e ganhe MAIS desconto!`;
- }
-
- // Mensagem chamativa
- const msg=`🚨 *QUEIMA DE ESTOQUE SHOPEE* 🚨
-
-📦 *${titulo.toUpperCase()}*
+📦 ${titulo.toUpperCase()}
 
 ${blocoPreco}
-${blocoDesconto}
+${blocoDesc}
 
-${blocoCupom}
+⚡ PRODUTO VERIFICADO - Estoque limitado!
+👇 LINK COM DESCONTO ATIVO 👇
 
-⚡ *PRODUTO VERIFICADO* - Estoque limitado!
-👇 *LINK COM DESCONTO ATIVO* 👇
+${ORIGINAL}
 
-${ORIGINAL_LINK}
+⏰ Corre antes que o preço volte!`;
 
-⏰ Corre antes que o preço volte!
+  document.getElementById('msg').textContent=msg;
+  document.getElementById('info').innerHTML=`<b>Valor:</b> ${precoAtual?formatBRL(precoAtual):'manual'} | <b>Antes:</b> ${precoAntes?formatBRL(precoAntes):'-'} | <b>Desconto:</b> ${desconto}%<br><span class="text-green-700 font-bold">🔒 Link 100% fiel: ${ORIGINAL}</span><br><span class="text-[9px] text-gray-500">Sem hashtags, como pediu</span>`;
 
-#achadinhos #shopee #promoção #ofertaimperdível #achadinho`;
-
- document.getElementById('msg').textContent=msg;
- document.getElementById('infoPreco').innerHTML=`Preço real: ${precoInfo.atual?formatBRL(precoInfo.atual):'consulte no link'} | Desconto: ${precoInfo.descontoPct}% | Cupom: ${cupomInfo.tem?'SIM '+cupomInfo.qtd:'não encontrado'}<br><span class="text-green-400">🔒 Link mantido 100% fiel: ${ORIGINAL_LINK}</span>`;
- document.getElementById('result').classList.remove('hidden');
-
- // Gera arte com preço
- const canvas=document.getElementById('canvas');
- const ctx=canvas.getContext('2d');
- ctx.fillStyle="#000";
- ctx.fillRect(0,0,1080,1350);
-
- const drawOverlay=()=>{
-  // faixa gradiente embaixo
-  const grad=ctx.createLinearGradient(0,1020,0,1350);
-  grad.addColorStop(0,'rgba(0,0,0,0)');
-  grad.addColorStop(0.2,'rgba(0,0,0,0.9)');
-  grad.addColorStop(1,'rgba(0,0,0,1)');
-  ctx.fillStyle=grad;
-  ctx.fillRect(0,1020,1080,330);
-
-  // badge desconto
-  if(precoInfo.descontoPct>0){
-   ctx.fillStyle="#FF0000";
-   ctx.beginPath();
-   ctx.roundRect(30,30,200,80,20);
-   ctx.fill();
-   ctx.fillStyle="#fff";
-   ctx.font="bold 48px Inter";
-   ctx.fillText(`-${precoInfo.descontoPct}%`,50,85);
-  }
-
-  // badge cupom
-  if(cupomInfo.tem){
-   ctx.fillStyle="#FFD700";
-   ctx.beginPath();
-   ctx.roundRect(30, precoInfo.descontoPct>0?120:30, 320, 60, 15);
-   ctx.fill();
-   ctx.fillStyle="#000";
-   ctx.font="bold 28px Inter";
-   ctx.fillText(`🎟️ CUPOM DISPONÍVEL!`,45,(precoInfo.descontoPct>0?120:30)+38);
-  }
-
-  ctx.fillStyle="#fff";
-  ctx.font="bold 34px Inter";
-  const linhas=titulo.match(/.{1,36}(\s|$)/g)||[titulo];
-  linhas.slice(0,2).forEach((l,i)=>ctx.fillText(l.trim(),30,1090+i*40,1020));
-
-  // preço na arte
-  ctx.font="bold 42px Inter";
-  if(precoInfo.atual){
-   if(precoInfo.antes && precoInfo.descontoPct>0){
-    ctx.fillStyle="#888";
-    ctx.font="24px Inter";
-    ctx.fillText(`DE ${formatBRL(precoInfo.antes)}`,30,1170);
-    ctx.fillStyle="#00FF88";
-    ctx.font="bold 46px Inter";
-    ctx.fillText(`POR ${formatBRL(precoInfo.atual)}`,30,1220);
-   }else{
-    ctx.fillStyle="#00FF88";
-    ctx.fillText(`${formatBRL(precoInfo.atual)}`,30,1220);
-   }
-  }
-
-  ctx.fillStyle="#ff6a00";
-  ctx.font="bold 22px Inter";
-  ctx.fillText(`LINK 100% FIEL NA LEGENDA 👇`,30,1290);
- };
-
- if(imagem){
-  const img=document.getElementById('imgCache');
-  img.crossOrigin="anonymous";
-  img.src="https://images.weserv.nl/?url="+encodeURIComponent(imagem)+"&w=1080&h=1080&fit=cover";
-  img.onload=()=>{ctx.drawImage(img,0,0,1080,1080);drawOverlay();log(`🎨 Arte com preço real gerada`);};
-  img.onerror=()=>{drawOverlay();};
- }else{
-  drawOverlay();
- }
-
+ })();
 };
 
-function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent);alert('Mensagem chamativa copiada! Link 100% fiel: '+ORIGINAL_LINK);}
-function baixar(){const c=document.getElementById('canvas');const a=document.createElement('a');a.download=`achadinho-chamativo-${Date.now()}.png`;a.href=c.toDataURL();a.click();}
-function whatsapp(){
- const txt=encodeURIComponent(document.getElementById('msg').textContent);
- window.open(`https://wa.me/?text=${txt}`,'_blank');
- log(`🔒 Enviando pro Zap com link fiel: ${ORIGINAL_LINK}`);
-}
+function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent);alert('Copiado sem #! Link fiel: '+ORIGINAL);}
+function baixar(){const img=document.getElementById('fotoReal');if(img.src){window.open(img.src,'_blank');}}
+function whatsapp(){const txt=encodeURIComponent(document.getElementById('msg').textContent);window.open(`https://wa.me/?text=${txt}`,'_blank');}
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script>
 
