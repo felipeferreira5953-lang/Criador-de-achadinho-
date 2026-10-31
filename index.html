@@ -27,7 +27,7 @@
 </style><br>
 <meta charset="UTF-8"><br>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><br>
-<title>Agente Achadinhos - Grupo</title><br>
+<title>Agente Achadinhos - Mensagem Chamativa + Preço + Cupom</title><br>
 <script src="https://cdn.tailwindcss.com"></script><br>
 <style><br>
 body{background:#0a0a0a;color:#fff;font-family:Inter,system-ui}<br>
@@ -35,52 +35,56 @@ body{background:#0a0a0a;color:#fff;font-family:Inter,system-ui}<br>
 .btn{background:linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)}<br>
 .mono{font-family:monospace}<br>
 .log{background:#111;border:1px solid #222}<br>
+.badge{background:linear-gradient(135deg,#ff0000 0%,#ff6a00 100%)}<br>
 </style><br>
 </head><br>
 <body class="min-h-screen p-3"><br>
-<div class="max-w-[420px] mx-auto"></p>
+<div class="max-w-[440px] mx-auto"></p>
 
-<div class="flex items-center gap-3 mt-4 mb-4">
+<div class="flex items-center gap-3 mt-3 mb-3">
 <div class="w-10 h-10 rounded-xl bg-orange-500 flex items-center justify-center font-black">S</div>
 <div>
-<h1 class="font-black text-[16px]">AGENTE GRUPO ACHADINHOS</h1>
-<p class="text-[10px] text-gray-400 -mt-1">Cole s.shopee → Mensagem + Foto prontas 🔒 APP_ID 18325950432</p>
+<h1 class="font-black text-[15px]">AGENTE GRUPO - CHAMATIVO</h1>
+<p class="text-[10px] text-gray-400 -mt-1">Preço real + Desconto + Cupom • Link 100% fiel 🔒 • APP_ID 18325950432</p>
 </div>
 </div>
 
 <script>
 const SHOPEE_APP_ID="18325950432";
+// NUNCA troca o link do usuário - regra de ouro
 </script>
 
 <div class="glass rounded-[18px] p-4">
-<input id="aff" class="w-full bg-black border border-white/10 rounded-xl p-4 text-[14px] text-white" placeholder="Cole seu link: https://s.shopee.com.br/AUvDi62148">
-<button id="btn" class="btn w-full mt-3 p-3 rounded-xl font-black">GERAR PRA GRUPO 🔥</button>
-<div id="log" class="log rounded-xl p-2 mt-3 h-[90px] overflow-auto text-[10px] mono"></div>
+<label class="text-[10px] tracking-widest text-gray-400 uppercase">Seu link s.shopee (será mantido 100% fiel, sem alteração)</label>
+<input id="aff" class="w-full mt-2 bg-black border border-white/10 rounded-xl p-4 text-[14px] text-white" placeholder="https://s.shopee.com.br/AUvDi62148">
+<div class="mt-2 text-[10px] text-green-400 bg-green-500/10 border border-green-500/20 rounded-lg p-2 hidden" id="lockBox">🔒 Link que VAI na mensagem (idêntico): <b id="lockTxt"></b></div>
+<button id="btn" class="btn w-full mt-3 p-3 rounded-xl font-black tracking-wide">GERAR ACHADINHO CHAMATIVO 🔥</button>
+<div id="log" class="log rounded-xl p-2 mt-3 h-[110px] overflow-auto text-[10px] mono"></div>
 </div>
 
 <div id="result" class="hidden mt-4">
 
 <div class="glass rounded-[18px] p-3">
 <div class="flex justify-between items-center mb-2">
-<span class="text-[12px] font-bold">📸 FOTO DO PRODUTO (vai no grupo)</span>
-<span class="text-[10px] bg-green-500/20 text-green-400 px-2 py-1 rounded-full">Link preservado</span>
+<span class="text-[11px] font-bold">📸 FOTO PRO GRUPO (com preço)</span>
+<span class="text-[9px] bg-green-500/20 text-green-400 px-2 py-1 rounded-full">LINK FIEL</span>
 </div>
 <canvas id="canvas" width="1080" height="1350" class="w-full rounded-xl bg-black"></canvas>
 <img id="imgCache" class="hidden">
-<button onclick="baixar()" class="w-full mt-3 bg-white text-black p-3 rounded-xl font-bold text-[13px]">Baixar Foto do Produto</button>
+<div class="grid grid-cols-2 gap-2 mt-3">
+<button onclick="baixar()" class="bg-white text-black p-3 rounded-xl font-bold text-[12px]">Baixar Foto</button>
+<button onclick="copiar()" class="bg-white/10 p-3 rounded-xl text-[12px]">Copiar Mensagem</button>
+</div>
+<button onclick="whatsapp()" class="w-full mt-2 bg-[#25D366] text-black p-3 rounded-xl font-bold text-[13px]">Enviar pro Zap com Foto</button>
 </div>
 
 <div class="glass rounded-[18px] p-3 mt-3">
-<span class="text-[12px] font-bold">📱 MENSAGEM PRONTA PRO GRUPO</span>
-<div id="msg" class="bg-black border border-white/10 rounded-xl p-3 mt-2 text-[13px] whitespace-pre-wrap"></div>
-<div class="grid grid-cols-2 gap-2 mt-3">
-<button onclick="copiar()" class="bg-white/10 p-3 rounded-xl text-[12px]">Copiar Mensagem</button>
-<button onclick="whatsapp()" class="bg-[#25D366] text-black p-3 rounded-xl font-bold text-[12px]">Enviar no Zap</button>
+<div class="flex justify-between">
+<span class="text-[11px] font-bold">📱 MENSAGEM CHAMATIVA</span>
+<span id="cupomBadge" class="hidden text-[9px] bg-yellow-500 text-black px-2 py-1 rounded-full font-bold">CUPOM</span>
 </div>
-</div>
-
-<div class="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3 mt-3 text-[11px]">
-<b>Como postar no grupo:</b> 1) Baixa a foto 2) Copia a mensagem 3) Vai no grupo do Zap &gt; Anexa foto &gt; Cola mensagem na legenda &gt; Enviar
+<div id="msg" class="bg-black border border-white/10 rounded-xl p-3 mt-2 text-[13px] whitespace-pre-wrap leading-[1.45]"></div>
+<div id="infoPreco" class="mt-2 text-[11px] text-gray-400"></div>
 </div>
 
 <p></div></p>
@@ -90,57 +94,114 @@ const SHOPEE_APP_ID="18325950432";
 <script>
 const $aff=document.getElementById('aff');
 const $log=document.getElementById('log');
-let ORIGINAL="";
+const $lockBox=document.getElementById('lockBox');
+const $lockTxt=document.getElementById('lockTxt');
+let ORIGINAL_LINK="";
+let DADOS={};
 
 function log(t){const d=document.createElement('div');d.textContent=new Date().toLocaleTimeString()+" → "+t;$log.appendChild(d);$log.scrollTop=$log.scrollHeight;}
 
-function extractIds(u){const m=u.match(/-i\.(\d+)\.(\d+)/);return m?{shop:m[1],item:m[2]}:null;}
+$aff.addEventListener('input',()=>{if($aff.value){$lockBox.classList.remove('hidden');$lockTxt.textContent=$aff.value;}});
 
+function extractIds(u){const m=u.match(/-i\.(\d+)\.(\d+)/);return m?{shop:m[1],item:m[2]}:null;}
 async function viaProxies(url){
- const ps=[`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,`https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`,`https://corsproxy.io/?${encodeURIComponent(url)}`];
+ const ps=[`https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,`https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`,`https://corsproxy.io/?${encodeURIComponent(url)}`,`https://thingproxy.freeboard.io/fetch/${encodeURIComponent(url)}`];
  for(let p of ps){try{const r=await fetch(p);if(!r.ok) continue;const t=await r.text();if(t.length>300) return t;}catch(e){}}
  return null;
 }
 
+function formatBRL(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+
+function parseShopeePrice(apiData){
+ // Shopee API: price_min / 100000 = BRL
+ try{
+  const priceMin = apiData.price_min ? apiData.price_min/100000 : (apiData.price ? apiData.price/100000 : null);
+  const priceBefore = apiData.price_min_before_discount ? apiData.price_min_before_discount/100000 : (apiData.price_before_discount ? apiData.price_before_discount/100000 : null);
+  const priceMax = apiData.price_max ? apiData.price_max/100000 : null;
+  
+  let descontoPct=0;
+  let economia=0;
+  if(priceBefore && priceMin && priceBefore>priceMin){
+   descontoPct=Math.round((1-priceMin/priceBefore)*100);
+   economia=priceBefore-priceMin;
+  }
+  return {atual:priceMin, antes:priceBefore, max:priceMax, descontoPct, economia};
+ }catch(e){return {atual:null,antes:null,descontoPct:0,economia:0};}
+}
+
+async function buscarCupons(shopId, itemId){
+ // tenta buscar vouchers da loja/produto
+ const urls=[
+  `https://shopee.com.br/api/v4/voucher/get_shop_vouchers?shopid=${shopId}`,
+  `https://shopee.com.br/api/v4/pdp/get_vouchers?item_id=${itemId}&shop_id=${shopId}`,
+  `https://shopee.com.br/api/v4/voucher/get_product_vouchers?item_id=${itemId}&shop_id=${shopId}`
+ ];
+ for(let url of urls){
+  const txt=await viaProxies(url);
+  if(!txt) continue;
+  try{
+   const j=JSON.parse(txt);
+   const vouchers=j.data?.shop_vouchers || j.data?.vouchers || j.data?.product_vouchers || j.data;
+   if(Array.isArray(vouchers) && vouchers.length>0){
+    // pega melhor cupom
+    const melhor=vouchers[0];
+    return {tem:true, qtd:vouchers.length, detalhe:melhor};
+   }
+   if(j.data && typeof j.data==='object' && Object.keys(j.data).length>0){
+    // algum cupom genérico
+    return {tem:true, qtd:1, detalhe:j.data};
+   }
+  }catch(e){}
+ }
+ return {tem:false};
+}
+
 document.getElementById('btn').onclick=async()=>{
- ORIGINAL=$aff.value.trim();
- if(!ORIGINAL){alert('Cole seu s.shopee');return;}
- document.getElementById('result').classList.add('hidden');
+ ORIGINAL_LINK=$aff.value.trim();
+ if(!ORIGINAL_LINK){alert('Cole seu s.shopee.com.br');return;}
+ $lockBox.classList.remove('hidden');
+ $lockTxt.textContent=ORIGINAL_LINK;
  $log.innerHTML="";
- log(`Link recebido: ${ORIGINAL}`);
- log(`🔒 Será preservado 100%`);
- 
- let finalUrl=ORIGINAL;
+ document.getElementById('result').classList.add('hidden');
+ log(`Link ORIGINAL do usuário: ${ORIGINAL_LINK}`);
+ log(`🔒 REGRA: Esse link será mantido 100% fiel, sem troca`);
+ log(`APP_ID: ${SHOPEE_APP_ID}`);
+
+ let finalUrl=ORIGINAL_LINK;
  let ids=null;
 
- // tenta resolver s.shopee para longa
+ // 1. Resolver s.shopee para longa
  log(`Resolvendo link curto...`);
- const html=await viaProxies(ORIGINAL);
+ const html=await viaProxies(ORIGINAL_LINK);
  if(html){
   const m=html.match(/https:\/\/shopee\.com\.br\/[^"'\s<>]+-i\.\d+\.\d+/);
-  if(m){finalUrl=m[0];log(`✅ Longa: ${finalUrl.slice(0,60)}...`);}
+  if(m){finalUrl=m[0];log(`✅ URL longa: ${finalUrl.slice(0,65)}...`);}
   const m2=finalUrl.match(/-i\.(\d+)\.(\d+)/) || html.match(/-i\.(\d+)\.(\d+)/);
-  if(m2){ids={shop:m2[1],item:m2[2]};log(`✅ IDs shop ${m2[1]} item ${m2[2]}`);}
+  if(m2){ids={shop:m2[1],item:m2[2]};log(`✅ Shop ${m2[1]} Item ${m2[2]}`);}
  }
 
- let titulo="Produto Shopee Verificado", imagem=null;
+ let titulo="Produto Shopee", imagem=null;
+ let precoInfo={atual:null,antes:null,descontoPct:0,economia:0};
+ let cupomInfo={tem:false};
 
- // OG tags
+ // 2. OG tags fallback
  if(finalUrl){
   const h2=await viaProxies(finalUrl);
   if(h2){
    const mt=h2.match(/<meta property="og:title" content="([^"]+)"/);
    const mi=h2.match(/<meta property="og:image" content="([^"]+)"/);
+   const mp=h2.match(/<meta property="product:price:amount" content="([^"]+)"/);
    if(mt) titulo=mt[1];
    if(mi) imagem=mi[1];
+   if(mp && !precoInfo.atual){precoInfo.atual=parseFloat(mp[1]);}
   }
  }
 
- // API pública v4
- if(ids && (!imagem || titulo.includes('Verificado'))){
-  const api=`https://shopee.com.br/api/v4/item/get?itemid=${ids.item}&shopid=${ids.shop}`;
-  log(`Buscando foto real via API pública...`);
-  const apiTxt=await viaProxies(api);
+ // 3. API pública v4 para preço real e cupom
+ if(ids){
+  const apiUrl=`https://shopee.com.br/api/v4/item/get?itemid=${ids.item}&shopid=${ids.shop}`;
+  log(`Buscando preço real e descontos...`);
+  const apiTxt=await viaProxies(apiUrl);
   if(apiTxt){
    try{
     const j=JSON.parse(apiTxt);
@@ -148,76 +209,150 @@ document.getElementById('btn').onclick=async()=>{
      titulo=j.data.name||titulo;
      const imgFile=j.data.image||(j.data.images&&j.data.images[0]);
      if(imgFile) imagem=`https://down-br.img.susercontent.com/file/${imgFile}`;
-     log(`✅ Produto: ${titulo.slice(0,40)}...`);
+     precoInfo=parseShopeePrice(j.data);
+     log(`✅ Preço atual: ${precoInfo.atual?formatBRL(precoInfo.atual):'N/A'}`);
+     if(precoInfo.antes) log(`✅ Preço antes: ${formatBRL(precoInfo.antes)} (${precoInfo.descontoPct}% OFF)`);
+     DADOS.apiRaw=j.data;
     }
-   }catch(e){}
+   }catch(e){log(`API v4 bloqueada, usando OG`);}
+  }
+
+  // 4. Cupons
+  log(`Verificando cupons disponíveis...`);
+  cupomInfo=await buscarCupons(ids.shop, ids.item);
+  if(cupomInfo.tem){
+   log(`🎟️ CUPOM ENCONTRADO: ${cupomInfo.qtd} cupom(s) disponível`);
+   document.getElementById('cupomBadge').classList.remove('hidden');
+   document.getElementById('cupomBadge').textContent=`🎟️ ${cupomInfo.qtd} CUPOM`;
+  }else{
+   log(`Sem cupom público no momento`);
   }
  }
 
- // GERA MENSAGEM + IMAGEM PARA GRUPO
- const msg=`🔥 *ACHADINHO IMPERDÍVEL* 🔥
+ // 5. Monta mensagem CHAMATIVA sem alterar link
+ let blocoPreco="";
+ let blocoDesconto="";
+ let blocoCupom="";
 
-📦 ${titulo}
+ if(precoInfo.atual){
+  if(precoInfo.antes && precoInfo.descontoPct>0){
+   blocoPreco=`💰 *DE:* ~${formatBRL(precoInfo.antes)}~ *POR:* ${formatBRL(precoInfo.atual)}`;
+   blocoDesconto=`🔥 *${precoInfo.descontoPct}% OFF* - Você economiza ${formatBRL(precoInfo.economia)}!`;
+  }else{
+   blocoPreco=`💰 *POR APENAS:* ${formatBRL(precoInfo.atual)}`;
+  }
+ }else{
+  blocoPreco=`💰 *Preço imperdível na Shopee*`;
+ }
 
-✅ Verificado - Loja Oficial
+ if(cupomInfo.tem){
+  blocoCupom=`🎟️ *CUPOM DISPONÍVEL NA LOJA!* Aplique na hora da compra e ganhe MAIS desconto!`;
+ }
 
-👉 ${ORIGINAL}
+ // Mensagem chamativa
+ const msg=`🚨 *QUEIMA DE ESTOQUE SHOPEE* 🚨
 
-⚠️ O preço pode mudar a qualquer momento!
+📦 *${titulo.toUpperCase()}*
 
-💬 Grupo de Achadinhos 👇
+${blocoPreco}
+${blocoDesconto}
 
-#achadinhos #shopee #oferta #promoção`;
+${blocoCupom}
+
+⚡ *PRODUTO VERIFICADO* - Estoque limitado!
+👇 *LINK COM DESCONTO ATIVO* 👇
+
+${ORIGINAL_LINK}
+
+⏰ Corre antes que o preço volte!
+
+#achadinhos #shopee #promoção #ofertaimperdível #achadinho`;
 
  document.getElementById('msg').textContent=msg;
+ document.getElementById('infoPreco').innerHTML=`Preço real: ${precoInfo.atual?formatBRL(precoInfo.atual):'consulte no link'} | Desconto: ${precoInfo.descontoPct}% | Cupom: ${cupomInfo.tem?'SIM '+cupomInfo.qtd:'não encontrado'}<br><span class="text-green-400">🔒 Link mantido 100% fiel: ${ORIGINAL_LINK}</span>`;
  document.getElementById('result').classList.remove('hidden');
 
- // GERA ARTE 1080x1350 (formato grupo, mais alto)
+ // Gera arte com preço
  const canvas=document.getElementById('canvas');
  const ctx=canvas.getContext('2d');
  ctx.fillStyle="#000";
  ctx.fillRect(0,0,1080,1350);
 
+ const drawOverlay=()=>{
+  // faixa gradiente embaixo
+  const grad=ctx.createLinearGradient(0,1020,0,1350);
+  grad.addColorStop(0,'rgba(0,0,0,0)');
+  grad.addColorStop(0.2,'rgba(0,0,0,0.9)');
+  grad.addColorStop(1,'rgba(0,0,0,1)');
+  ctx.fillStyle=grad;
+  ctx.fillRect(0,1020,1080,330);
+
+  // badge desconto
+  if(precoInfo.descontoPct>0){
+   ctx.fillStyle="#FF0000";
+   ctx.beginPath();
+   ctx.roundRect(30,30,200,80,20);
+   ctx.fill();
+   ctx.fillStyle="#fff";
+   ctx.font="bold 48px Inter";
+   ctx.fillText(`-${precoInfo.descontoPct}%`,50,85);
+  }
+
+  // badge cupom
+  if(cupomInfo.tem){
+   ctx.fillStyle="#FFD700";
+   ctx.beginPath();
+   ctx.roundRect(30, precoInfo.descontoPct>0?120:30, 320, 60, 15);
+   ctx.fill();
+   ctx.fillStyle="#000";
+   ctx.font="bold 28px Inter";
+   ctx.fillText(`🎟️ CUPOM DISPONÍVEL!`,45,(precoInfo.descontoPct>0?120:30)+38);
+  }
+
+  ctx.fillStyle="#fff";
+  ctx.font="bold 34px Inter";
+  const linhas=titulo.match(/.{1,36}(\s|$)/g)||[titulo];
+  linhas.slice(0,2).forEach((l,i)=>ctx.fillText(l.trim(),30,1090+i*40,1020));
+
+  // preço na arte
+  ctx.font="bold 42px Inter";
+  if(precoInfo.atual){
+   if(precoInfo.antes && precoInfo.descontoPct>0){
+    ctx.fillStyle="#888";
+    ctx.font="24px Inter";
+    ctx.fillText(`DE ${formatBRL(precoInfo.antes)}`,30,1170);
+    ctx.fillStyle="#00FF88";
+    ctx.font="bold 46px Inter";
+    ctx.fillText(`POR ${formatBRL(precoInfo.atual)}`,30,1220);
+   }else{
+    ctx.fillStyle="#00FF88";
+    ctx.fillText(`${formatBRL(precoInfo.atual)}`,30,1220);
+   }
+  }
+
+  ctx.fillStyle="#ff6a00";
+  ctx.font="bold 22px Inter";
+  ctx.fillText(`LINK 100% FIEL NA LEGENDA 👇`,30,1290);
+ };
+
  if(imagem){
   const img=document.getElementById('imgCache');
   img.crossOrigin="anonymous";
-  img.src="https://images.weserv.nl/?url="+encodeURIComponent(imagem);
-  img.onload=()=>{
-   // foto centralizada
-   ctx.drawImage(img,0,0,1080,1080);
-   // faixa embaixo
-   ctx.fillStyle="rgba(0,0,0,0.85)";
-   ctx.fillRect(0,1050,1080,300);
-   ctx.fillStyle="#fff";
-   ctx.font="bold 38px Inter";
-   const linhas=titulo.match(/.{1,38}(\s|$)/g)||[titulo];
-   linhas.slice(0,2).forEach((l,i)=>ctx.fillText(l.trim(),30,1110+i*44,1020));
-   ctx.fillStyle="#ff6a00";
-   ctx.font="bold 30px Inter";
-   ctx.fillText("LINK NO GRUPO 👇",30,1210);
-   ctx.fillStyle="#25D366";
-   ctx.font="bold 26px Inter";
-   ctx.fillText(ORIGINAL.slice(0,40),30,1260);
-   log(`🎨 Foto gerada pronta pra grupo`);
-  };
-  img.onerror=()=>{
-   ctx.fillStyle="#fff";
-   ctx.font="bold 36px Inter";
-   ctx.fillText(titulo.slice(0,40),30,600);
-  };
+  img.src="https://images.weserv.nl/?url="+encodeURIComponent(imagem)+"&w=1080&h=1080&fit=cover";
+  img.onload=()=>{ctx.drawImage(img,0,0,1080,1080);drawOverlay();log(`🎨 Arte com preço real gerada`);};
+  img.onerror=()=>{drawOverlay();};
  }else{
-  ctx.fillStyle="#fff";
-  ctx.font="bold 36px Inter";
-  ctx.fillText(titulo.slice(0,40),30,600);
+  drawOverlay();
  }
 
 };
 
-function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent);alert('Mensagem copiada com link preservado!');}
-function baixar(){const c=document.getElementById('canvas');const a=document.createElement('a');a.download=`achadinho-grupo-${Date.now()}.png`;a.href=c.toDataURL();a.click();}
+function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent);alert('Mensagem chamativa copiada! Link 100% fiel: '+ORIGINAL_LINK);}
+function baixar(){const c=document.getElementById('canvas');const a=document.createElement('a');a.download=`achadinho-chamativo-${Date.now()}.png`;a.href=c.toDataURL();a.click();}
 function whatsapp(){
  const txt=encodeURIComponent(document.getElementById('msg').textContent);
  window.open(`https://wa.me/?text=${txt}`,'_blank');
+ log(`🔒 Enviando pro Zap com link fiel: ${ORIGINAL_LINK}`);
 }
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script>
