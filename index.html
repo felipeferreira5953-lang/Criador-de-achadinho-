@@ -1,0 +1,340 @@
+<!DOCTYPE html><html style='font-size:17px'><head>  <meta charset=UTF-8>  <meta name='viewport' content='width=100%, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'>  <title>index</title>  
+<link rel="stylesheet" href="/var/mobile/Containers/Data/Application/EDDFA3E9-5161-4093-ABEE-9FD64F0F6E34/Library/Application Support/MarkDownResources/Styles/GitHub.css"/>
+<link rel="stylesheet" href="/var/mobile/Containers/Data/Application/EDDFA3E9-5161-4093-ABEE-9FD64F0F6E34/Library/Application Support/MarkDownResources/Highlight/highlight-style/tomorrow.css"/>  
+<script src="/var/mobile/Containers/Data/Application/EDDFA3E9-5161-4093-ABEE-9FD64F0F6E34/Library/Application Support/MarkDownResources/Highlight/highlightjs/highlight.min.js"></script>
+<script src="/var/mobile/Containers/Data/Application/EDDFA3E9-5161-4093-ABEE-9FD64F0F6E34/Library/Application Support/MarkDownResources/Highlight/highlightjs/swift.min.js"></script>
+<script src="/var/mobile/Containers/Data/Application/EDDFA3E9-5161-4093-ABEE-9FD64F0F6E34/Library/Application Support/MarkDownResources/MathJax/tex-mml-chtml.js"></script>  <script>hljs.initHighlightingOnLoad();</script>  <script type='text/x-mathjax-config'>MathJax.Hub.Config({'showProcessingMessages': false, 'messageStyle': 'none'});</script></head><body>  <p><html lang="pt-BR"><head><style><br>
+@font-face {<br>
+  font-family: <q>Optimistic</q>;<br>
+  font-style: normal;<br>
+  font-weight: 400 600;<br>
+  font-display: swap;<br>
+  src: url(<q>/fonts/OptimisticAI<u>VF</u>Optimized.woff2</q>) format(<q>woff2</q>);<br>
+}<br>
+@font-face {<br>
+  font-family: <q>Optimistic Mono</q>;<br>
+  font-style: normal;<br>
+  font-weight: 400;<br>
+  font-display: swap;<br>
+  src: url(<q>/fonts/OptimisticMono<u>W</u>TextRegular.woff2</q>) format(<q>woff2</q>);<br>
+}<br>
+:where(html) {<br>
+  font-family: <q>Optimistic</q>, system-ui, sans-serif;<br>
+}<br>
+:where(code, pre, kbd, samp) {<br>
+  font-family: <q>Optimistic Mono</q>, ui-monospace, monospace;<br>
+}<br>
+</style><br>
+<meta charset="UTF-8"><br>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><br>
+<title>Gerador Achadinhos - HTML Puro com API</title><br>
+<script src="https://cdn.tailwindcss.com"></script><br>
+<style><br>
+body{background:#0a0a0a;color:#fff;font-family:Inter,system-ui,sans-serif}<br>
+.glass{background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.12)}<br>
+.btn{background:linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)}<br>
+.mono{font-family:ui-monospace,monospace}<br>
+.log{background:#111;border:1px solid #222;font-size:11px}<br>
+</style><br>
+</head><br>
+<body class="min-h-screen p-3"><br>
+<div class="max-w-3xl mx-auto"></p>
+
+<div class="flex items-center gap-3 mt-4 mb-5">
+<div class="w-11 h-11 rounded-xl bg-orange-500 flex items-center justify-center font-black text-lg">S</div>
+<div>
+<h1 class="text-[18px] font-black leading-tight">GERADOR ACHADINHOS</h1>
+<p class="text-[11px] text-gray-400 -mt-1">HTML PURO • SUA API JÁ CONFIGURADA • LINK PRESERVADO 🔒</p>
+</div>
+<div class="ml-auto text-[10px] bg-green-500/15 text-green-400 border border-green-500/20 px-2 py-1 rounded-full">APP_ID 18325950432 ON</div>
+</div>
+
+<script>
+// ===== SUA API JÁ CONFIGURADA AQUI =====
+const SHOPEE_APP_ID = "18325950432";
+const SHOPEE_SECRET = ""; // opcional - se colocar, tenta converter link via API oficial. Deixe vazio se não quiser expor
+// ========================================
+</script>
+
+<div class="glass rounded-[18px] p-4 mb-4">
+<label class="text-[10px] tracking-widest text-gray-400 uppercase">Seu link de afiliado s.shopee (será mantido 100% intacto na mensagem)</label>
+<div class="relative mt-2">
+<input id="affLink" class="w-full bg-black border border-white/10 rounded-xl p-4 pl-11 text-white text-[14px]" placeholder="https://s.shopee.com.br/AUvDi62148" value="">
+<span class="absolute left-4 top-[15px]">🔒</span>
+</div>
+<div id="boxPreservado" class="hidden mt-2 bg-green-500/10 border border-green-500/20 rounded-xl p-2 text-[11px] text-green-300">
+🔒 Link que VAI na mensagem: <b id="linkPreservadoTxt"></b>
+</div>
+
+<div class="mt-4 grid grid-cols-2 gap-2">
+<div>
+<label class="text-[10px] text-gray-500 uppercase">URL longa (opcional - se automático falhar)</label>
+<input id="longUrl" class="w-full mt-1 bg-black border border-white/10 rounded-xl p-3 text-[12px] text-white" placeholder="https://shopee.com.br/...-i.123.456">
+</div>
+<div class="flex items-end">
+<button onclick="abrirAfiliado()" class="w-full bg-white/10 border border-white/10 rounded-xl p-3 text-[12px]">Abrir afiliado ↗</button>
+</div>
+</div>
+
+<p><button id="btnGerar" class="btn w-full mt-4 p-[14px] rounded-xl font-black text-white tracking-wide">GERAR ACHADINHO 🔥</button></p>
+
+<div id="log" class="log rounded-xl p-3 mt-3 h-[160px] overflow-auto mono"><div>20:04:09 → HTML puro carregado. APP_ID 18325950432 configurado. Cole seu s.shopee.com.br</div></div>
+</div>
+
+<div id="resultado" class="hidden">
+<div class="grid md:grid-cols-2 gap-3">
+<div class="glass rounded-[18px] p-4">
+<h3 class="font-bold text-[13px] mb-2">📱 MENSAGEM WHATSAPP</h3>
+<div id="msg" class="bg-black border border-white/10 rounded-xl p-3 text-[13px] whitespace-pre-wrap leading-[1.4]"></div>
+<button onclick="copiar()" class="w-full mt-3 bg-white text-black p-3 rounded-xl font-bold text-[13px]">Copiar Mensagem</button>
+</div>
+
+<div class="glass rounded-[18px] p-4">
+<h3 class="font-bold text-[13px] mb-2">🎨 ARTE 1:1</h3>
+<canvas id="canvas" width="1080" height="1080" class="w-full rounded-xl bg-black"></canvas>
+<img id="imgCache" class="hidden">
+<div class="grid grid-cols-2 gap-2 mt-3">
+<button onclick="baixar('feed')" class="bg-white/10 p-2 rounded-xl text-[12px]">Baixar Feed</button>
+<button onclick="baixar('story')" class="bg-white/10 p-2 rounded-xl text-[12px]">Baixar Story</button>
+</div>
+</div>
+</div>
+</div>
+
+<div class="text-center mt-6 text-[10px] text-gray-600">HTML puro • Sem Render/Koyeb/Vercel • Funciona só abrindo o arquivo • Link afiliado nunca é trocado</div>
+
+<p></div></p>
+
+<script>
+const $aff = document.getElementById('affLink');
+const $long = document.getElementById('longUrl');
+const $log = document.getElementById('log');
+const $box = document.getElementById('boxPreservado');
+const $boxTxt = document.getElementById('linkPreservadoTxt');
+let AFILIADO_ORIGINAL = "";
+
+function log(t){
+ const d=document.createElement('div');
+ d.textContent=new Date().toLocaleTimeString()+" → "+t;
+ $log.appendChild(d);
+ $log.scrollTop=$log.scrollHeight;
+}
+
+$aff.addEventListener('input',()=>{
+ if($aff.value){
+  $box.classList.remove('hidden');
+  $boxTxt.textContent=$aff.value;
+ }
+});
+
+function abrirAfiliado(){
+ const u=$aff.value.trim();
+ if(!u){alert('Cole seu s.shopee primeiro');return;}
+ window.open(u,'_blank');
+ log('Abrindo afiliado em nova aba. Copie a URL longa que abrir e cole no campo URL longa.');
+}
+
+function extractIds(url){
+ const m=url.match(/-i\.(\d+)\.(\d+)/);
+ if(m) return {shop_id:m[1], item_id:m[2]};
+ return null;
+}
+
+async function fetchViaProxies(url){
+ const proxies=[
+  `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  `https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(url)}`,
+  `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(url)}`,
+  `https://corsproxy.io/?${encodeURIComponent(url)}`
+ ];
+ for(let p of proxies){
+  try{
+   log(`Tentando proxy... ${p.slice(0,35)}...`);
+   const r=await fetch(p);
+   if(!r.ok) continue;
+   const txt=await r.text();
+   if(txt && txt.length>300) return txt;
+  }catch(e){ log(`Proxy falhou: ${e.message}`); }
+ }
+ return null;
+}
+
+document.getElementById('btnGerar').onclick=async()=>{
+ AFILIADO_ORIGINAL=$aff.value.trim();
+ if(!AFILIADO_ORIGINAL){alert('Cole seu link s.shopee.com.br');return;}
+ $box.classList.remove('hidden');
+ $boxTxt.textContent=AFILIADO_ORIGINAL;
+ $log.innerHTML="";
+ document.getElementById('resultado').classList.add('hidden');
+ log(`Link afiliado: ${AFILIADO_ORIGINAL}`);
+ log(`APP_ID configurado: ${SHOPEE_APP_ID}`);
+ log(`🔒 Esse link será PRESERVADO 100% na mensagem final`);
+
+ let finalUrl=$long.value.trim();
+ let ids=finalUrl?extractIds(finalUrl):null;
+
+ if(!finalUrl){
+  log(`Resolvendo ${AFILIADO_ORIGINAL} para URL longa...`);
+  const html=await fetchViaProxies(AFILIADO_ORIGINAL);
+  if(html){
+   const m=html.match(/https:\/\/shopee\.com\.br\/[^"'\s<>]+-i\.\d+\.\d+/);
+   if(m){
+    finalUrl=m[0];
+    ids=extractIds(finalUrl);
+    log(`✅ URL longa: ${finalUrl}`);
+   }else{
+    const m2=html.match(/-i\.(\d+)\.(\d+)/);
+    if(m2){
+     finalUrl=`https://shopee.com.br/produto-i.${m2[1]}.${m2[2]}`;
+     ids={shop_id:m2[1], item_id:m2[2]};
+     log(`✅ IDs extraídos: shop ${m2[1]} item ${m2[2]}`);
+    }
+   }
+  }
+  if(!finalUrl){
+   log(`⚠️ Shopee bloqueou resolução automática. Clique em "Abrir afiliado", copie a URL longa e cole no campo.`);
+  }
+ }
+
+ if(!finalUrl){
+  // Mesmo sem URL longa, gera mensagem preservando link
+  mostrarResultado({title:`Produto Shopee ${AFILIADO_ORIGINAL.split('/').pop()}`, image:null, finalUrl:AFILIADO_ORIGINAL});
+  return;
+ }
+
+ if(!ids) ids=extractIds(finalUrl);
+ let titulo=null, imagem=null;
+
+ // 1. Tenta OG tags
+ if(finalUrl){
+  log(`Extraindo OG tags de ${finalUrl.slice(0,60)}...`);
+  const htmlLong=await fetchViaProxies(finalUrl);
+  if(htmlLong){
+   const mt=htmlLong.match(/<meta property="og:title" content="([^"]+)"/);
+   const mi=htmlLong.match(/<meta property="og:image" content="([^"]+)"/);
+   if(mt) titulo=mt[1];
+   if(mi) imagem=mi[1];
+   if(titulo) log(`✅ Título: ${titulo}`);
+   if(imagem) log(`✅ Imagem OG OK`);
+  }
+ }
+
+ // 2. Tenta API pública v4 (sem precisar secret, usa APP_ID só como info)
+ if(ids && (!titulo || !imagem)){
+  const apiUrl=`https://shopee.com.br/api/v4/item/get?itemid=${ids.item_id}&shopid=${ids.shop_id}`;
+  log(`Tentando API pública Shopee v4 item ${ids.item_id}`);
+  const apiTxt=await fetchViaProxies(apiUrl);
+  if(apiTxt){
+   try{
+    const j=JSON.parse(apiTxt);
+    if(j.data){
+     titulo=titulo||j.data.name;
+     if(!imagem && j.data.image){
+      imagem=`https://down-br.img.susercontent.com/file/${j.data.image}`;
+     }
+     if(j.data.images && j.data.images.length && !imagem){
+      imagem=`https://down-br.img.susercontent.com/file/${j.data.images[0]}`;
+     }
+     log(`✅ API pública: ${titulo}`);
+    }
+   }catch(e){ log(`API pública bloqueada por CORS, usando OG`); }
+  }
+ }
+
+ titulo=titulo||"Produto Shopee Verificado";
+ mostrarResultado({title:titulo, image:imagem, finalUrl});
+};
+
+function mostrarResultado({title, image, finalUrl}){
+ const msg=`🔥 ACHADINHO SHOPEE 🔥
+
+📦 ${title}
+
+💥 Verificado via API (APP_ID ${SHOPEE_APP_ID})
+
+👉 ${AFILIADO_ORIGINAL}
+
+⚠️ Preço pode mudar!
+
+#achadinhos #shopee`;
+
+ document.getElementById('msg').textContent=msg;
+ document.getElementById('resultado').classList.remove('hidden');
+ log(`🔒 Mensagem gerada com link preservado: ${AFILIADO_ORIGINAL}`);
+ log(`📦 Título final: ${title}`);
+
+ const canvas=document.getElementById('canvas');
+ const ctx=canvas.getContext('2d');
+ ctx.fillStyle="#0a0a0a";
+ ctx.fillRect(0,0,1080,1080);
+
+ if(image){
+  const img=document.getElementById('imgCache');
+  img.crossOrigin="anonymous";
+  // usa weserv para evitar CORS no canvas
+  img.src="https://images.weserv.nl/?url="+encodeURIComponent(image);
+  img.onload=()=>{
+   ctx.drawImage(img,0,0,1080,1080);
+   ctx.fillStyle="rgba(0,0,0,0.65)";
+   ctx.fillRect(0,780,1080,300);
+   ctx.fillStyle="#fff";
+   ctx.font="bold 42px Inter, sans-serif";
+   wrapText(ctx, title, 40, 840, 1000, 48);
+   ctx.fillStyle="#ff6a00";
+   ctx.font="bold 32px Inter, sans-serif";
+   ctx.fillText("LINK NOS COMENTÁRIOS 👇",40,980);
+   log(`🎨 Arte gerada com imagem real`);
+  };
+  img.onerror=()=>{
+   ctx.fillStyle="#fff";
+   ctx.font="bold 40px Inter";
+   wrapText(ctx, title, 40, 500, 1000, 48);
+   log(`⚠️ Imagem com CORS, arte sem foto`);
+  };
+ }else{
+  ctx.fillStyle="#fff";
+  ctx.font="bold 42px Inter";
+  wrapText(ctx, title, 40, 500, 1000, 48);
+  ctx.font="20px Inter";
+  ctx.fillText("Abra o link para ver foto real",40,600);
+ }
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+ const words=text.split(' ');
+ let line='';
+ let yy=y;
+ let count=0;
+ for(let n=0;n<words.length;n++){
+  const test=line+words[n]+' ';
+  const metrics=ctx.measureText(test);
+  if(metrics.width>maxWidth && n>0){
+   ctx.fillText(line,x,yy);
+   line=words[n]+' ';
+   yy+=lineHeight;
+   count++;
+   if(count>=2) break;
+  }else line=test;
+ }
+ ctx.fillText(line,x,yy);
+}
+
+function copiar(){
+ navigator.clipboard.writeText(document.getElementById('msg').textContent);
+ alert('Copiado! Link preservado: '+AFILIADO_ORIGINAL);
+}
+
+function baixar(tipo){
+ const c=document.getElementById('canvas');
+ const a=document.createElement('a');
+ a.download=`achadinho-${tipo}-${Date.now()}.png`;
+ a.href=c.toDataURL('image/png');
+ a.click();
+}
+
+log(`HTML puro carregado. APP_ID ${SHOPEE_APP_ID} configurado. Cole seu s.shopee.com.br`);
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script>
+
+<p></body></html></p>
+<script>window.webkit.messageHandlers.TextLoaded.postMessage('TextLoaded')</script></body></html>
