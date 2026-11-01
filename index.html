@@ -27,14 +27,12 @@
 </style><br>
 <meta charset="UTF-8"><br>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"><br>
-<title>V9 FINAL DEFINITIVO - API Embutida - Foto + Valor 100%</title><br>
+<title>TUDO EM 1 SÓ - Foto + Valor 100% - Sem Backend</title><br>
 <script src="https://cdn.tailwindcss.com"></script><br>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script><br>
 <style><br>
 body{background:#fff;color:#111;font-family:Inter,system-ui}<br>
 .glass{background:#fff;border:1px solid #e5e5e5;box-shadow:0 4px 16px rgba(0,0,0,0.06)}<br>
 .btn{background:linear-gradient(135deg,#ff6a00 0%,#ee0979 100%)}<br>
-.log{background:#111;color:#0f0}<br>
 </style><br>
 </head><br>
 <body class="min-h-screen p-3"><br>
@@ -43,45 +41,26 @@ body{background:#fff;color:#111;font-family:Inter,system-ui}<br>
 <div class="flex items-center gap-2 mt-2 mb-2">
 <div class="w-9 h-9 rounded-xl bg-orange-500 flex items-center justify-center font-black text-white">S</div>
 <div>
-<h1 class="font-black text-[11px]">V9 FINAL - API JÁ EMBUTIDA</h1>
-<p class="text-[8px] text-gray-500">APP_ID 18325950432 • Foto + Valor 100% • Sem # • Link fiel 🔒</p>
+<h1 class="font-black text-[11px]">TUDO EM 1 SÓ ARQUIVO - VERCEL</h1>
+<p class="text-[8px] text-gray-500">Foto + Valor automático • Sem # • Link fiel 🔒 • 1 arquivo só</p>
 </div>
 </div>
-
-<script>
-// API JÁ EMBUTIDA - NÃO PRECISA COLAR TODA VEZ
-const APP_ID_EMBUTIDO = "18325950432";
-const API_RESOLVER_EMBUTIDA = "https://api.allorigins.win/get?url="; // vai ser trocada automaticamente
-</script>
 
 <div class="glass rounded-[16px] p-3">
-<div class="bg-green-50 border border-green-300 rounded-xl p-2 mb-3 text-[10px]">
-<b>✅ API já embutida:</b> APP_ID 18325950432 já configurado. Você só cola o s.shopee.com.br e já sai foto + valor automático. Link 100% fiel, nunca trocado.
+<label class="text-[10px] font-bold uppercase">Seu link s.shopee.com.br (fica idêntico)</label>
+<input id="aff" class="w-full mt-1 border-2 border-black rounded-xl p-3 text-[14px] font-bold" placeholder="https://s.shopee.com.br/8FTZe4EjMH" value="https://s.shopee.com.br/8FTZe4EjMH">
+<button id="btn" class="btn w-full mt-3 p-3 rounded-xl font-black text-white">GERAR FOTO + VALOR REAL ⚡</button>
+<div id="log" class="bg-black text-[#0f0] rounded-xl p-2 mt-2 h-[90px] overflow-auto text-[10px] font-mono"></div>
 </div>
-
-<p><label class="text-[9px] font-bold text-gray-600 uppercase">Seu link s.shopee.com.br (fica idêntico)</label><br>
-<input id="aff" class="w-full mt-1 bg-white border-2 border-black rounded-xl p-3 text-[14px] font-bold" placeholder="https://s.shopee.com.br/1148UvdNJo" value="https://s.shopee.com.br/1148UvdNJo"></p>
-
-<div id="apiStatus" class="mt-2 text-[9px] bg-gray-50 border border-gray-200 rounded-lg p-2">
-<span class="font-bold">API Status:</span> <span id="apiStatusTxt">Pronta - APP_ID 18325950432 embutido</span>
-</div>
-
-<p><button id="btn" class="btn w-full mt-3 p-3 rounded-xl font-black text-white">GERAR COM API EMBUTIDA - FOTO + VALOR REAL ⚡</button><br>
-<div id="log" class="bg-black text-[#0f0] rounded-xl p-2 mt-2 h-[130px] overflow-auto text-[10px] font-mono"></div><br>
-</div></p>
 
 <div id="result" class="hidden mt-3">
-
 <div class="glass rounded-[16px] p-3">
-<span class="text-[11px] font-black">📸 FOTO REAL DO PRODUTO</span>
-<div id="fotoBox" class="w-full rounded-xl bg-gray-50 border border-gray-200 overflow-hidden relative mt-2" style="aspect-ratio:1/1;">
+<span class="text-[11px] font-black">📸 FOTO REAL</span>
+<div id="fotoBox" class="w-full rounded-xl bg-gray-50 border overflow-hidden relative mt-2" style="aspect-ratio:1/1;">
 <img id="fotoReal" class="w-full h-full object-cover">
-<div id="fotoLoad" class="absolute inset-0 flex flex-col items-center justify-center bg-white p-4">
-<div class="animate-spin w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full"></div>
-<p id="fotoStatus" class="text-[10px] mt-2 text-center">Buscando foto via API oficial...</p>
-</div>
+<div id="fotoLoad" class="absolute inset-0 flex items-center justify-center bg-white"><div class="animate-spin w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full"></div></div>
 <div id="priceOverlay" class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/90 to-transparent text-white hidden">
-<p id="oTitle" class="font-black text-[12px] leading-tight"></p>
+<p id="oTitle" class="font-black text-[12px]"></p>
 <p id="oPrice" class="font-black text-[16px] text-[#00FF88] mt-1"></p>
 </div>
 </div>
@@ -92,271 +71,196 @@ const API_RESOLVER_EMBUTIDA = "https://api.allorigins.win/get?url="; // vai ser 
 </div>
 
 <div class="glass rounded-[16px] p-3 mt-3">
-<span class="text-[11px] font-black">📱 MENSAGEM COM VALOR REAL AUTOMÁTICO - SEM #</span>
-<div id="msg" class="bg-green-50 border-2 border-green-200 rounded-xl p-3 mt-2 text-[13px] whitespace-pre-wrap text-black font-medium leading-[1.4]"></div>
-<button onclick="whatsapp()" class="w-full mt-2 bg-[#25D366] text-black p-3 rounded-xl font-black text-[12px]">Enviar no Zap com Foto e Valor</button>
+<span class="text-[11px] font-black">📱 MENSAGEM SEM # COM VALOR REAL</span>
+<div id="msg" class="bg-green-50 border-2 border-green-200 rounded-xl p-3 mt-2 text-[13px] whitespace-pre-wrap text-black font-medium"></div>
+<button onclick="whatsapp()" class="w-full mt-2 bg-[#25D366] p-3 rounded-xl font-black text-[12px]">Enviar no Zap</button>
 <div id="info" class="mt-2 text-[10px] text-gray-600"></div>
+</div>
 </div>
 
 <p></div></p>
 
-<p></div></p>
-
 <script>
-const $aff=document.getElementById('aff');
 let ORIGINAL="";
-let cache=JSON.parse(localStorage.getItem('shopee_v9_final_cache')||'{}');
-
 function log(t){const $log=document.getElementById('log');const d=document.createElement('div');d.textContent=new Date().toLocaleTimeString()+" → "+t;$log.appendChild(d);$log.scrollTop=$log.scrollHeight;}
-
-function extractIds(u){const m=u.match(/-i\.(\d+)\.(\d+)/);return m?{shop:m[1],item:m[2]}:null;}
-
-async function fetchTimeout(url, ms=8000, opts={}){
- const c=new AbortController();const to=setTimeout(()=>c.abort(),ms);
- try{const r=await fetch(url,{signal:c.signal, ...opts});clearTimeout(to);if(!r.ok) return null;return await r.text();}catch(e){clearTimeout(to);return null;}
-}
-
-async function fetchMicrolink(url){
- try{
-  const api=`https://api.microlink.io/?url=${encodeURIComponent(url)}`;
-  const txt=await fetchTimeout(api, 7000);
-  if(!txt) return null;
-  const j=JSON.parse(txt);
-  if(j.status==='success' && j.data){
-   return {title:j.data.title, image:j.data.image?.url, url:j.data.url, desc:j.data.description};
-  }
- }catch(e){}
- return null;
-}
-
-async function fetchParallelProxies(targetUrl){
- const proxies=[
-  `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
-  `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
-  `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`,
-  `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
-  `https://thingproxy.freeboard.io/fetch/${encodeURIComponent(targetUrl)}`,
-  `https://api.cors.lol/?url=${encodeURIComponent(targetUrl)}`,
-  `https://proxy.cors.sh/${targetUrl}`,
-  `https://cors-anywhere.herokuapp.com/${targetUrl}`
- ];
- const promises=proxies.map(async p=>{
-  const txt=await fetchTimeout(p, 6000);
-  if(!txt) return null;
-  try{const j=JSON.parse(txt);if(j.contents) return j.contents;}catch(e){return txt;}
-  return txt;
- });
- const results=await Promise.allSettled(promises);
- let best=null, maxLen=0;
- for(let r of results){
-  if(r.status==='fulfilled' && r.value && r.value.length>maxLen && (r.value.includes('shopee') || r.value.includes('price') || r.value.includes('R$') || r.value.includes('og:image') || r.value.includes('price_min'))){
-   best=r.value; maxLen=r.value.length;
-  }
- }
- if(!best){
-  for(let r of results){if(r.status==='fulfilled' && r.value && r.value.length>500) return r.value;}
- }
- return best;
-}
-
-function extractAll(html){
- let title=null,image=null,prices=[],priceMin=null,priceBefore=null;
- if(!html) return {title,image,prices,priceMin,priceBefore};
- let mt=html.match(/<meta property="og:title" content="([^"]+)"/);
- if(mt) title=mt[1];
- let mi=html.match(/<meta property="og:image" content="([^"]+)"/);
- if(mi) image=mi[1];
- let ldMatches=[...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)];
- for(let ld of ldMatches){
-  try{
-   let j=JSON.parse(ld[1]);
-   if(j.offers && j.offers.price) prices.push(parseFloat(j.offers.price));
-   if(j.image){if(Array.isArray(j.image)) image=j.image[0]; else if(typeof j.image==='string') image=j.image;}
-   if(j.name && !title) title=j.name;
-  }catch(e){}
- }
- let mins=[...html.matchAll(/"price_min"\s*:\s*(\d+)/g)];
- if(mins.length){let vals=mins.map(x=>parseInt(x[1])); priceMin=Math.max(...vals);}
- let befores=[...html.matchAll(/"price_min_before_discount"\s*:\s*(\d+)/g)];
- if(befores.length){let vals=befores.map(x=>parseInt(x[1])); priceBefore=Math.max(...vals);}
- let reais=[...html.matchAll(/R\$\s*([\d\.\,]+)/g)];
- let rs=[];
- reais.forEach(r=>{
-  let raw=r[1];
-  let normalized=raw.replace(/\./g,'').replace(',','.');
-  if(raw.includes('.') && raw.includes(',')) normalized=raw.replace(/\./g,'').replace(',','.');
-  else if(raw.includes(',') && !raw.includes('.')) normalized=raw.replace(',','.');
-  let val=parseFloat(normalized);
-  if(!isNaN(val) && val>=10 && val<=50000) rs.push(val);
- });
- rs.sort((a,b)=>a-b);
- let uniq=[];
- rs.forEach(v=>{if(!uniq.some(u=>Math.abs(u-v)<1)) uniq.push(v);});
- prices=prices.concat(uniq);
- prices.sort((a,b)=>a-b);
- let uniqP=[];
- prices.forEach(v=>{if(!uniqP.some(u=>Math.abs(u-v)<1)) uniqP.push(v);});
- return {title,image,prices:uniqP,priceMin,priceBefore};
-}
-
-function toBRLFromInt(v){
- if(!v) return null;
- v=parseInt(v);
- if(v>=10000000) return v/100000;
- if(v>=100000) return v/100000;
- if(v>=1000) return v/100;
- return v;
-}
 function formatBRL(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
 
-async function resolveShortLink(shortUrl){
- if(cache[shortUrl]?.finalUrl){
-  log(`⚡ Cache instantâneo`);
-  return cache[shortUrl];
- }
- log(`🔍 Resolvendo ${shortUrl} via API embutida...`);
- let finalUrl=shortUrl, html="", title=null, image=null, shop=null, item=null;
+async function fetchWithTimeout(url, ms=7000){
+ const c=new AbortController();const to=setTimeout(()=>c.abort(),ms);
+ try{const r=await fetch(url,{signal:c.signal});clearTimeout(to);if(!r.ok) return null;return await r.text();}catch(e){clearTimeout(to);return null;}
+}
 
- let micro=await fetchMicrolink(shortUrl);
- if(micro){
-  if(micro.url) finalUrl=micro.url;
-  if(micro.title) title=micro.title;
-  if(micro.image) image=micro.image;
-  log(`✅ Microlink: ${title?title.slice(0,30):'ok'} Foto: ${image?'sim':'não'}`);
+async function resolveShopee(shortUrl){
+ log(`🔍 Resolvendo ${shortUrl}...`);
+ // 1. Tenta Microlink (preview WhatsApp) - funciona no celular
+ try{
+  let txt=await fetchWithTimeout(`https://api.microlink.io/?url=${encodeURIComponent(shortUrl)}`, 6000);
+  if(txt){
+   let j=JSON.parse(txt);
+   if(j.status==='success' && j.data){
+    log(`✅ Microlink OK - Foto: ${j.data.image?.url?'sim':'não'}`);
+    return {finalUrl: j.data.url||shortUrl, title: j.data.title, image: j.data.image?.url, html: j.data.description||"", shop:null, item:null};
+   }
+  }
+ }catch(e){}
+
+ // 2. Tenta allorigins que segue redirecionamento
+ try{
+  let txt=await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(shortUrl)}`, 6000);
+  if(txt){
+   let j=JSON.parse(txt);
+   let html=j.contents||"";
+   let m=html.match(/https:\/\/shopee\.com\.br\/[^"'\s<>]+-i\.\d+\.\d+/);
+   let finalUrl=m?m[0]:shortUrl;
+   let ids=finalUrl.match(/-i\.(\d+)\.(\d+)/) || html.match(/-i\.(\d+)\.(\d+)/);
+   let shop=ids?ids[1]:null, item=ids?ids[2]:null;
+   if(shop) log(`✅ IDs encontrados: ${shop} ${item}`);
+   return {finalUrl, title:null, image:null, html, shop, item};
+  }
+ }catch(e){}
+
+ return {finalUrl: shortUrl, title:null, image:null, html:"", shop:null, item:null};
+}
+
+async function getProductData(shop, item, finalUrl, htmlBase){
+ let precoAtual=null, precoAntes=null, title=null, image=null;
+ let html=htmlBase||"";
+
+ // Tenta API v4 via corsproxy que funciona no celular e no Vercel
+ if(shop && item){
+  log(`💰 Buscando preço Shop ${shop} Item ${item} via corsproxy...`);
+  let apiUrl=`https://shopee.com.br/api/v4/item/get?itemid=${item}&shopid=${shop}`;
+  let proxies=[
+   `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`,
+   `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`,
+   `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(apiUrl)}`
+  ];
+  for(let p of proxies){
+   let txt=await fetchWithTimeout(p, 6000);
+   if(!txt) continue;
+   try{
+    let j=JSON.parse(txt);
+    let data=j.data|| (j.contents?JSON.parse(j.contents).data:null);
+    if(!data && j.contents){
+     try{data=JSON.parse(j.contents).data;}catch(e){}
+    }
+    if(data){
+     if(data.name) title=data.name;
+     let imgFile=data.image||(data.images&&data.images[0]);
+     if(imgFile) image=`https://down-br.img.susercontent.com/file/${imgFile}`;
+     let pmin=data.price_min||data.price;
+     let pbefore=data.price_min_before_discount||data.price_before_discount;
+     if(pmin){
+      let v=parseInt(pmin);
+      precoAtual=v>=100000?v/100000:v>=1000?v/100:v;
+     }
+     if(pbefore){
+      let v=parseInt(pbefore);
+      precoAntes=v>=100000?v/100000:v>=1000?v/100:v;
+     }
+     if(precoAtual){log(`✅ Preço API: ${formatBRL(precoAtual)}`); break;}
+    }
+   }catch(e){
+    // tenta extrair price_min do texto
+    let mMin=txt.match(/"price_min"\s*:\s*(\d+)/);
+    let mBefore=txt.match(/"price_min_before_discount"\s*:\s*(\d+)/);
+    if(mMin){
+     let v=parseInt(mMin[1]);
+     precoAtual=v>=100000?v/100000:v>=1000?v/100:v;
+     log(`✅ Preço extraído: ${formatBRL(precoAtual)}`);
+    }
+    if(mBefore){
+     let v=parseInt(mBefore[1]);
+     precoAntes=v>=100000?v/100000:v>=1000?v/100:v;
+    }
+    if(precoAtual) break;
+   }
+  }
  }
 
- let htmlProxy=await fetchParallelProxies(shortUrl);
- if(htmlProxy){
-  html=htmlProxy;
-  let m=html.match(/https:\/\/shopee\.com\.br\/[^"'\s<>]+-i\.\d+\.\d+/);
-  if(m) finalUrl=m[0];
-  let ids=finalUrl.match(/-i\.(\d+)\.(\d+)/) || html.match(/-i\.(\d+)\.(\d+)/);
-  if(ids){shop=ids[1];item=ids[2];}
-  log(`✅ IDs: Shop ${shop} Item ${item}`);
+ // Fallback R$ do HTML
+ if(!precoAtual && html){
+  let matches=[...html.matchAll(/R\$\s*([\d\.\,]+)/g)];
+  let vals=[];
+  matches.forEach(m=>{
+   let raw=m[1];
+   let norm=raw.replace('.','').replace(',','.');
+   if(raw.includes('.') && raw.includes(',')) norm=raw.replace('.','').replace(',','.');
+   else if(raw.includes(',') && !raw.includes('.')) norm=raw.replace(',','.');
+   let v=parseFloat(norm);
+   if(!isNaN(v) && v>=10 && v<=50000) vals.push(v);
+  });
+  vals= [...new Set(vals)].sort((a,b)=>a-b);
+  if(vals.length){precoAtual=vals[0]; let maiores=vals.filter(x=>x>precoAtual); if(maiores.length) precoAntes=Math.max(...maiores); log(`💵 R$ HTML: ${vals.slice(0,3).join(', ')}`);}
  }
 
- let obj={finalUrl, html, title, image, shop, item};
- cache[shortUrl]=obj;
- localStorage.setItem('shopee_v9_final_cache', JSON.stringify(cache));
- return obj;
+ // OG tags
+ if(html){
+  let mt=html.match(/<meta property="og:title" content="([^"]+)"/);
+  let mi=html.match(/<meta property="og:image" content="([^"]+)"/);
+  if(mt && !title) title=mt[1];
+  if(mi && !image) image=mi[1];
+ }
+
+ return {title, image, precoAtual, precoAntes};
 }
 
 document.getElementById('btn').onclick=async()=>{
- ORIGINAL=$aff.value.trim();
- if(!ORIGINAL){alert('Cole seu s.shopee.com.br');return;}
+ ORIGINAL=document.getElementById('aff').value.trim();
+ if(!ORIGINAL){alert('Cole link');return;}
  document.getElementById('result').classList.remove('hidden');
  document.getElementById('log').innerHTML="";
  log(`Link fiel: ${ORIGINAL}`);
- log(`APP_ID embutido: ${APP_ID_EMBUTIDO}`);
- log(`🔒 Link nunca será trocado - 100% fiel`);
- document.getElementById('apiStatusTxt').textContent=`API embutida ativa - ${APP_ID_EMBUTIDO}`;
+ log(`🔒 Nunca trocado`);
 
- (async()=>{
-  const resolved=await resolveShortLink(ORIGINAL);
-  let finalUrl=resolved.finalUrl;
-  let title=resolved.title||"Produto Shopee Verificado";
-  let image=resolved.image||null;
-  let shop=resolved.shop;
-  let item=resolved.item;
-  let html=resolved.html||"";
+ let resolved=await resolveShopee(ORIGINAL);
+ let finalUrl=resolved.finalUrl;
+ let html=resolved.html||"";
 
-  if(finalUrl && finalUrl!==ORIGINAL){
-   let microFinal=await fetchMicrolink(finalUrl);
-   if(microFinal){
-    if(microFinal.title) title=microFinal.title;
-    if(microFinal.image) image=microFinal.image;
-   }
-   let htmlFinal=await fetchParallelProxies(finalUrl);
-   if(htmlFinal) html+="\n"+htmlFinal;
+ // tenta pegar mais html da página final
+ if(finalUrl && finalUrl!==ORIGINAL){
+  let txt=await fetchWithTimeout(`https://api.allorigins.win/get?url=${encodeURIComponent(finalUrl)}`, 6000);
+  if(txt){
+   try{let j=JSON.parse(txt); html+= "\n"+ (j.contents||"");}catch(e){html+= "\n"+txt;}
   }
+ }
 
-  let precoAtual=null, precoAntes=null;
+ let data=await getProductData(resolved.shop, resolved.item, finalUrl, html);
+ let title=data.title||resolved.title||"Produto Shopee Verificado";
+ let image=data.image||resolved.image;
+ let precoAtual=data.precoAtual;
+ let precoAntes=data.precoAntes;
+ let desconto=0, economia=0;
+ if(precoAntes && precoAtual && precoAntes>precoAtual){desconto=Math.round((1-precoAtual/precoAntes)*100); economia=precoAntes-precoAtual;}
 
-  if(shop && item){
-   log(`💰 Buscando preço real Shop ${shop} Item ${item} via API Shopee...`);
-   let apiUrl=`https://shopee.com.br/api/v4/item/get?itemid=${item}&shopid=${shop}`;
-   let apiHtml=await fetchParallelProxies(apiUrl);
-   if(apiHtml){
-    html+="\n"+apiHtml;
-    try{
-     let j=JSON.parse(apiHtml);
-     if(j.data){
-      if(j.data.name) title=j.data.name;
-      let imgFile=j.data.image||(j.data.images&&j.data.images[0]);
-      if(imgFile) image=`https://down-br.img.susercontent.com/file/${imgFile}`;
-      if(j.data.price_min) precoAtual=toBRLFromInt(j.data.price_min);
-      if(j.data.price_min_before_discount) precoAntes=toBRLFromInt(j.data.price_min_before_discount);
-      log(`✅ API Shopee preço: ${precoAtual?formatBRL(precoAtual):'N/A'}`);
-     }
-    }catch(e){
-     let mMin=apiHtml.match(/"price_min"\s*:\s*(\d+)/);
-     let mBefore=apiHtml.match(/"price_min_before_discount"\s*:\s*(\d+)/);
-     if(mMin) precoAtual=toBRLFromInt(mMin[1]);
-     if(mBefore) precoAntes=toBRLFromInt(mBefore[1]);
-    }
-   }
-  }
+ const fotoReal=document.getElementById('fotoReal');
+ const fotoLoad=document.getElementById('fotoLoad');
+ const overlay=document.getElementById('priceOverlay');
 
-  let extracted=extractAll(html);
-  if(extracted.title) title=extracted.title;
-  if(extracted.image) image=extracted.image;
-  if(!precoAtual && extracted.priceMin) precoAtual=toBRLFromInt(extracted.priceMin);
-  if(!precoAntes && extracted.priceBefore) precoAntes=toBRLFromInt(extracted.priceBefore);
-  if((!precoAtual || precoAtual<10) && extracted.prices.length>0){
-   precoAtual=extracted.prices[0];
-   log(`💵 R$ do HTML: ${extracted.prices.slice(0,5).join(', ')}`);
-  }
-  if(!precoAntes && extracted.prices.length>1){
-   let maiores=extracted.prices.filter(p=>p>precoAtual);
-   if(maiores.length) precoAntes=Math.max(...maiores);
-  }
+ if(image){
+  fotoReal.src=`https://images.weserv.nl/?url=${encodeURIComponent(image)}&w=800&h=800&output=jpg`;
+  fotoReal.onload=()=>{fotoLoad.classList.add('hidden');overlay.classList.remove('hidden');log(`✅ Foto carregada`);};
+  fotoReal.onerror=()=>{fotoReal.src=image; fotoLoad.classList.add('hidden'); overlay.classList.remove('hidden');};
+ }else{
+  fotoLoad.innerHTML=`<div class="p-4 text-center"><p class="font-black">${title.slice(0,60)}</p><p class="text-[10px] mt-2">Foto não encontrada - link pode estar expirado, gere novo s.shopee</p></div>`;
+  log(`⚠️ Sem foto - link ${ORIGINAL} pode estar expirado`);
+ }
 
-  let desconto=0,economia=0;
-  if(precoAntes && precoAtual && precoAntes>precoAtual){
-   desconto=Math.round((1-precoAtual/precoAntes)*100);
-   economia=precoAntes-precoAtual;
-  }
+ document.getElementById('oTitle').textContent=title.slice(0,55);
+ if(precoAtual){
+  if(precoAntes && desconto>0) document.getElementById('oPrice').textContent=`DE ${formatBRL(precoAntes)} POR ${formatBRL(precoAtual)}`;
+  else document.getElementById('oPrice').textContent=`${formatBRL(precoAtual)}`;
+ }else{
+  document.getElementById('oPrice').textContent=`Oferta no link`;
+ }
 
-  const fotoReal=document.getElementById('fotoReal');
-  const fotoLoad=document.getElementById('fotoLoad');
-  const overlay=document.getElementById('priceOverlay');
+ let blocoPreco="",blocoDesc="";
+ if(precoAtual){
+  if(precoAntes && desconto>0){blocoPreco=`💰 DE: ~${formatBRL(precoAntes)}~ POR: ${formatBRL(precoAtual)}`; blocoDesc=`🔥 ${desconto}% OFF - Economize ${formatBRL(economia)}!`;}
+  else blocoPreco=`💰 POR APENAS: ${formatBRL(precoAtual)}`;
+ }else{blocoPreco=`💰 OFERTA - Confira o preço no link!`; log(`❌ Shopee bloqueou valor, mas link funciona`);}
 
-  if(image){
-   fotoReal.src=`https://images.weserv.nl/?url=${encodeURIComponent(image)}&w=800&h=800&output=jpg`;
-   fotoReal.onload=()=>{fotoLoad.classList.add('hidden');overlay.classList.remove('hidden');log(`✅ Foto carregada`);};
-   fotoReal.onerror=()=>{
-    fotoReal.src=image;
-    fotoReal.onload=()=>{fotoLoad.classList.add('hidden');overlay.classList.remove('hidden');};
-    fotoReal.onerror=()=>{fotoLoad.innerHTML=`<div class="p-2 text-center"><p class="font-bold text-[12px]">${title.slice(0,60)}</p><p class="text-[10px] mt-1 break-all text-gray-500">${image.slice(0,80)}...</p></div>`;};
-   };
-  }else{
-   fotoLoad.innerHTML=`<div class="p-4 text-center"><p class="font-black">${title.slice(0,60)}</p><p class="text-[10px] mt-2">Foto não encontrada</p></div>`;
-  }
-
-  document.getElementById('oTitle').textContent=title.slice(0,55);
-  if(precoAtual){
-   if(precoAntes && desconto>0){
-    document.getElementById('oPrice').textContent=`DE ${formatBRL(precoAntes)} POR ${formatBRL(precoAtual)}`;
-   }else{
-    document.getElementById('oPrice').textContent=`${formatBRL(precoAtual)}`;
-   }
-  }else{
-   document.getElementById('oPrice').textContent=`Oferta no link`;
-  }
-
-  let blocoPreco="",blocoDesc="";
-  if(precoAtual){
-   if(precoAntes && desconto>0){
-    blocoPreco=`💰 DE: ~${formatBRL(precoAntes)}~ POR: ${formatBRL(precoAtual)}`;
-    blocoDesc=`🔥 ${desconto}% OFF - Economize ${formatBRL(economia)}!`;
-   }else{
-    blocoPreco=`💰 POR APENAS: ${formatBRL(precoAtual)}`;
-   }
-  }else{
-   blocoPreco=`💰 OFERTA - Confira o preço no link!`;
-  }
-
-  const msg=`🚨 QUEIMA DE ESTOQUE SHOPEE 🚨
+ const msg=`🚨 QUEIMA DE ESTOQUE SHOPEE 🚨
 
 📦 ${title.toUpperCase()}
 
@@ -370,16 +274,12 @@ ${ORIGINAL}
 
 ⏰ Corre antes que o preço volte!`;
 
-  document.getElementById('msg').textContent=msg;
-  document.getElementById('info').innerHTML=`<b>Valor:</b> ${precoAtual?formatBRL(precoAtual):'ver no link'} | <b>Antes:</b> ${precoAntes?formatBRL(precoAntes):'-'} | <b>Desconto:</b> ${desconto}%<br><span class="text-green-700 font-bold">🔒 Link 100% fiel: ${ORIGINAL}</span><br><span class="text-[8px] text-gray-500">V9 FINAL • API embutida ${APP_ID_EMBUTIDO} • Sem # • Valor automático</span>`;
-
-  cache[ORIGINAL]={finalUrl, title, image, shop, item, precoAtual, precoAntes};
-  localStorage.setItem('shopee_v9_final_cache', JSON.stringify(cache));
- })();
+ document.getElementById('msg').textContent=msg;
+ document.getElementById('info').innerHTML=`<b>Valor:</b> ${precoAtual?formatBRL(precoAtual):'ver no link'} | <b>Antes:</b> ${precoAntes?formatBRL(precoAntes):'-'}<br><span class="text-green-700 font-bold">🔒 Link 100% fiel: ${ORIGINAL}</span><br><span class="text-[8px]">Tudo em 1 arquivo só • Sem backend • Vercel</span>`;
 };
 
 function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent);alert('Copiado! Link fiel: '+ORIGINAL);}
-function baixar(){const img=document.getElementById('fotoReal');if(img && img.src){window.open(img.src,'_blank');}}
+function baixar(){const img=document.getElementById('fotoReal');if(img.src) window.open(img.src,'_blank');}
 function whatsapp(){const txt=encodeURIComponent(document.getElementById('msg').textContent);window.open(`https://wa.me/?text=${txt}`,'_blank');}
 </script>
 <script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script>
