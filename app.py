@@ -7,53 +7,58 @@ API_URL = "https://open-api.affiliate.shopee.com.br/graphql"
 app = Flask(__name__)
 
 HTML = """
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V13 - Auto + Limpo</title><script src="https://cdn.tailwindcss.com"></script></head>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V15 - Com Instagram</title><script src="https://cdn.tailwindcss.com"></script></head>
 <body class="p-3 bg-[#050505] text-white"><div class="max-w-[470px] mx-auto">
 <div class="bg-gradient-to-br from-zinc-900 to-black border border-zinc-800 rounded-[28px] p-6 shadow-2xl">
-<div class="flex justify-between items-center"><span class="bg-gradient-to-r from-[#ff0080] to-[#ff6a00] text-white text-[11px] px-4 py-2 rounded-full font-black">V13 LIMPO + AUTO ZAP 🚀</span><span class="text-[10px] text-white bg-green-500 px-2 py-1 rounded-full font-black">PRO</span></div>
-<h1 class="font-black text-[26px] mt-4 tracking-tight leading-none">ACHADINHOS</h1>
-<div class="text-[12px] text-zinc-400 mt-1">Cole o link e já envia automático!</div>
+<div class="flex justify-between items-center"><span class="bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCB045] text-white text-[11px] px-4 py-2 rounded-full font-black">V15 COM INSTAGRAM 📸</span><span class="text-[10px] bg-white text-black px-2 py-1 rounded-full font-black">NOVO</span></div>
+<h1 class="font-black text-[24px] mt-4">ACHADINHOS + INSTA</h1>
+<div class="text-[11px] text-zinc-400">Seu Instagram pequeno no topo da arte</div>
 
 <div class="mt-5 space-y-3">
 <div class="relative">
-<label class="text-[11px] font-bold text-[#25D366] flex items-center gap-2">📲 Seu WhatsApp (salva automático)</label>
-<input id="meuZap" placeholder="81999999999" class="w-full mt-1 bg-black border-2 border-[#25D366] rounded-2xl p-4 text-white font-black text-[15px] tracking-wider">
-<div class="absolute right-4 top-[36px] text-[20px]">💾</div>
-</div>
-
-<div class="bg-[#25D366]/10 border border-[#25D366]/30 rounded-2xl p-3 flex items-center justify-between">
-<label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" id="autoEnvio" checked class="w-5 h-5 accent-[#25D366]"><span class="text-[13px] font-bold text-white">Auto-enviar pro Zap assim que colar link</span></label>
-<span class="text-[10px] bg-[#25D366] text-black px-2 py-1 rounded-full font-black">AUTO</span>
+<label class="text-[11px] font-bold text-[#E1306C] flex items-center gap-2">📸 Seu Instagram (pequeno no topo):</label>
+<input id="meuInsta" placeholder="@seuinstagram" class="w-full mt-1 bg-black border-2 border-[#E1306C] rounded-2xl p-4 text-white font-black text-[14px]" value="@filipe_ferreira12">
+<div class="text-[9px] text-zinc-500 mt-1">Vai aparecer pequeno no topo da arte - ex: @filipe_ferreira12</div>
 </div>
 
 <div class="relative">
-<label class="text-[12px] font-black text-white flex items-center gap-2">🔗 COLE SEU LINK AQUI (auto-envia)</label>
-<input id="link" placeholder="https://s.shopee.com.br/XXXX" class="w-full mt-2 bg-white text-black border-4 border-[#ff0080] rounded-2xl p-5 text-[15px] font-black shadow-xl outline-none" autofocus>
-<div id="status" class="absolute right-4 top-[48px] hidden"><span class="bg-[#00ff88] text-black text-[10px] px-3 py-1 rounded-full font-black animate-pulse">GERANDO...</span></div>
+<label class="text-[11px] font-bold text-[#25D366]">📲 Seu WhatsApp:</label>
+<input id="meuZap" placeholder="81999999999" class="w-full mt-1 bg-black border border-[#25D366] rounded-2xl p-3 text-white font-bold text-[14px]">
 </div>
 
-<div class="text-[10px] text-zinc-500 text-center">👆 Cole o link afiliado que gera e envia sozinho pro seu WhatsApp!</div>
+<div class="bg-[#25D366]/10 border border-[#25D366]/30 rounded-2xl p-3 flex items-center justify-between">
+<label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" id="autoEnvio" checked class="w-5 h-5 accent-[#25D366]"><span class="text-[12px] font-bold">Auto-enviar pro Zap ao colar link</span></label>
+</div>
+
+<div class="relative">
+<label class="text-[12px] font-black text-white">🔗 COLE LINK SHOPEE</label>
+<input id="link" placeholder="https://s.shopee.com.br/XXXX" class="w-full mt-2 bg-white text-black border-4 border-[#ff0080] rounded-2xl p-5 text-[15px] font-black shadow-xl outline-none" autofocus>
+<div id="status" class="absolute right-4 top-[50px] hidden"><span class="bg-[#00ff88] text-black text-[10px] px-3 py-1 rounded-full font-black animate-pulse">GERANDO...</span></div>
+</div>
 </div>
 </div>
 
 <div id="res" class="hidden">
 <div class="bg-zinc-900 border-2 border-[#ff0080] rounded-[28px] p-4 mt-6 shadow-2xl">
-<div class="flex justify-between items-center mb-4"><span class="font-black text-[14px]">🔥 STORY PRONTA</span><div class="flex gap-2"><button onclick="baixar('storyCanvas','STORY.png')" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-black">⬇️ BAIXAR</button><button onclick="enviarDiretoZap()" class="bg-[#25D366] text-white px-4 py-2 rounded-full text-[11px] font-black">📲 ZAP</button></div></div>
-<canvas id="storyCanvas" width="1080" height="1920" class="w-full bg-black rounded-2xl"></canvas>
-<div class="mt-3 bg-[#00ff88]/10 border border-[#00ff88]/30 rounded-xl p-3 text-center"><div class="text-[11px] font-black text-[#00ff88]">✅ GERADA COM SUCESSO!</div><div class="text-[10px] text-zinc-400">Preço correto + designer chamativa</div></div>
+<div class="flex justify-between items-center mb-4"><span class="font-black text-[13px]">🔥 STORY COM SEU INSTA</span><div class="flex gap-2"><button onclick="baixarFix('storyCanvas','STORY.png')" class="bg-gradient-to-r from-[#ff0080] to-[#ff6a00] text-white px-4 py-2 rounded-full text-[11px] font-black">⬇️ BAIXAR</button></div></div>
+<canvas id="storyCanvas" width="1080" height="1920" class="w-full bg-black rounded-2xl border border-zinc-800"></canvas>
+<div class="mt-2 text-[10px] text-center text-zinc-500">Seu Instagram aparece pequeno no topo da imagem</div>
+<div class="grid grid-cols-2 gap-2 mt-3">
+<button onclick="baixarFix('storyCanvas','STORY.png')" class="bg-white text-black p-3 rounded-xl font-black text-[13px]">📥 BAIXAR STORY</button>
+<button onclick="enviarDiretoZap()" class="bg-[#25D366] text-white p-3 rounded-xl font-black text-[13px]">📲 ZAP</button>
+</div>
 </div>
 
 <div class="bg-zinc-900 border border-zinc-800 rounded-[24px] p-4 mt-4">
-<div class="flex justify-between items-center mb-3"><span class="font-black text-[13px]">🖼️ FEED GRUPO</span><button onclick="baixar('feedCanvas','FEED.png')" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-black">⬇️ Baixar</button></div>
-<canvas id="feedCanvas" width="1080" height="1080" class="w-full bg-black rounded-2xl"></canvas>
+<div class="flex justify-between items-center mb-3"><span class="font-black text-[13px]">🖼️ FEED COM SEU INSTA</span><button onclick="baixarFix('feedCanvas','FEED.png')" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-black">⬇️ Baixar Feed</button></div>
+<canvas id="feedCanvas" width="1080" height="1080" class="w-full bg-black rounded-2xl border border-zinc-800"></canvas>
 </div>
 
 <div class="bg-gradient-to-br from-[#075E54] to-[#128C7E] border border-[#25D366] rounded-[28px] p-5 mt-5 shadow-2xl">
-<div class="flex items-center gap-3"><div class="bg-white rounded-full w-14 h-14 flex items-center justify-center text-[28px] shadow-xl">📲</div><div><div class="font-black text-[16px] text-white">ENVIADO PRO SEU WHATSAPP!</div><div class="text-[11px] text-white/80">Mensagem pronta com preço + link</div></div></div>
-<div id="msg" class="mt-4 bg-black/30 border border-white/20 rounded-2xl p-4 text-[14px] whitespace-pre-wrap text-white font-medium"></div>
-<div class="grid grid-cols-2 gap-3 mt-4">
-<button onclick="copiar()" class="bg-white text-black p-4 rounded-2xl font-black text-[13px] shadow-xl">📋 COPIAR</button>
-<button onclick="enviarDiretoZap()" class="bg-[#25D366] border-2 border-white text-white p-4 rounded-2xl font-black text-[13px] shadow-xl">📲 REENVIAR ZAP</button>
+<div id="msg" class="bg-black/30 border border-white/20 rounded-2xl p-4 text-[14px] whitespace-pre-wrap text-white"></div>
+<div class="grid grid-cols-1 gap-3 mt-4">
+<button onclick="enviarDiretoZap()" class="bg-[#25D366] border-2 border-white text-white p-4 rounded-2xl font-black text-[15px]">📲 ENVIAR PRO WHATSAPP</button>
+<button onclick="copiar()" class="bg-white text-black p-3 rounded-2xl font-black text-[13px]">📋 COPIAR LEGENDA</button>
 </div>
 </div>
 </div>
@@ -62,92 +67,120 @@ HTML = """
 <script>
 let savedZap = localStorage.getItem('meuZapNumero');
 if(savedZap) document.getElementById('meuZap').value=savedZap;
+let savedInsta = localStorage.getItem('meuInstaHandle');
+if(savedInsta) document.getElementById('meuInsta').value=savedInsta;
+else document.getElementById('meuInsta').value='@filipe_ferreira12';
+
 document.getElementById('meuZap').addEventListener('input',(e)=>{localStorage.setItem('meuZapNumero',e.target.value)});
+document.getElementById('meuInsta').addEventListener('input',(e)=>{localStorage.setItem('meuInstaHandle',e.target.value)});
 
 function brl(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 async function loadImage(src){return new Promise((res,rej)=>{let i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=src})}
 
-async function gerarSuperChamativa(d){
+async function gerarComInsta(d){
 let preco=d.preco_atual;let precoAntes=d.preco_antes;let desconto=d.desconto;let titulo=d.title;
+let instaHandle=document.getElementById('meuInsta').value.trim()||'@filipe_ferreira12';
+if(!instaHandle.startsWith('@')) instaHandle='@'+instaHandle;
+
 let c1=document.getElementById('storyCanvas');let ctx1=c1.getContext('2d');
 let g=ctx1.createLinearGradient(0,0,0,1920);g.addColorStop(0,'#ff0080');g.addColorStop(0.3,'#ff6a00');g.addColorStop(0.6,'#1a1a1a');g.addColorStop(1,'#000');ctx1.fillStyle=g;ctx1.fillRect(0,0,1080,1920);
-ctx1.fillStyle='#000';ctx1.fillRect(0,0,1080,140);ctx1.fillStyle='#ffcc00';ctx1.font='900 38px system-ui';ctx1.fillText('⚠️  ATENÇÃO  ⚠️',40,55);ctx1.fillStyle='#fff';ctx1.font='900 52px system-ui';ctx1.fillText('QUEIMA DE ESTOQUE',40,110);
-if(desconto>0){ctx1.save();ctx1.translate(850,200);ctx1.rotate(-15*Math.PI/180);ctx1.fillStyle='#ffcc00';ctx1.beginPath();ctx1.arc(0,0,110,0,Math.PI*2);ctx1.fill();ctx1.fillStyle='#000';ctx1.font='900 48px system-ui';ctx1.textAlign='center';ctx1.fillText(`-${desconto}%`,0,15);ctx1.font='900 22px system-ui';ctx1.fillText('OFF',0,40);ctx1.restore();ctx1.textAlign='left'}
-ctx1.shadowColor='#ff0080';ctx1.shadowBlur=40;ctx1.fillStyle='#fff';ctx1.beginPath();ctx1.roundRect(20,160,1040,1040,30);ctx1.fill();ctx1.shadowBlur=0;
+// Topo preto
+ctx1.fillStyle='#000';ctx1.fillRect(0,0,1080,140);
+// Instagram pequeno no topo - canto superior direito
+ctx1.fillStyle='#fff';ctx1.font='700 22px system-ui';ctx1.textAlign='right';ctx1.fillText('📸 '+instaHandle,1040,45);
+ctx1.textAlign='left';
+ctx1.fillStyle='#ffcc00';ctx1.font='900 36px system-ui';ctx1.fillText('⚠️  ATENÇÃO  ⚠️',40,55);
+ctx1.fillStyle='#fff';ctx1.font='900 50px system-ui';ctx1.fillText('QUEIMA DE ESTOQUE',40,110);
+// Selo desconto
+if(desconto>0){ctx1.save();ctx1.translate(850,200);ctx1.rotate(-15*Math.PI/180);ctx1.fillStyle='#ffcc00';ctx1.beginPath();ctx1.arc(0,0,100,0,Math.PI*2);ctx1.fill();ctx1.fillStyle='#000';ctx1.font='900 44px system-ui';ctx1.textAlign='center';ctx1.fillText(`-${desconto}%`,0,12);ctx1.restore();ctx1.textAlign='left'}
+ctx1.fillStyle='#fff';ctx1.beginPath();ctx1.roundRect(20,160,1040,1040,30);ctx1.fill();
 try{let img=await loadImage(d.image);let sc=Math.min(980/img.width,980/img.height);let nw=img.width*sc,nh=img.height*sc;ctx1.drawImage(img,20+(1040-nw)/2,160+(1040-nh)/2,nw,nh)}catch(e){}
 ctx1.fillStyle='#000';ctx1.strokeStyle='#00ff88';ctx1.lineWidth=6;ctx1.beginPath();ctx1.roundRect(20,1220,1040,450,30);ctx1.fill();ctx1.stroke();
-ctx1.fillStyle='#fff';ctx1.font='900 34px system-ui';ctx1.fillText(titulo.slice(0,36).toUpperCase(),50,1280);
-if(preco){if(precoAntes&&desconto>0){ctx1.fillStyle='#ff6a00';ctx1.font='700 28px system-ui';ctx1.fillText(`DE ${brl(precoAntes)} POR`,50,1330);ctx1.fillStyle='#00ff88';ctx1.font='900 84px system-ui';ctx1.fillText(brl(preco),50,1420);ctx1.fillStyle='#ff0080';ctx1.beginPath();ctx1.roundRect(50,1440,500,70,15);ctx1.fill();ctx1.fillStyle='#fff';ctx1.font='900 28px system-ui';ctx1.fillText(`💰 ECONOMIA ${brl(precoAntes-preco)}`,70,1485)}else{ctx1.fillStyle='#00ff88';ctx1.font='900 84px system-ui';ctx1.fillText(brl(preco),50,1420)}}
-ctx1.fillStyle='#ffcc00';ctx1.beginPath();ctx1.roundRect(20,1690,1040,110,20);ctx1.fill();ctx1.fillStyle='#000';ctx1.font='900 36px system-ui';ctx1.textAlign='center';ctx1.fillText('👇 LINK NA BIO - CORRE! 👇',540,1760);ctx1.textAlign='left';
-ctx1.fillStyle='#fff';ctx1.font='900 24px system-ui';ctx1.textAlign='center';ctx1.fillText('⚡ SHOPEE OFICIAL • ESTOQUE LIMITADO ⚡',540,1860);ctx1.textAlign='left';
+ctx1.fillStyle='#fff';ctx1.font='900 32px system-ui';ctx1.fillText(titulo.slice(0,36).toUpperCase(),50,1280);
+if(preco){ctx1.fillStyle='#00ff88';ctx1.font='900 80px system-ui';ctx1.fillText(brl(preco),50,1410);if(precoAntes&&desconto>0){ctx1.fillStyle='#ff6a00';ctx1.font='600 26px system-ui';ctx1.fillText(`DE ${brl(precoAntes)}`,50,1440)}}
+ctx1.fillStyle='#ffcc00';ctx1.beginPath();ctx1.roundRect(20,1690,1040,110,20);ctx1.fill();ctx1.fillStyle='#000';ctx1.font='900 34px system-ui';ctx1.textAlign='center';ctx1.fillText('👇 LINK NA BIO - CORRE! 👇',540,1760);ctx1.textAlign='left';
+ctx1.fillStyle='#fff';ctx1.font='900 22px system-ui';ctx1.textAlign='center';ctx1.fillText('⚡ SHOPEE OFICIAL • '+instaHandle+' ⚡',540,1860);ctx1.textAlign='left';
+
+// FEED com insta pequeno
 let c2=document.getElementById('feedCanvas');let ctx2=c2.getContext('2d');
 let g2=ctx2.createLinearGradient(0,0,1080,0);g2.addColorStop(0,'#ff0080');g2.addColorStop(1,'#ff6a00');ctx2.fillStyle=g2;ctx2.fillRect(0,0,1080,1080);
-ctx2.fillStyle='#000';ctx2.fillRect(0,0,1080,120);ctx2.fillStyle='#ffcc00';ctx2.font='900 40px system-ui';ctx2.fillText('🔥 QUEIMA DE ESTOQUE 🔥',30,80);
-if(desconto>0){ctx2.fillStyle='#ffcc00';ctx2.beginPath();ctx2.arc(920,60,55,0,Math.PI*2);ctx2.fill();ctx2.fillStyle='#000';ctx2.font='900 28px system-ui';ctx2.textAlign='center';ctx2.fillText(`-${desconto}%`,920,70);ctx2.textAlign='left'}
+ctx2.fillStyle='#000';ctx2.fillRect(0,0,1080,120);
+// Insta pequeno no topo feed - canto direito
+ctx2.fillStyle='#fff';ctx2.font='700 20px system-ui';ctx2.textAlign='right';ctx2.fillText('📸 '+instaHandle,1050,35);ctx2.textAlign='left';
+ctx2.fillStyle='#ffcc00';ctx2.font='900 36px system-ui';ctx2.fillText('🔥 QUEIMA DE ESTOQUE 🔥',30,80);
+if(desconto>0){ctx2.fillStyle='#ffcc00';ctx2.beginPath();ctx2.arc(920,60,50,0,Math.PI*2);ctx2.fill();ctx2.fillStyle='#000';ctx2.font='900 26px system-ui';ctx2.textAlign='center';ctx2.fillText(`-${desconto}%`,920,68);ctx2.textAlign='left'}
 ctx2.fillStyle='#fff';ctx2.beginPath();ctx2.roundRect(15,135,1050,600,20);ctx2.fill();
 try{let img2=await loadImage(d.image);let sc2=Math.min(990/img2.width,560/img2.height);let nw2=img2.width*sc2,nh2=img2.height*sc2;ctx2.drawImage(img2,15+(1050-nw2)/2,135+(600-nh2)/2,nw2,nh2)}catch(e){}
 ctx2.fillStyle='#000';ctx2.beginPath();ctx2.roundRect(15,750,1050,315,20);ctx2.fill();
-ctx2.fillStyle='#fff';ctx2.font='900 30px system-ui';ctx2.fillText(titulo.slice(0,34).toUpperCase(),35,800);
-if(preco){ctx2.fillStyle='#00ff88';ctx2.font='900 64px system-ui';ctx2.fillText(brl(preco),35,880)}
-ctx2.fillStyle='#ffcc00';ctx2.beginPath();ctx2.roundRect(15,960,1050,90,15);ctx2.fill();ctx2.fillStyle='#000';ctx2.font='900 28px system-ui';ctx2.textAlign='center';ctx2.fillText('👇 LINK NOS COMENTÁRIOS - CORRE! 👇',540,1015);ctx2.textAlign='left';
+ctx2.fillStyle='#fff';ctx2.font='900 28px system-ui';ctx2.fillText(titulo.slice(0,34).toUpperCase(),35,800);
+if(preco){ctx2.fillStyle='#00ff88';ctx2.font='900 60px system-ui';ctx2.fillText(brl(preco),35,880)}
+ctx2.fillStyle='#ffcc00';ctx2.beginPath();ctx2.roundRect(15,960,1050,90,15);ctx2.fill();ctx2.fillStyle='#000';ctx2.font='900 24px system-ui';ctx2.textAlign='center';ctx2.fillText(`👇 ${instaHandle} • LINK NOS COMENTÁRIOS 👇`,540,1015);ctx2.textAlign='left';
 }
 
-let timeoutAuto = null;
+function baixarFix(canvasId, nomeArquivo){
+try{
+let canvas = document.getElementById(canvasId);
+canvas.toBlob(function(blob){
+if(blob){
+let url = URL.createObjectURL(blob);
+let a = document.createElement('a');a.href=url;a.download=nomeArquivo;document.body.appendChild(a);a.click();
+setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},100);
+}else{
+let dataURL = canvas.toDataURL('image/png');
+let a = document.createElement('a');a.href=dataURL;a.download=nomeArquivo;a.click();
+}
+},'image/png',1.0);
+}catch(e){alert('Erro baixar: '+e.message)}
+}
+
+let timeoutAuto=null;
 async function processarLinkAuto(){
 let meuZap=document.getElementById('meuZap').value.trim().replace(/[^0-9]/g,'');
 let l=document.getElementById('link').value.trim();
 if(!l || l.length<10) return;
 if(l.indexOf('shopee.com.br')==-1 && l.indexOf('s.shopee')==-1) return;
 if(meuZap.length>0) localStorage.setItem('meuZapNumero',meuZap);
+let insta=document.getElementById('meuInsta').value.trim();
+if(insta) localStorage.setItem('meuInstaHandle',insta);
 document.getElementById('status').classList.remove('hidden');
 document.getElementById('res').classList.remove('hidden');
 try{
 let r=await fetch('/api/resolve?url='+encodeURIComponent(l));
 let j=await r.json();
-await gerarSuperChamativa(j);
-let legenda=`🔥🔥🔥 SUPER OFERTA RELÂMPAGO 🔥🔥🔥
+await gerarComInsta(j);
+let instaTxt=document.getElementById('meuInsta').value.trim()||'@filipe_ferreira12';
+let legenda=`🔥 SUPER OFERTA RELÂMPAGO 🔥
 
 📦 ${j.title.toUpperCase()}
 
 💥 POR APENAS: ${brl(j.preco_atual)}
-${j.desconto>0?`⚡ ${j.desconto}% OFF - De ${brl(j.preco_antes)} por ${brl(j.preco_atual)}
-💰 Você economiza ${brl(j.preco_antes-j.preco_atual)}`:''}
+${j.desconto>0?`⚡ ${j.desconto}% OFF - De ${brl(j.preco_antes)} por ${brl(j.preco_atual)}`:''}
 
-✅ Original Shopee
-⚡ Entrega rápida
+📸 Instagram: ${instaTxt}
 
 👇 LINK COM DESCONTO 👇
 ${j.affiliate_link_original}
 
-⏰ OFERTA POR TEMPO LIMITADO!`;
+⏰ OFERTA POR TEMPO LIMITADO!
+
+#achadinhos #shopee #oferta`;
 document.getElementById('msg').textContent=legenda;
 document.getElementById('status').classList.add('hidden');
-// Auto-envio se marcado
 if(document.getElementById('autoEnvio').checked && meuZap.length>=10){
 setTimeout(()=>{enviarDiretoZap();},800);
 }
 }catch(e){document.getElementById('status').classList.add('hidden')}
 }
-
-// Detecta colar automaticamente
-document.getElementById('link').addEventListener('paste',(e)=>{
-setTimeout(()=>{processarLinkAuto();},300);
-});
-document.getElementById('link').addEventListener('input',(e)=>{
-clearTimeout(timeoutAuto);
-timeoutAuto = setTimeout(()=>{processarLinkAuto();},800);
-});
-
+document.getElementById('link').addEventListener('paste',(e)=>{setTimeout(()=>{processarLinkAuto();},300);});
+document.getElementById('link').addEventListener('input',(e)=>{clearTimeout(timeoutAuto);timeoutAuto=setTimeout(()=>{processarLinkAuto();},800);});
 function enviarDiretoZap(){
 let numero=document.getElementById('meuZap').value.trim().replace(/[^0-9]/g,'');
-if(!numero){alert('Digite seu WhatsApp no topo!');return}
+if(!numero){alert('Digite seu WhatsApp!');return}
 let msg=document.getElementById('msg').textContent;
 if(!msg){alert('Cole o link primeiro!');return}
 let numeroFormatado = numero.startsWith('55') ? numero : '55'+numero;
-let url = `https://wa.me/${numeroFormatado}?text=${encodeURIComponent(msg)}`;
-window.open(url,'_blank');
+window.open(`https://wa.me/${numeroFormatado}?text=${encodeURIComponent(msg)}`,'_blank');
 }
-function baixar(id,name){let c=document.getElementById(id);let a=document.createElement('a');a.download=name;a.href=c.toDataURL('image/png');a.click()}
 function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent);alert('Copiado! ✅')}
 </script></body></html>
 """
