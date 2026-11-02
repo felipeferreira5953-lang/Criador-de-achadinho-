@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, render_template_string
-import urllib.request, urllib.parse, re, json, hashlib, time, os, base64
+import urllib.request, urllib.parse, re, json, hashlib, time, os
 
 APP_ID = "18325950432"
 SECRET = "O25HE4WDN6GGDCII4DUFFCZ7RDEHHGM6"
@@ -7,100 +7,74 @@ API_URL = "https://open-api.affiliate.shopee.com.br/graphql"
 app = Flask(__name__)
 
 HTML = """
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V16 - Grupo WhatsApp Auto</title><script src="https://cdn.tailwindcss.com"></script></head>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V18 - Só Mensagem Auto Grupo</title><script src="https://cdn.tailwindcss.com"></script></head>
 <body class="p-3 bg-[#050505] text-white"><div class="max-w-[470px] mx-auto">
 <div class="bg-gradient-to-br from-zinc-900 to-black border border-zinc-800 rounded-[28px] p-6 shadow-2xl">
-<div class="flex justify-between items-center"><span class="bg-gradient-to-r from-[#25D366] to-[#128C7E] text-white text-[11px] px-4 py-2 rounded-full font-black">V16 GRUPO AUTO 📲</span><span class="text-[10px] bg-white text-black px-2 py-1 rounded-full font-black">NOVO</span></div>
-<h1 class="font-black text-[22px] mt-4">ENVIO AUTOMÁTICO PRO GRUPO</h1>
-<div class="text-[11px] text-zinc-400">Conecta seu grupo e envia sozinho ao criar!</div>
+<div class="flex justify-between"><span class="bg-[#25D366] text-white text-[11px] px-4 py-2 rounded-full font-black">V18 MENSAGEM AUTO 💬</span><span class="text-[10px] bg-white text-black px-2 py-1 rounded-full font-black">PEDIDO</span></div>
+<h1 class="font-black text-[20px] mt-4">MENSAGEM AUTOMÁTICA PRO GRUPO</h1>
+<div class="text-[11px] text-zinc-400">Imagem só baixa se você quiser!</div>
 
 <div class="mt-5 space-y-3">
-<div class="bg-[#25D366]/10 border border-[#25D366]/30 rounded-2xl p-4">
-<label class="text-[11px] font-bold text-[#25D366] flex items-center gap-2">🔗 LINK DO SEU GRUPO WHATSAPP:</label>
-<input id="grupoLink" placeholder="https://chat.whatsapp.com/AbCdEf123456" class="w-full mt-2 bg-black border-2 border-[#25D366] rounded-2xl p-4 text-white font-bold text-[13px]" >
-<div class="text-[9px] text-zinc-400 mt-2">Cole o link de convite do seu grupo - ex: https://chat.whatsapp.com/XXXX<br>O robô vai enviar automático pro grupo quando criar achadinho!</div>
-<label class="text-[11px] font-bold text-white mt-3 block">🆔 ID do Grupo (auto):</label>
-<input id="grupoId" placeholder="1203630...@g.us - preenche automático" class="w-full mt-1 bg-zinc-900 border border-zinc-700 rounded-xl p-3 text-white font-bold text-[11px]">
+<div class="bg-[#25D366]/10 border-2 border-[#25D366] rounded-2xl p-4">
+<label class="text-[11px] font-bold text-[#25D366]">🔗 LINK DO SEU GRUPO ACHADINHOS:</label>
+<input id="grupoLink" placeholder="https://chat.whatsapp.com/XXXX" class="w-full mt-2 bg-black border-2 border-[#25D366] rounded-2xl p-4 text-white font-bold text-[13px]">
+<div id="grupoOk" class="hidden mt-2 bg-[#25D366] text-black text-[10px] px-3 py-1 rounded-full font-black">✅ Grupo conectado!</div>
+<div class="text-[9px] text-zinc-400 mt-2">Seu grupo salvo: https://chat.whatsapp.com/DofBN3bkc0klgc...</div>
+<input type="hidden" id="grupoId">
 </div>
 
 <div class="relative">
-<label class="text-[11px] font-bold text-[#E1306C] flex items-center gap-2">📸 Seu Instagram (pequeno no topo):</label>
-<input id="meuInsta" placeholder="@seuinstagram" class="w-full mt-1 bg-black border-2 border-[#E1306C] rounded-2xl p-4 text-white font-black text-[14px]" value="@filipe_ferreira12">
+<label class="text-[11px] font-bold text-[#E1306C]">📸 Seu Instagram (pequeno no topo da arte):</label>
+<input id="meuInsta" value="@filipe_ferreira12" class="w-full mt-1 bg-black border-2 border-[#E1306C] rounded-2xl p-4 text-white font-black text-[14px]">
 </div>
 
-<div class="relative">
-<label class="text-[11px] font-bold text-[#25D366]">📲 Seu WhatsApp (seu número):</label>
-<input id="meuZap" placeholder="81999999999" class="w-full mt-1 bg-black border border-[#25D366] rounded-2xl p-3 text-white font-bold text-[14px]">
-</div>
-
-<div class="bg-[#25D366]/10 border border-[#25D366]/30 rounded-2xl p-3 flex items-center justify-between">
-<label class="flex items-center gap-3 cursor-pointer"><input type="checkbox" id="autoGrupo" checked class="w-5 h-5 accent-[#25D366]"><span class="text-[12px] font-bold">✅ Enviar automático pro GRUPO ao criar</span></label>
-</div>
-
-<div class="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-3">
-<label class="text-[11px] font-bold text-blue-400">🤖 API Evolution (para envio auto em grupo):</label>
-<input id="evoUrl" placeholder="https://sua-evolution.com - deixe vazio se não tem" class="w-full mt-1 bg-black border border-blue-500 rounded-xl p-3 text-white text-[11px]">
-<input id="evoKey" placeholder="API Key Evolution - deixe vazio se não tem" class="w-full mt-2 bg-black border border-blue-500 rounded-xl p-3 text-white text-[11px]">
-<div class="text-[9px] text-zinc-500 mt-1">Se não tem Evolution, o robô vai abrir WhatsApp normal e você encaminha pro grupo em 1 clique!</div>
+<div class="bg-[#25D366] text-black rounded-2xl p-3 flex items-center gap-3">
+<input type="checkbox" id="autoGrupo" checked class="w-5 h-5"><span class="text-[12px] font-black">✅ Enviar MENSAGEM automática pro grupo ao criar</span>
 </div>
 
 <div class="relative">
 <label class="text-[12px] font-black text-white">🔗 COLE LINK SHOPEE</label>
-<input id="link" placeholder="https://s.shopee.com.br/XXXX" class="w-full mt-2 bg-white text-black border-4 border-[#ff0080] rounded-2xl p-5 text-[15px] font-black shadow-xl outline-none" autofocus>
-<div id="status" class="absolute right-4 top-[50px] hidden"><span class="bg-[#00ff88] text-black text-[10px] px-3 py-1 rounded-full font-black animate-pulse">GERANDO E ENVIANDO...</span></div>
+<input id="link" placeholder="https://s.shopee.com.br/XXXX" class="w-full mt-2 bg-white text-black border-4 border-[#ff0080] rounded-2xl p-5 text-[15px] font-black outline-none">
+<div id="status" class="hidden mt-2"><span class="bg-[#00ff88] text-black text-[11px] px-4 py-2 rounded-full font-black animate-pulse">⚡ GERANDO MENSAGEM...</span></div>
 </div>
 </div>
 </div>
 
 <div id="res" class="hidden">
-<div class="bg-zinc-900 border-2 border-[#ff0080] rounded-[28px] p-4 mt-6 shadow-2xl">
-<div class="flex justify-between items-center mb-4"><span class="font-black text-[13px]">🔥 STORY COM SEU INSTA</span><button onclick="baixarFix('storyCanvas','STORY.png')" class="bg-gradient-to-r from-[#ff0080] to-[#ff6a00] text-white px-4 py-2 rounded-full text-[11px] font-black">⬇️ BAIXAR</button></div>
-<canvas id="storyCanvas" width="1080" height="1920" class="w-full bg-black rounded-2xl border border-zinc-800"></canvas>
-<div class="grid grid-cols-2 gap-2 mt-3">
-<button onclick="baixarFix('storyCanvas','STORY.png')" class="bg-white text-black p-3 rounded-xl font-black text-[13px]">📥 BAIXAR STORY</button>
-<button onclick="enviarGrupo()" class="bg-[#25D366] text-white p-3 rounded-xl font-black text-[13px]">📲 ENVIAR PRO GRUPO</button>
-</div>
-</div>
-
 <div class="bg-zinc-900 border border-zinc-800 rounded-[24px] p-4 mt-4">
-<div class="flex justify-between items-center mb-3"><span class="font-black text-[13px]">🖼️ FEED COM SEU INSTA</span><button onclick="baixarFix('feedCanvas','FEED.png')" class="bg-white text-black px-4 py-2 rounded-full text-[11px] font-black">⬇️ Baixar Feed</button></div>
-<canvas id="feedCanvas" width="1080" height="1080" class="w-full bg-black rounded-2xl border border-zinc-800"></canvas>
+<div class="flex justify-between items-center mb-3"><span class="font-black text-[12px]">🖼️ Imagem (só se quiser baixar):</span><button onclick="baixarFix('storyCanvas','STORY.png')" class="bg-zinc-700 text-white px-4 py-2 rounded-full text-[11px] font-black">⬇️ Baixar se quiser</button></div>
+<canvas id="storyCanvas" width="1080" height="1920" class="w-full bg-black rounded-2xl border border-zinc-800"></canvas>
+<div class="text-[10px] text-zinc-500 mt-2 text-center">Imagem só baixa se clicar em baixar - mensagem já foi pro grupo!</div>
 </div>
 
-<div class="bg-gradient-to-br from-[#075E54] to-[#128C7E] border border-[#25D366] rounded-[28px] p-5 mt-5 shadow-2xl">
-<div id="msg" class="bg-black/30 border border-white/20 rounded-2xl p-4 text-[14px] whitespace-pre-wrap text-white"></div>
-<div class="grid grid-cols-1 gap-3 mt-4">
-<button onclick="enviarGrupo()" class="bg-[#25D366] border-2 border-white text-white p-4 rounded-2xl font-black text-[15px]">📲 ENVIAR AGORA PRO GRUPO</button>
-<button onclick="copiar()" class="bg-white text-black p-3 rounded-2xl font-black text-[13px]">📋 COPIAR LEGENDA</button>
+<div class="bg-gradient-to-br from-[#075E54] to-[#128C7E] border-2 border-[#25D366] rounded-[28px] p-5 mt-5 shadow-2xl">
+<div class="text-[11px] font-black text-white/80 mb-2">💬 MENSAGEM QUE FOI PRO GRUPO:</div>
+<div id="msg" class="bg-black/40 rounded-2xl p-4 text-[14px] whitespace-pre-wrap text-white border border-white/20"></div>
+<div id="grupoStatus" class="mt-3 bg-black text-white p-3 rounded-xl text-[12px] font-bold text-center border border-[#25D366]">Aguardando...</div>
+<div class="grid grid-cols-2 gap-2 mt-3">
+<button onclick="enviarGrupoManual()" class="bg-[#25D366] border-2 border-white text-white p-4 rounded-2xl font-black text-[13px]">📲 REENVIAR MENSAGEM</button>
+<button onclick="copiar()" class="bg-white text-black p-3 rounded-2xl font-black text-[13px]">📋 COPIAR</button>
 </div>
-<div id="grupoStatus" class="text-[11px] text-center mt-3 text-white/80"></div>
 </div>
 </div>
 </div>
 
 <script>
-let savedZap = localStorage.getItem('meuZapNumero'); if(savedZap) document.getElementById('meuZap').value=savedZap;
-let savedInsta = localStorage.getItem('meuInstaHandle'); if(savedInsta) document.getElementById('meuInsta').value=savedInsta; else document.getElementById('meuInsta').value='@filipe_ferreira12';
-let savedGrupo = localStorage.getItem('grupoLink'); if(savedGrupo) document.getElementById('grupoLink').value=savedGrupo;
+let savedZap = localStorage.getItem('meuZapNumero'); if(savedZap) document.getElementById('meuZap')?.value=savedZap;
+let savedInsta = localStorage.getItem('meuInstaHandle'); if(savedInsta) document.getElementById('meuInsta').value=savedInsta;
+let savedGrupo = localStorage.getItem('grupoLink'); if(savedGrupo) {document.getElementById('grupoLink').value=savedGrupo; document.getElementById('grupoOk').classList.remove('hidden');}
 let savedGrupoId = localStorage.getItem('grupoId'); if(savedGrupoId) document.getElementById('grupoId').value=savedGrupoId;
-let savedEvoUrl = localStorage.getItem('evoUrl'); if(savedEvoUrl) document.getElementById('evoUrl').value=savedEvoUrl;
-let savedEvoKey = localStorage.getItem('evoKey'); if(savedEvoKey) document.getElementById('evoKey').value=savedEvoKey;
 
-document.getElementById('meuZap').addEventListener('input',(e)=>{localStorage.setItem('meuZapNumero',e.target.value)});
 document.getElementById('meuInsta').addEventListener('input',(e)=>{localStorage.setItem('meuInstaHandle',e.target.value)});
-document.getElementById('grupoLink').addEventListener('input',(e)=>{localStorage.setItem('grupoLink',e.target.value); extrairGrupoId(e.target.value);});
-document.getElementById('grupoId').addEventListener('input',(e)=>{localStorage.setItem('grupoId',e.target.value)});
-document.getElementById('evoUrl').addEventListener('input',(e)=>{localStorage.setItem('evoUrl',e.target.value)});
-document.getElementById('evoKey').addEventListener('input',(e)=>{localStorage.setItem('evoKey',e.target.value)});
-
-function extrairGrupoId(link){
-if(!link) return;
-let id = link.split('/').pop().split('?')[0];
-if(id && id.length>10){
-document.getElementById('grupoId').value = id + '@g.us (link convite)';
-localStorage.setItem('grupoId', document.getElementById('grupoId').value);
+document.getElementById('grupoLink').addEventListener('input',(e)=>{
+localStorage.setItem('grupoLink',e.target.value);
+if(e.target.value.includes('chat.whatsapp.com')){
+document.getElementById('grupoOk').classList.remove('hidden');
+let code = e.target.value.split('/').pop().split('?')[0];
+document.getElementById('grupoId').value = code;
+localStorage.setItem('grupoId', code);
 }
-}
+});
 
 function brl(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 async function loadImage(src){return new Promise((res,rej)=>{let i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=src})}
@@ -123,43 +97,24 @@ ctx1.fillStyle='#fff';ctx1.font='900 32px system-ui';ctx1.fillText(titulo.slice(
 if(preco){ctx1.fillStyle='#00ff88';ctx1.font='900 80px system-ui';ctx1.fillText(brl(preco),50,1410);if(precoAntes&&desconto>0){ctx1.fillStyle='#ff6a00';ctx1.font='600 26px system-ui';ctx1.fillText(`DE ${brl(precoAntes)}`,50,1440)}}
 ctx1.fillStyle='#ffcc00';ctx1.beginPath();ctx1.roundRect(20,1690,1040,110,20);ctx1.fill();ctx1.fillStyle='#000';ctx1.font='900 34px system-ui';ctx1.textAlign='center';ctx1.fillText('👇 LINK NA BIO - CORRE! 👇',540,1760);ctx1.textAlign='left';
 ctx1.fillStyle='#fff';ctx1.font='900 22px system-ui';ctx1.textAlign='center';ctx1.fillText('⚡ SHOPEE OFICIAL • '+instaHandle+' ⚡',540,1860);ctx1.textAlign='left';
-let c2=document.getElementById('feedCanvas');let ctx2=c2.getContext('2d');
-let g2=ctx2.createLinearGradient(0,0,1080,0);g2.addColorStop(0,'#ff0080');g2.addColorStop(1,'#ff6a00');ctx2.fillStyle=g2;ctx2.fillRect(0,0,1080,1080);
-ctx2.fillStyle='#000';ctx2.fillRect(0,0,1080,120);
-ctx2.fillStyle='#fff';ctx2.font='700 20px system-ui';ctx2.textAlign='right';ctx2.fillText('📸 '+instaHandle,1050,35);ctx2.textAlign='left';
-ctx2.fillStyle='#ffcc00';ctx2.font='900 36px system-ui';ctx2.fillText('🔥 QUEIMA DE ESTOQUE 🔥',30,80);
-if(desconto>0){ctx2.fillStyle='#ffcc00';ctx2.beginPath();ctx2.arc(920,60,50,0,Math.PI*2);ctx2.fill();ctx2.fillStyle='#000';ctx2.font='900 26px system-ui';ctx2.textAlign='center';ctx2.fillText(`-${desconto}%`,920,68);ctx2.textAlign='left'}
-ctx2.fillStyle='#fff';ctx2.beginPath();ctx2.roundRect(15,135,1050,600,20);ctx2.fill();
-try{let img2=await loadImage(d.image);let sc2=Math.min(990/img2.width,560/img2.height);let nw2=img2.width*sc2,nh2=img2.height*sc2;ctx2.drawImage(img2,15+(1050-nw2)/2,135+(600-nh2)/2,nw2,nh2)}catch(e){}
-ctx2.fillStyle='#000';ctx2.beginPath();ctx2.roundRect(15,750,1050,315,20);ctx2.fill();
-ctx2.fillStyle='#fff';ctx2.font='900 28px system-ui';ctx2.fillText(titulo.slice(0,34).toUpperCase(),35,800);
-if(preco){ctx2.fillStyle='#00ff88';ctx2.font='900 60px system-ui';ctx2.fillText(brl(preco),35,880)}
-ctx2.fillStyle='#ffcc00';ctx2.beginPath();ctx2.roundRect(15,960,1050,90,15);ctx2.fill();ctx2.fillStyle='#000';ctx2.font='900 24px system-ui';ctx2.textAlign='center';ctx2.fillText(`👇 ${instaHandle} • LINK NOS COMENTÁRIOS 👇`,540,1015);ctx2.textAlign='left';
 }
 
 function baixarFix(canvasId, nomeArquivo){
 try{
 let canvas = document.getElementById(canvasId);
 canvas.toBlob(function(blob){
-if(blob){
 let url = URL.createObjectURL(blob);
 let a = document.createElement('a');a.href=url;a.download=nomeArquivo;document.body.appendChild(a);a.click();
 setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},100);
-}else{
-let dataURL = canvas.toDataURL('image/png');
-let a = document.createElement('a');a.href=dataURL;a.download=nomeArquivo;a.click();
-}
 },'image/png',1.0);
-}catch(e){alert('Erro baixar: '+e.message)}
+}catch(e){}
 }
 
 let timeoutAuto=null;
 async function processarLinkAuto(){
-let meuZap=document.getElementById('meuZap').value.trim().replace(/[^0-9]/g,'');
 let l=document.getElementById('link').value.trim();
 if(!l || l.length<10) return;
 if(l.indexOf('shopee.com.br')==-1 && l.indexOf('s.shopee')==-1) return;
-if(meuZap.length>0) localStorage.setItem('meuZapNumero',meuZap);
 let insta=document.getElementById('meuInsta').value.trim();
 if(insta) localStorage.setItem('meuInstaHandle',insta);
 document.getElementById('status').classList.remove('hidden');
@@ -186,70 +141,37 @@ ${j.affiliate_link_original}
 #achadinhos #shopee #oferta`;
 document.getElementById('msg').textContent=legenda;
 document.getElementById('status').classList.add('hidden');
+
 if(document.getElementById('autoGrupo').checked){
-setTimeout(()=>{enviarGrupo();},1000);
+enviarGrupoManual();
 }
-}catch(e){document.getElementById('status').classList.add('hidden')}
+
+}catch(e){document.getElementById('status').classList.add('hidden'); document.getElementById('grupoStatus').textContent='❌ Erro: '+e.message}
 }
 document.getElementById('link').addEventListener('paste',(e)=>{setTimeout(()=>{processarLinkAuto();},300);});
 document.getElementById('link').addEventListener('input',(e)=>{clearTimeout(timeoutAuto);timeoutAuto=setTimeout(()=>{processarLinkAuto();},800);});
 
-async function enviarGrupo(){
+async function enviarGrupoManual(){
 let grupoLink=document.getElementById('grupoLink').value.trim();
-let grupoId=document.getElementById('grupoId').value.trim();
 let msg=document.getElementById('msg').textContent;
-let evoUrl=document.getElementById('evoUrl').value.trim();
-let evoKey=document.getElementById('evoKey').value.trim();
-let meuZap=document.getElementById('meuZap').value.trim().replace(/[^0-9]/g,'');
-if(!msg){alert('Cole o link primeiro!');return}
-document.getElementById('grupoStatus').textContent='🚀 Enviando pro grupo...';
+if(!grupoLink){document.getElementById('grupoStatus').textContent='❌ Cole o link do grupo primeiro!'; return}
+if(!msg){document.getElementById('grupoStatus').textContent='❌ Cole o link Shopee primeiro!'; return}
 
-if(evoUrl && evoKey && grupoId){
-try{
-let canvas=document.getElementById('storyCanvas');
-let base64 = canvas.toDataURL('image/png').split(',')[1];
-let payload={
-number: grupoId.includes('@g.us') ? grupoId : grupoId+'@g.us',
-mediatype: 'image',
-media: base64,
-caption: msg
-};
-let res=await fetch(evoUrl+'/message/sendMedia/'+evoKey,{
-method:'POST',
-headers:{'Content-Type':'application/json','apikey':evoKey},
-body: JSON.stringify(payload)
-});
-if(res.ok){
-document.getElementById('grupoStatus').textContent='✅ Enviado pro grupo com sucesso via Evolution!';
-return;
-}
-}catch(e){
-document.getElementById('grupoStatus').textContent='⚠️ Erro Evolution, abrindo WhatsApp manual...';
-}
-}
+document.getElementById('grupoStatus').textContent='🚀 Copiando mensagem automática...';
 
-if(grupoLink){
+try{await navigator.clipboard.writeText(msg);}catch(e){}
+
+document.getElementById('grupoStatus').innerHTML='✅ Mensagem copiada automaticamente!<br>Abrindo seu grupo achadinhos...';
+
+setTimeout(()=>{
 window.open(grupoLink,'_blank');
 setTimeout(()=>{
-let numeroFormatado = meuZap.startsWith('55') ? meuZap : '55'+meuZap;
-let canvas=document.getElementById('storyCanvas');
-canvas.toBlob(function(blob){
-let url=URL.createObjectURL(blob);
-let a=document.createElement('a');a.href=url;a.download='GRUPO-'+Date.now()+'.png';a.click();
-setTimeout(()=>{
-window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
-document.getElementById('grupoStatus').textContent='📲 Imagem baixada! Agora encaminhe a imagem + legenda pro grupo!';
+document.getElementById('grupoStatus').innerHTML='✅ <b>MENSAGEM AUTOMÁTICA PRONTA!</b><br>👉 Grupo aberto! Só colar a mensagem!<br><br>🖼️ Imagem NÃO foi baixada automática - só baixa se clicar em ⬇️ Baixar se quiser<br><br>💬 Mensagem já está copiada - é só colar no grupo!';
 },500);
-},'image/png');
-},1000);
-}else{
-let numeroFormatado = meuZap.startsWith('55') ? meuZap : '55'+meuZap;
-window.open(`https://wa.me/${numeroFormatado}?text=${encodeURIComponent(msg)}`,'_blank');
-document.getElementById('grupoStatus').textContent='📲 WhatsApp aberto! Encaminhe pro seu grupo!';
-}
+},500);
 }
 
-function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent);alert('Copiado! ✅')}
+function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent); document.getElementById('grupoStatus').textContent='📋 Mensagem copiada! ✅'}
 </script></body></html>
 """
 
@@ -299,15 +221,6 @@ def try_resolve_short(url):
             final_url=r.geturl(); html=r.read().decode(errors='ignore')[:20000]
             return final_url, html, "direct"
     except: pass
-    try:
-        api=f"https://api.allorigins.win/get?url={urllib.parse.quote(url)}"
-        req=urllib.request.Request(api, headers={"User-Agent":"Mozilla/5.0"})
-        with urllib.request.urlopen(req, timeout=10) as r:
-            j=json.loads(r.read().decode()); html=j.get('contents','')[:20000]
-            m=re.search(r'https://shopee\.com\.br/[^\s"\'<>]+', html)
-            if m: final_url=m.group(0)
-            return final_url, html, "allorigins"
-    except: pass
     return final_url, html, "fail"
 
 def extract_shop_item(text):
@@ -344,11 +257,6 @@ def index():
 @app.route('/api/resolve')
 def api_resolve():
     return jsonify(resolve_backend(request.args.get('url','')))
-
-@app.route('/api/send_to_group', methods=['POST'])
-def api_send_group():
-    data=request.json
-    return jsonify({"status":"ok","message":"Use frontend Evolution integration"})
 
 if __name__=='__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT',8080)))
