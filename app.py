@@ -4,15 +4,16 @@ import urllib.request, urllib.parse, re, json, hashlib, time, os
 APP_ID = "18325950432"
 SECRET = "O25HE4WDN6GGDCII4DUFFCZ7RDEHHGM6"
 API_URL = "https://open-api.affiliate.shopee.com.br/graphql"
+
 app = Flask(__name__)
 
 HTML = """
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V24 - Qualquer Link Funciona</title><script src="https://cdn.tailwindcss.com"></script></head>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>V25 FIX Fly</title><script src="https://cdn.tailwindcss.com"></script></head>
 <body class="p-3 bg-[#050505] text-white"><div class="max-w-[470px] mx-auto">
 <div class="bg-gradient-to-br from-zinc-900 to-black border border-zinc-800 rounded-[28px] p-6 shadow-2xl">
-<div class="flex justify-between"><span class="bg-gradient-to-r from-[#00ff88] to-[#25D366] text-black text-[11px] px-4 py-2 rounded-full font-black">V24 UNIVERSAL ✅</span><span class="text-[10px] bg-white text-black px-2 py-1 rounded-full font-black">QUALQUER LINK</span></div>
-<h1 class="font-black text-[19px] mt-4">FUNCIONA PRA QUALQUER LINK!</h1>
-<div class="text-[11px] text-zinc-400">Mensagem 100% específica do produto - corrigido!</div>
+<div class="flex justify-between"><span class="bg-[#00ff88] text-black text-[11px] px-4 py-2 rounded-full font-black">V25 FLY FIX ✅</span><span class="text-[10px] bg-white text-black px-2 py-1 rounded-full font-black">FUNCIONA</span></div>
+<h1 class="font-black text-[19px] mt-4">FIX FLY - QUALQUER LINK!</h1>
+<div class="text-[11px] text-zinc-400">Mensagem específica correta pra qualquer produto!</div>
 
 <div class="mt-5 space-y-3">
 <div class="bg-[#25D366]/10 border-2 border-[#25D366] rounded-2xl p-4">
@@ -27,7 +28,7 @@ HTML = """
 </div>
 
 <div class="bg-[#25D366] text-black rounded-2xl p-3 flex items-center gap-3">
-<input type="checkbox" id="autoGrupo" checked class="w-5 h-5"><span class="text-[12px] font-black">✅ Mensagem específica automática pro grupo</span>
+<input type="checkbox" id="autoGrupo" checked class="w-5 h-5"><span class="text-[12px] font-black">✅ Mensagem automática pro grupo</span>
 </div>
 
 <div class="relative">
@@ -46,7 +47,7 @@ HTML = """
 </div>
 
 <div class="bg-gradient-to-br from-[#075E54] to-[#128C7E] border-2 border-[#25D366] rounded-[28px] p-5 mt-5">
-<div class="flex justify-between items-center mb-2"><span class="text-[11px] font-black text-white/80">💬 MENSAGEM ÚNICA DESSE PRODUTO:</span><span id="tipoDetectado" class="text-[10px] bg-[#ff0080] text-white px-3 py-1 rounded-full font-black"></span></div>
+<div class="flex justify-between items-center mb-2"><span class="text-[11px] font-black text-white/80">💬 MENSAGEM ÚNICA:</span><span id="tipoDetectado" class="text-[10px] bg-[#ff0080] text-white px-3 py-1 rounded-full font-black"></span></div>
 <div id="msg" class="bg-black/40 rounded-2xl p-4 text-[14px] whitespace-pre-wrap text-white border border-white/20"></div>
 <div id="grupoStatus" class="mt-3 bg-black text-white p-3 rounded-xl text-[12px] font-bold text-center border border-[#25D366]">Pronto!</div>
 <div class="grid grid-cols-2 gap-2 mt-3">
@@ -69,7 +70,6 @@ if(e.target.value.includes('chat.whatsapp.com')) document.getElementById('grupoO
 function brl(v){ if(!v || isNaN(v) || v==0) return 'VER PREÇO NO LINK'; return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 async function loadImage(src){return new Promise((res,rej)=>{let i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=()=>rej();i.src=src})}
 
-// FUNÇÃO UNIVERSAL QUE FUNCIONA PRA QUALQUER LINK
 function gerarMensagemUnicaPorProduto(titulo, preco, precoAntes, desconto, link, insta){
 let t = titulo.toLowerCase();
 let precoTxt = brl(preco);
@@ -77,31 +77,24 @@ let economiaTxt = desconto>0 ? ` (De ${brl(precoAntes)} por ${precoTxt} - ${desc
 let tipo = '';
 let msg = '';
 
-// FUNÇÃO AUXILIAR - VERIFICA PALAVRA EXATA, NÃO SUBSTRING ERRADA
 function tem(palavra){ 
-// Evita que "ração" pegue "reparação" - verifica contexto
-if(palavra==='ração'){ 
-return t.includes(' ração ') || t.includes(' ração para') || t.startsWith('ração ') || t.includes(' ração de') || (t.includes('ração') && (t.includes('cachorro') || t.includes('gato') || t.includes(' pet') || t.includes(' cães') || t.includes(' gatos')));
-}
-if(palavra==='pet'){ return t.includes(' pet ') || t.includes(' para pet') || t.startsWith('pet ') || t.includes(' pet -') || t.includes(' linha pet') || t.includes(' coleira pet'); }
+if(palavra==='ração'){ return t.includes(' ração ') || t.includes(' ração para') || t.startsWith('ração ') || (t.includes('ração') && (t.includes('cachorro') || t.includes('gato') || t.includes(' pet') || t.includes(' cães'))); }
+if(palavra==='pet'){ return t.includes(' pet ') || t.includes(' para pet') || t.startsWith('pet ') || t.includes(' coleira pet'); }
 return t.includes(palavra);
 }
 
-// 1 - CABELO - MAIS ESPECÍFICO - VEM PRIMEIRO PRA NÃO ERRAR
-if(tem('yamasterol') || tem('yamá') || tem('yama ') || tem('cronograma') || tem('cabelo') || tem('hidratação') || tem('hidratacao') || tem('nutrição') || tem('nutricao') || tem('reconstrução') || tem('reconstrucao') || tem('argan') || tem('babosa') || tem('proteína hidrolisada') || tem('proteina hidrolisada') || tem('creme multifuncional') || tem('todos os tipos de cabelos') || (tem('creme') && tem('cabelo')) || tem('finalizador') || tem('leave-in')){
+if(tem('yamasterol') || tem('yamá') || tem('cronograma') || tem('cabelo') || tem('hidratação') || tem('nutrição') || tem('reconstrução') || tem('argan') || tem('babosa') || tem('proteína hidrolisada') || tem('creme multifuncional') || tem('todos os tipos de cabelos')){
 tipo='💇‍♀️ CABELO';
-let isKit = tem('kit') ? 'Kit completo ' : '';
-let qtd = titulo.match(/KIT\s*(\d+)/i) ? titulo.match(/KIT\s*(\d+)/i)[1] + ' produtos' : 'completo';
 msg=`💇‍♀️ CABELO DE SALÃO EM CASA - RESULTADO PROFISSIONAL!
 
 Seu cabelo ressecado, sem vida e com frizz? Acabou!
 
 📦 ${titulo.toUpperCase()}
 
-✨ POR QUE ESSE KIT É DIFERENTE?
+✨ KIT YAMASTEROL - O QUERIDINHO DAS BLOGUEIRAS!
 
-${tem('argan') ? '✅ ARGAN - nutrição intensa, fim do ressecamento e pontas duplas\\n' : ''}${tem('babosa') ? '✅ BABOSA - hidratação profunda, brilho espelhado e proteção\\n' : ''}${tem('proteína') || tem('proteina') ? '✅ PROTEÍNA HIDROLISADA - reconstrução, força total e anti-quebra\\n' : ''}${tem('cronograma') ? '✅ CRONOGRAMA COMPLETO - 3 etapas que seu cabelo precisa\\n' : ''}${!tem('argan') && !tem('babosa') ? '✅ Fórmula profissional - resultado de salão em casa\\n' : ''}💖 ${qtd} - serve pra TODOS os tipos: liso, cacheado, crespo e colorido!
-👉 Cabelo macio, cheiroso e brilhoso desde a primeira aplicação!
+${tem('argan') ? '✅ ARGAN - nutrição intensa, fim do ressecamento\\n' : ''}${tem('babosa') ? '✅ BABOSA - hidratação profunda e brilho espelhado\\n' : ''}${tem('proteína') ? '✅ PROTEÍNA HIDROLISADA - reconstrução e força total\\n' : ''}✅ Cronograma completo - 3 etapas que seu cabelo precisa
+💖 Serve pra TODOS os tipos: liso, cacheado, crespo!
 
 💥 POR APENAS: ${precoTxt}${economiaTxt}
 
@@ -114,23 +107,18 @@ ${link}
 
 ⏰ OFERTA POR TEMPO LIMITADO!`;
 
-// 2 - CARRO - SÓ SE TIVER VONIXX OU CONTEXTO AUTOMOTIVO CLARO
-}else if(tem('vonixx') || tem('pretinho') && tem('pneu') || tem('sintra') || tem('tok final') || (tem('shampoo') && tem('automotivo')) || (tem('cera') && tem('automotiva')) || tem('lavagem automotiva') || (tem('kit') && tem('lavagem') && (tem('carro') || tem('automotivo') || tem('vonixx')))){
+}else if(tem('vonixx') || tem('pretinho') && tem('pneu') || tem('sintra') || tem('tok final') || tem('lavagem automotiva')){
 tipo='🚗 CARRO';
-msg=`🚗 SEU CARRO VAI BRILHAR IGUAL CARRO ZERO - BRILHO DE VITRINE!
-
-Você ainda lava seu carro com detergente? Tá estragando a pintura!
+msg=`🚗 SEU CARRO VAI BRILHAR IGUAL CARRO ZERO!
 
 📦 ${titulo.toUpperCase()}
 
-💎 KIT PROFISSIONAL VONIXX - O QUE OS DETAILERS USAM!
+💎 KIT PROFISSIONAL VONIXX!
 
-✅ Shampoo super concentrado - limpa sem agredir a pintura
-✅ Cera Tok Final - brilho intenso que dura semanas na chuva
-✅ Sintra Fast - limpa painel, porta e interior sem esforço
-✅ Pneu Pretinho que NÃO espirra na lataria e dura muito mais
-
-👉 Seu carro com cheiro de carro novo e brilho que chama atenção na rua!
+✅ Shampoo super concentrado - limpa sem agredir
+✅ Cera Tok Final - brilho que dura semanas
+✅ Sintra Fast - limpa interior sem esforço
+✅ Pneu Pretinho que NÃO espirra
 
 💥 POR APENAS: ${precoTxt}${economiaTxt}
 
@@ -139,27 +127,21 @@ Você ainda lava seu carro com detergente? Tá estragando a pintura!
 👇 LINK COM DESCONTO 👇
 ${link}
 
-🏆 Quem ama carro não perde kit profissional completo!
+🏆 Quem ama carro não perde!
 
 ⏰ OFERTA POR TEMPO LIMITADO!`;
 
-// 3 - CASA LIMPEZA
-}else if(tem('mop') || tem('vassoura mágica') || tem('esfregão') || tem('mop giratório') || (tem('limpeza') && !tem('cabelo') && !tem('pele')) || tem('desinfetante') && tem('casa')){
+}else if(tem('mop') || tem('vassoura mágica') || tem('esfregão')){
 tipo='🏠 CASA';
-msg=`🏠 SUA CASA LIMPA EM METADE DO TEMPO - SEM SOFRIMENTO!
-
-Chega de se matar pra limpar chão!
+msg=`🏠 SUA CASA LIMPA EM METADE DO TEMPO!
 
 📦 ${titulo.toUpperCase()}
 
 ✨ PRATICIDADE QUE TODA DONA DE CASA SONHA!
 
-✅ Limpeza 3x mais rápida - sem torcer pano
-✅ Alcança cantos difíceis - debaixo da cama e sofá
-✅ Seca rápido - sem cheiro de pano molhado
+✅ Limpeza 3x mais rápida
+✅ Alcança cantos difíceis
 ✅ Material premium que dura anos
-
-💡 Produto que quem tem não vive sem mais!
 
 💥 POR APENAS: ${precoTxt}${economiaTxt}
 
@@ -168,27 +150,21 @@ Chega de se matar pra limpar chão!
 👇 LINK COM DESCONTO 👇
 ${link}
 
-🔥 Casa limpa = mente tranquila - garanta já!
+🔥 Casa limpa = mente tranquila!
 
 ⏰ OFERTA POR TEMPO LIMITADO!`;
 
-// 4 - COZINHA
-}else if(tem('air fryer') || tem('fritadeira elétrica') || tem('panela') && (tem('antiaderente') || tem('cozinha')) || tem('liquidificador') || tem('jogo de facas') || tem('utensilio') && tem('cozinha')){
+}else if(tem('air fryer') || tem('fritadeira') || tem('panela') && tem('antiaderente') || tem('liquidificador')){
 tipo='🍳 COZINHA';
-msg=`🍳 SUA COZINHA VAI VIRAR DE CHEF - COZINHAR NUNCA FOI TÃO FÁCIL!
-
-Cozinhar com ferramenta ruim desanima qualquer um!
+msg=`🍳 SUA COZINHA VAI VIRAR DE CHEF!
 
 📦 ${titulo.toUpperCase()}
 
-👨‍🍳 QUALIDADE PROFISSIONAL QUE VOCÊ SENTE NA HORA!
+👨‍🍳 QUALIDADE PROFISSIONAL!
 
-✅ Cozinha mais rápido - economiza gás e tempo
-✅ Comida mais saborosa e saudável
-✅ Material premium - não gruda, não solta
-✅ Fácil de limpar - lava em segundos
-
-🍽️ Você vai amar cozinhar de novo!
+✅ Cozinha mais rápido
+✅ Comida mais saborosa
+✅ Fácil de limpar
 
 💥 POR APENAS: ${precoTxt}${economiaTxt}
 
@@ -201,23 +177,17 @@ ${link}
 
 ⏰ OFERTA POR TEMPO LIMITADO!`;
 
-// 5 - ELETRÔNICOS
-}else if(tem('fone de ouvido') || tem('earphone') || tem('headphone') || tem('caixa de som') || tem('jbl') || tem('smartwatch') || tem('relógio smart') || (tem('fone') && tem('bluetooth')) || tem('carregador turbo')){
+}else if(tem('fone de ouvido') || tem('smartwatch') || tem('caixa de som') || tem('jbl')){
 tipo='🎧 ELETRÔNICOS';
 msg=`🎧 TECNOLOGIA PREMIUM QUE VOCÊ SENTE NA HORA!
-
-Som chiado e bateria que não dura? Nunca mais!
 
 📦 ${titulo.toUpperCase()}
 
 ⚡ QUALIDADE QUE IMPRESSIONA!
 
-✅ Som cristalino - grave potente e agudo nítido
-✅ Bateria que dura o dia todo - sem ficar na tomada
-✅ Conexão instantânea - pareou, conectou, usou
-✅ Confortável - usa horas sem dor no ouvido
-
-🔋 Produto que você vai usar TODO DIA!
+✅ Som cristalino
+✅ Bateria que dura o dia todo
+✅ Conexão instantânea
 
 💥 POR APENAS: ${precoTxt}${economiaTxt}
 
@@ -226,27 +196,21 @@ Som chiado e bateria que não dura? Nunca mais!
 👇 LINK COM DESCONTO 👇
 ${link}
 
-📱 Eletrônico bom nesse preço some em horas!
+📱 Eletrônico bom nesse preço some rápido!
 
 ⏰ OFERTA POR TEMPO LIMITADO!`;
 
-// 6 - FERRAMENTAS
-}else if(tem('furadeira') || tem('parafusadeira') || tem('kit ferramentas') || tem('ferramenta') && (tem('motor') || tem('bateria')) || tem('martelete')){
+}else if(tem('furadeira') || tem('parafusadeira') || tem('kit ferramentas')){
 tipo='🔧 FERRAMENTAS';
-msg=`🔧 CHEGA DE PEDIR FERRAMENTA EMPRESTADA!
-
-Fazer serviço em casa sem ferramenta boa é sofrimento!
+msg=`🔧 FERRAMENTA QUE TODO HOMEM PRECISA!
 
 📦 ${titulo.toUpperCase()}
 
-💪 POTÊNCIA PROFISSIONAL NA SUA MÃO!
+💪 POTÊNCIA PROFISSIONAL!
 
-✅ Motor potente - fura parede, madeira e metal
-✅ Bateria de longa duração - não para no meio do serviço
-✅ Leve e sem fio - leva pra qualquer lugar
-✅ Kit completo - resolve tudo sozinho e economiza
-
-🏠 Casa com ferramenta boa não tem serviço acumulado!
+✅ Motor potente
+✅ Bateria de longa duração
+✅ Resolve tudo sozinho
 
 💥 POR APENAS: ${precoTxt}${economiaTxt}
 
@@ -255,27 +219,21 @@ Fazer serviço em casa sem ferramenta boa é sofrimento!
 👇 LINK COM DESCONTO 👇
 ${link}
 
-🛠️ Ferramenta boa nesse preço é achado de verdade!
+🛠️ Ferramenta boa nesse preço é achado!
 
 ⏰ OFERTA POR TEMPO LIMITADO!`;
 
-// 7 - MODA
-}else if(tem('tênis') || tem('tenis') || tem('camiseta') && !tem('cabelo') || tem('camisa') && !tem('cabelo') || tem('bermuda') || tem('calça jeans') || tem('moletom') || tem('sapato') || tem('sandália')){
+}else if(tem('tênis') || tem('tenis') || tem('camiseta') || tem('camisa') || tem('bermuda')){
 tipo='👕 MODA';
-msg=`👕 LOOK NOVO QUE CHAMA ATENÇÃO - ESTILO E CONFORTO!
-
-Roupa que desbota e aperta? Nunca mais!
+msg=`👕 ESTILO QUE CHAMA ATENÇÃO!
 
 📦 ${titulo.toUpperCase()}
 
-🔥 ESTILO QUE VOCÊ VÊ E SENTE!
+🔥 ESTILO E CONFORTO!
 
-✅ Tecido premium - não desbota, não deforma
-✅ Caimento perfeito - veste muito bem
-✅ Confortável o dia todo - sem apertar
-✅ Combina com tudo - usa em qualquer ocasião
-
-😎 Você vai receber elogios por onde passar!
+✅ Tecido premium - não desbota
+✅ Caimento perfeito
+✅ Confortável o dia todo
 
 💥 POR APENAS: ${precoTxt}${economiaTxt}
 
@@ -284,27 +242,21 @@ Roupa que desbota e aperta? Nunca mais!
 👇 LINK COM DESCONTO 👇
 ${link}
 
-👟 Numeração boa acaba rápido - garante a sua!
+👟 Numeração acaba rápido!
 
 ⏰ OFERTA POR TEMPO LIMITADO!`;
 
-// 8 - PET - AGORA CORRETO, SÓ QUANDO FOR REALMENTE PET
-}else if(tem('pet') || tem('cachorro') || tem('gato') && !tem('cabelo') || tem('coleira') && (tem('cães') || tem('cachorro') || tem('pet')) || (tem('ração') && (tem('cachorro') || tem('gato') || tem('pet') || tem('cães')))){
+}else if(tem('pet') || tem('cachorro') || (tem('ração') && (tem('cachorro') || tem('gato')))){
 tipo='🐶 PET';
-msg=`🐶 SEU MELHOR AMIGO MERECE O MELHOR!
-
-Seu pet te dá amor todo dia - retribua com carinho!
+msg=`🐶 SEU PET MERECE O MELHOR!
 
 📦 ${titulo.toUpperCase()}
 
-❤️ SEU PET MAIS FELIZ, SAUDÁVEL E CHEIROSO!
+❤️ SEU PET MAIS FELIZ!
 
-✅ Material 100% seguro - sem alergia
-✅ Super confortável - seu pet vai amar usar
-✅ Resistente - aguenta puxão e brincadeira
-✅ Lindo - seu pet mais estiloso do bairro
-
-🐾 Quem ama pet sabe - eles merecem mimo!
+✅ Material 100% seguro
+✅ Super confortável
+✅ Resistente
 
 💥 POR APENAS: ${precoTxt}${economiaTxt}
 
@@ -317,27 +269,18 @@ ${link}
 
 ⏰ OFERTA POR TEMPO LIMITADO!`;
 
-// 9 - UNIVERSAL - FUNCIONA PRA QUALQUER PRODUTO - USA O PRÓPRIO TÍTULO PRA CRIAR MENSAGEM ESPECÍFICA
 }else{
 tipo='🔥 OFERTA';
-let palavrasChave = titulo.split(' ').filter(p=>p.length>3).slice(0,3).join(', ');
-let beneficiosGerais = `✅ Produto original Shopee - qualidade garantida
-✅ Milhares de avaliações 5 estrelas - povo tá amando
-✅ Entrega rápida - chega logo na sua casa
-✅ Preço de promoção - não acha mais barato`;
-
-msg=`🔥 ACHADINHO IMPERDÍVEL QUE ACABEI DE ENCONTRAR!
-
-Todo mundo tá falando desse produto e o preço tá MUITO bom!
+msg=`🔥 ACHADINHO IMPERDÍVEL!
 
 📦 ${titulo.toUpperCase()}
 
-⭐ POR QUE ESSE PRODUTO TÁ BOMBANDO?
+⭐ PRODUTO CAMPEÃO DE VENDAS!
 
-${beneficiosGerais}
-✅ ${palavrasChave} - exatamente o que você procura!
-
-💡 Produto inteligente que facilita sua vida e vale cada centavo!
+✅ Qualidade garantida Shopee
+✅ Milhares de avaliações 5 estrelas
+✅ Entrega rápida
+✅ Preço de promoção
 
 💥 POR APENAS: ${precoTxt}${economiaTxt}
 
@@ -396,7 +339,6 @@ let r=await fetch('/api/resolve?url='+encodeURIComponent(l));
 if(!r.ok) throw new Error('Erro API');
 let j=await r.json();
 if(!j || !j.title) throw new Error('Produto não encontrado');
-// MENSAGEM PRIMEIRO - INSTANTÂNEA
 let instaTxt=document.getElementById('meuInsta').value.trim()||'@filipe_ferreira12';
 let resultado = gerarMensagemUnicaPorProduto(j.title, j.preco_atual, j.preco_antes, j.desconto, j.affiliate_link_original, instaTxt);
 document.getElementById('msg').textContent=resultado.msg;
@@ -404,7 +346,7 @@ document.getElementById('tipoDetectado').textContent=resultado.tipo;
 document.getElementById('status').textContent='⚡ Gerando arte...';
 await gerarComInsta(j);
 document.getElementById('status').classList.add('hidden');
-document.getElementById('grupoStatus').textContent='✅ Mensagem 100% específica e correta!';
+document.getElementById('grupoStatus').textContent='✅ Mensagem específica correta!';
 if(document.getElementById('autoGrupo').checked){setTimeout(()=>{enviarGrupoManual();},500);}
 }catch(e){
 document.getElementById('status').classList.add('hidden');
@@ -423,9 +365,9 @@ if(!msg){document.getElementById('grupoStatus').textContent='❌ Cole link Shope
 document.getElementById('grupoStatus').textContent='🚀 Copiando mensagem específica...';
 try{await navigator.clipboard.writeText(msg);}catch(e){}
 document.getElementById('grupoStatus').innerHTML='✅ Mensagem específica copiada! Abrindo grupo...';
-setTimeout(()=>{window.open(grupoLink,'_blank'); setTimeout(()=>{document.getElementById('grupoStatus').innerHTML='✅ Pronto! Mensagem 100% específica desse produto!<br>Qualquer link funciona! 🧠✨';},600);},400);
+setTimeout(()=>{window.open(grupoLink,'_blank'); setTimeout(()=>{document.getElementById('grupoStatus').innerHTML='✅ Pronto! Mensagem 100% específica!<br>Qualquer link funciona!';},600);},400);
 }
-function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent); document.getElementById('grupoStatus').textContent='📋 Mensagem específica copiada! ✅'}
+function copiar(){navigator.clipboard.writeText(document.getElementById('msg').textContent); document.getElementById('grupoStatus').textContent='📋 Mensagem copiada! ✅'}
 </script></body></html>
 """
 
@@ -469,7 +411,7 @@ def call_api_final(item_id):
 def try_resolve_short(url):
     final_url=url; html=""
     try:
-        headers={"User-Agent":"Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X)","Accept":"text/html","Accept-Language":"pt-BR","Referer":"https://shopee.com.br/"}
+        headers={"User-Agent":"Mozilla/5.0 (iPhone)","Accept":"text/html","Accept-Language":"pt-BR","Referer":"https://shopee.com.br/"}
         req=urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=12) as r:
             final_url=r.geturl(); html=r.read().decode(errors='ignore')[:30000]
@@ -533,5 +475,10 @@ def api_resolve():
     if not url: return jsonify({"error":"sem url"}), 400
     return jsonify(resolve_backend(url))
 
+@app.route('/health')
+def health():
+    return jsonify({"status":"ok"})
+
 if __name__=='__main__':
-    app.run(host='0.0.0.0', port=int(os.e
+    port = int(os.environ.get('PORT',8080))
+    app.run(host='0.0.0.0', port=port)
