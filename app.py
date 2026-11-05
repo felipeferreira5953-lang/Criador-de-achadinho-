@@ -463,7 +463,7 @@ def resolve_backend(url):
     if preco_antes and preco and preco_antes>preco:
         try: desconto=round((1-preco/preco_antes)*100)
         except: pass
-    return {"affiliate_link_original":url,"title":title[:150],"image":img_proxy,"image_original":image,"preco_atual":preco or 0,"preco_antes":preco_antes,"desconto":desconto,"comissao":comissao,"metodo":metodo,"final_url":final_url,"item_id":item_id,"shop_id":shop_id}
+    return {"affiliate_link_original":url,"title":title[:150],"image":img_proxy,"image_original":image,"preco_atual":preco or 0,"preco_antes":preco_antes,"desconto":desconto,"comissao":comissao,"metodo":metodo,"final_url":final_url,"item_id":item_id,"shop_id":shop_id, "html_snippet": html[:2000]}
 
 @app.route('/')
 def index():
@@ -475,9 +475,40 @@ def api_resolve():
     if not url: return jsonify({"error":"sem url"}), 400
     return jsonify(resolve_backend(url))
 
+# === NOVA ROTA PARA SUA VERCEL USAR - NÃO QUEBRA NADA DO QUE JÁ EXISTE ===
+@app.route('/expand')
+def expand_for_vercel():
+    url = request.args.get('url','')
+    if not url:
+        return jsonify({"ok": False, "error": "url vazia"}), 400
+    
+    data = resolve_backend(url)
+    
+    # Formato que a Vercel espera
+    return jsonify({
+        "ok": True,
+        "original": data.get("affiliate_link_original"),
+        "expanded": data.get("final_url"),
+        "shopId": data.get("shop_id"),
+        "itemId": data.get("item_id"),
+        "ogTitle": data.get("title"),
+        "ogImage": data.get("image_original") or data.get("image"),
+        "title": data.get("title"),
+        "image": data.get("image_original"),
+        "image_proxy": data.get("image"),
+        "preco_atual": data.get("preco_atual"),
+        "preco_antes": data.get("preco_antes"),
+        "desconto": data.get("desconto"),
+        "affiliate_link_original": data.get("affiliate_link_original"),
+        "final_url": data.get("final_url"),
+        "region": "gru",
+        "via": "seu robo Fly - IP brasileiro",
+        "message": "Expandido no seu robo Fly GRU - IP brasileiro nao bloqueado"
+    })
+
 @app.route('/health')
 def health():
-    return jsonify({"status":"ok"})
+    return jsonify({"status":"ok", "routes": ["/", "/api/resolve", "/expand", "/health"]})
 
 if __name__=='__main__':
     port = int(os.environ.get('PORT',8080))
